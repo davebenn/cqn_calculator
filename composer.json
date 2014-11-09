@@ -1,0 +1,12 @@
+{
+    "name": "davebenn/cqn_calculator",
+    "description": "Conveyancing Quote Now Calculator Plugin",
+    "keywords": ["wordpress", "plugin", "conveyancing", "calculator"],
+    "homepage": "http://wpc.dbennett.demo",
+    "type": "wordpress-plugin",
+    "require": {
+        "php": ">=5.3.2",
+        "composer/installers": "v1.0.6",
+        "dompdf/dompdf" : "0.6.*"
+    }
+}
