@@ -38,6 +38,7 @@ function cqn_activation(){
                 `contact_email` varchar( 255 )  ,
                 `contact_telephone` varchar( 25  ),
                 `contact_name` varchar( 255 ),
+                `created_at` TIMESTAMP,
                 PRIMARY KEY (`id`)
             )';
 
@@ -60,6 +61,10 @@ register_activation_hook( __FILE__ , 'cqn_activation' );
 
 function validateInput(){
     return null;
+    return ['CQN_ERROR_contact_email' => 'Invalid Email Address'];
+    // idea for validation, just add the error to the $_POST array with keys prewfixed
+    // wit some determinable and namespacey string
+
 }
 
 function cqn_init(){
@@ -68,7 +73,8 @@ function cqn_init(){
         if( $_POST['cqn_calc_form'] ){
 
             $errors = validateInput();
-            if( ! $errors ) {
+            error_log( count( $errors ) );
+            if( !$errors ) {
 
                 global $wpdb;
 
@@ -92,44 +98,19 @@ function cqn_init(){
                     'discount_code'                => mysql_real_escape_string( $_POST['discount_code']),
                     'contact_email'                => mysql_real_escape_string( $_POST['contact_email']),
                     'contact_telephone'            => mysql_real_escape_string( $_POST['contact_telephone']),
-                    'contact_name'                 => mysql_real_escape_string( $_POST['contact_name'] )
+                    'contact_name'                 => mysql_real_escape_string( $_POST['contact_name'] ),
+
 
                 );
 
-                error_log( print_r( $submission, true ) );
                 $wpdb->insert( CQN_TABLE_NAME, $submission);
-
                 add_shortcode('cqn_calculator', 'cqn_show_thankyou');
 
+            }else{
+
+                $_POST = array_merge( $_POST, $errors );
+                add_shortcode('cqn_calculator', 'cqn_show_calculator');
             }
-            // cqn_calc_form appears on every submit
-
-
-            /* if ( first submission ) - ie. calculate button clicked
-                    save to database
-                    generate and save quote pdf
-                    send email with quote attached to callback system
-
-                    show quote in html form
-
-                else IF ( emailMeQuote button clicked )
-
-                    send email with quote attached to client
-                    send email to callback system to update the lead ( ie. the 'quote emailed to client' field )
-
-                    show thankyou
-
-                else IF (  instruct button clicked )
-
-
-                    send email with quote attached to client
-                    send email to callback system to update the lead ( ie. the 'instruct clicked' field )
-
-                    show thankyou
-             */
-
-
-
 
         }else{
             // load the styles
@@ -139,22 +120,20 @@ function cqn_init(){
             wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/cqn_calc.js', [ 'jquery' ] );
             wp_enqueue_style(  'cqn_calculator_styles', CQN_PLUGIN_URL . '/includes/css/cqn_styles.css');
             add_shortcode(     'cqn_calculator', 'cqn_show_calculator' );
-
         }
     }
 }
 
-function cqn_show_calculator(){
+function cqn_show_calculator(  $errors ){
 /*
  show form
 or show the results +  email me and instruct links
 
 */
-
-
-    $html = file_get_contents( CQN_PLUGIN_PATH . '/includes/calc-form.html'  );
+    //$html = file_get_contents( CQN_PLUGIN_PATH . '/includes/calc-form.html'  );
+    require( CQN_PLUGIN_PATH . '/includes/calc-form.php'  );
+    $html = calcForm( $_POST );
     return $html;
-
 }
 
 function cqn_show_thankyou(){
