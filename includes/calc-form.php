@@ -2,16 +2,9 @@
     function calcForm( $posted  ){
 
         $html = '';
-        $html .=  print_r( $posted, true );
+//        $html .=  print_r( $posted, true );
 
-        if(  !isset( $posted['calculator_ref']  ) ){
-            //generate new calculator_ref
-            $calcRef = str_replace( [ ' ', '.' ], [ '', ''] , microtime( false ) );
-
-        }else{
-            //use existingcalculator_ref
-            $calcRef = trim ( $posted['calculator_ref'] );
-        }
+        $calcRef = $_SESSION['cqn_calculator_ref'];
 
         $html .= '<p>Please fill in our little form</p>
 
@@ -105,7 +98,7 @@
                         other information with any third party.
                     </div>
 					<input type="submit" id="form-submit" value="Calculate">
-					<div class="spacer">&nbsp;</div>
+
 			</span>
 
         </form>';
