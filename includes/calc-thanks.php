@@ -2,9 +2,10 @@
 function calcThanks( $posted  ){
 
 
-    $calcRef = $_SESSION['cqn_calculator_ref'];
-
+    $sub = $_SESSION['CQN_calculator_submission'];
+    $calcRef = $sub->getCalculatorRef();
     $html = '';
+
 //    $html .=  print_r( $posted, true );
 
 //    $calcRef = $_SESSION['cqn_calculator_ref'];
@@ -13,7 +14,7 @@ function calcThanks( $posted  ){
     $html .= '</p>';
     $html .= '<p>'. $calcRef . '</p>';
 
-
+$html .= print_r( $sub );
 
     return $html;
 }

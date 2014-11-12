@@ -38,21 +38,69 @@ function cqn_activation(){
                 `contact_email` varchar( 255 )  ,
                 `contact_telephone` varchar( 25  ),
                 `contact_name` varchar( 255 ),
+
+
+                `involves_sale` int ( 1 ),
+                `involves_purchase` int ( 1 ),
+                `involves_remortgage` int ( 1 ),
+                `involves_transfer` int ( 1 ),
+
+                `instructClicked` int ( 1 ),
+                `emailedToClient` int ( 1 ),
+
+                `contact_street_address` varchar(255),
+                `contact_locality` varchar(255),
+                `contact_town` varchar(255),
+                `contact_postcode` varchar(255),
+                `additional_1_title` varchar(255),
+                `additional_1_forename` varchar(255),
+                `additional_1_surname` varchar(255),
+                `additional_2_title` varchar(255),
+                `additional_2_forename` varchar(255),
+                `additional_2_surname` varchar(255),
+                `sale_street_address` varchar(255),
+                `sale_locality` varchar(255),
+                `sale_town` varchar(255),
+                `sale_postcode` varchar(255),
+                `purchase_street_address` varchar(255),
+                `purchase_locality` varchar(255),
+                `purchase_town` varchar(255),
+                `purchase_postcode` varchar(255),
+                `remortgage_street_address` varchar(255),
+                `remortgage_locality` varchar(255),
+                `remortgage_town` varchar(255),
+                `remortgage_postcode` varchar(255),
+                `transfer_street_address` varchar(255),
+                `transfer_locality` varchar(255),
+                `transfer_town` varchar(255),
+                `transfer_postcode` varchar(255),
+
+                `purchase_legal_fees` decimal ( 10, 2) ,
+                `sale_legal_fees` decimal ( 10, 2) ,
+                `remortgage_legal_fees` decimal ( 10, 2) ,
+                `transfer_legal_fees` decimal ( 10, 2) ,
+
+                `no_move_no_fee` decimal ( 10, 2) ,
+                `vat_on_fees` decimal ( 10, 2) ,
+
+                `purchase_disbursements_total` decimal ( 10, 2) ,
+                `sale_disbursements_total` decimal ( 10, 2) ,
+                `remortgage_disbursements_total` decimal ( 10, 2) ,
+                `transfer_disbursements_total` decimal ( 10, 2) ,
+                `disbursements_total` decimal ( 10, 2) ,
+
+                `quote_total` decimal ( 10, 2) ,
+                `discounted_total` decimal ( 10, 2) ,
+                `discount_total` decimal ( 10, 2) ,
+
+                `purchase_disbursements_list` text,
+                `sale_disbursements_list` text,
+                `remortgage_disbursements_list` text,
+                `transfer_disbursements_list` text,
+
                 `created_at` TIMESTAMP,
                 PRIMARY KEY (`id`)
             )';
-
-    //error_log( "\n--------------" );
-    //error_log($sql);
-    //error_log( "\n--------------" );
-
-
-//    $sql = '  CREATE TABLE `' . $tableName . '` (
-//              `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-//              `email` varchar(255) NOT NULL,
-//              `full_name` varchar(255) NOT NULL,
-//              PRIMARY KEY (`id`)
-//            )';
 
     dbDelta( $sql );
 }
@@ -71,87 +119,120 @@ function cqn_init(){
 
     if( !is_admin() ){
 
+        require_once  CQN_PLUGIN_PATH . '/includes/classes/CQN_Calculator_Config.php' ;
+        require_once  CQN_PLUGIN_PATH . '/includes/classes/CQN_Calculator_Submission.php' ;
+
         if( $_POST['cqn_calc_form'] ){
 
+            if( $_POST[ 'cqn_instructType' ] ) {
+
+                /*
+                 * instruct now or email me clicked
+                 *
+                 * update the database
+                 * send update to the callback system
+                 *
+                */
+
+                $config = new CQN_Calculator_Config;
+                $sub    = new CQN_Calculator_Submission( $config );
 
 
-            if( $_POST[ 'cqn_quote_viewed' ] ) {
+                $ref = $_POST['CQN_calculator_ref'];
+                $loaded =  $sub->load( $ref ) ;
 
+                $sub->loadFromPost( $_POST );
+
+                $sub->calculate();
+
+
+
+
+                $sub->save();
+
+                $sub->clearConfig();// to help prevent details of config leaking
+
+                $_SESSION['CQN_calculator_submission'] = $sub;
 
                 add_shortcode('cqn_calculator', 'cqn_show_thanks');
-            }else{
+
+            }else{// show quote
 
                 $errors = validateInput();
 
                 if (!$errors) {
 
                     /*
-                     calculate fees
-                     calculate disbursements
-
+                     * do calculation
+                     * save the submission to database
+                     * create the pdf
+                     * send details to callback system
+                     *
+                     * set the shortcode to show the 'quote' and the 'extra fields' form
+                     *
                     */
-                    require  CQN_PLUGIN_PATH . '/includes/classes/CalculatorConfig.php' ;
-
-                    $calcConfig = new CalculatorConfig;
-                    $calcConfig->initDefaultVars();
-
-                    error_log( print_r( $fees , true ) );
-
-                    $submission = array(
-                                            'calculator_ref'               => mysql_real_escape_string($_POST['calculator_ref']),
-                                            'sale_price'                   => mysql_real_escape_string($_POST['sale_price']),
-                                            'sale_leasehold'               => mysql_real_escape_string($_POST['sale_leasehold']),
-                                            'sale_mortgage'                => mysql_real_escape_string($_POST['sale_mortgage']),
-                                            'purchase_price'               => mysql_real_escape_string($_POST['purchase_price']),
-                                            'purchase_leasehold'           => mysql_real_escape_string($_POST['purchase_leasehold']),
-                                            'purchase_mortgage'            => mysql_real_escape_string($_POST['purchase_mortgage']),
-                                            'purchase_1st_time_buyer'      => mysql_real_escape_string($_POST['purchase_1st_time_buyer']),
-                                            'purchase_no_of_buyers'        => mysql_real_escape_string($_POST['purchase_no_of_buyers']),
-                                            'remortgage_price'             => mysql_real_escape_string($_POST['remortgage_price']),
-                                            'remortgage_leasehold'         => mysql_real_escape_string($_POST['remortgage_leasehold']),
-                                            'remortgage_no_of_people'      => mysql_real_escape_string($_POST['remortgage_no_of_people']),
-                                            'remortgage_involves_transfer' => mysql_real_escape_string($_POST['remortgage_involves_transfer']),
-                                            'transfer_price'               => mysql_real_escape_string($_POST['transfer_price']),
-                                            'transfer_leasehold'           => mysql_real_escape_string($_POST['transfer_leasehold']),
-                                            'transfer_no_of_people'        => mysql_real_escape_string($_POST['transfer_no_of_people']),
-                                            'discount_code'                => mysql_real_escape_string($_POST['discount_code']),
-                                            'contact_email'                => mysql_real_escape_string($_POST['contact_email']),
-                                            'contact_telephone'            => mysql_real_escape_string($_POST['contact_telephone']),
-                                            'contact_name'                 => mysql_real_escape_string($_POST['contact_name']),
-                                    );
-
-
-                    global $wpdb;
-                    $wpdb->insert(CQN_TABLE_NAME, $submission);
 
 
 
+                    $config = new CQN_Calculator_Config;
+                    $sub    = new CQN_Calculator_Submission( $config );
 
+//
+//                    if( isset(  $_POST['CQN_calculator_ref']  ) ){
+//
+//                        $ref = $_POST['CQN_calculator_ref'];
+//                        $loaded =  $sub->load( $ref ) ;
+//                        error_log( 'loaded = ' . $loaded );
+//                        error_log('found posted ref: '. $ref );
+//
+//                    }
+
+                    $sub->loadFromPost( $_POST );
+
+//                  error_log( "Quote type = " . $sub->quoteType );
+
+                    $sub->calculate();
+
+                    $sub->save();
+
+                    //$sub->createPDF();
+
+                    // email to callback system
+
+
+                    $_SESSION['CQN_calculator_submission'] = $sub;
+
+
+                    wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/cqn_calc.js', [ 'jquery' ] );
+                    wp_enqueue_style(  'cqn_calculator_styles', CQN_PLUGIN_URL . '/includes/css/cqn_styles.css');
+
+                    $sub->clearConfig();// to help prevent details of config leaking
                     add_shortcode('cqn_calculator', 'cqn_show_quote');
                 } else {
-                    $_POST = array_merge($_POST, $errors);
+
+                    // there are errors
+                    // set shortcode to show the form again
+
                     add_shortcode('cqn_calculator', 'cqn_show_calculator');
                 }
             }
         }else{
 
-            if( !isset ( $_SESSION[ 'cqn_calculator_ref' ] ) ){
-                $_SESSION['cqn_calculator_ref'] = cqn_generate_unique_id();
-            }
+
+
+            $config = new CQN_Calculator_Config;
+            $sub    = new CQN_Calculator_Submission( $config );
+
+            $_SESSION['CQN_calculator_submission'] = $sub;
 
             wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/cqn_calc.js', [ 'jquery' ] );
             wp_enqueue_style(  'cqn_calculator_styles', CQN_PLUGIN_URL . '/includes/css/cqn_styles.css');
+
             add_shortcode(     'cqn_calculator', 'cqn_show_calculator' );
         }
     }
 }
 
-function cqn_generate_unique_id( ){
-
-    $calcRef = str_replace( [ ' ', '.' ], [ '', ''] , microtime( false ) );
-    return $calcRef;
-
-}
 
 function cqn_show_thanks(   ){
     /*
@@ -199,10 +280,11 @@ add_action( 'wp_login',  'cqn_destroySession' );
 function cqn_startSession() {
     //session_start();
     //session_destroy ();
+    if( !is_admin() ) {
 
-    if(!session_id()) {
-        error_log( 'starting session');
-        session_start();
+        if (!session_id()) {
+            session_start();
+        }
     }
     //    error_log( print_r( $_SESSION, true ) );
 }

@@ -4,13 +4,14 @@
         $html = '';
 //        $html .=  print_r( $posted, true );
 
-        $calcRef = $_SESSION['cqn_calculator_ref'];
+        $sub = $_SESSION['CQN_calculator_submission'];
+        $calcRef = $sub->getCalculatorRef();
 
         $html .= '<p>Please fill in our little form</p>
 
         <form action="" method="post">
             <input type="hidden" value="yes" name="cqn_calc_form"/>
-            <input type="text" name="calculator_ref" value="' . $calcRef . '">
+            <input type="hidden" name="CQN_calculator_ref" value="' . $calcRef . '">
 
             <p style="padding-left:12px;padding-top:10px;">Conveyancing type:</p>
 

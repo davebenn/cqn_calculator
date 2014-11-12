@@ -1,8 +1,15 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: Dave
+ * Date: 12/11/2014
+ * Time: 10:44
+ */
 
-class CalculatorConfig{
+class CQN_Calculator_Config {
 
-    private $VATRate;
+
+    public $VATRate;
 
     private $maxSalePrice;
     private $maxPurchasePrice;
@@ -36,6 +43,11 @@ class CalculatorConfig{
     private $transferDisbursements;
     private $purchaseDisbursements;
 
+    public $saleLeaseholdFee;
+    public $purchaseLeaseholdFee;
+    public $remortgageLeaseholdFee;
+    public $transferLeaseholdFee;
+
     private $noWinNoFee;
 
     private $discountCodes;
@@ -49,11 +61,11 @@ class CalculatorConfig{
         $this->maxRemortgagePrice = 500000;
         $this->maxTransferPrice = 500000;
 
-        $this->saleBands       = [ 125000, 250000, 500000, 1000000 ];
-        $this->saleFees        = [ 300, 300, 350, 624, 624 ];
+        $this->saleBands       = [ 125000, 250000, 500000, 1000000, 9999999  ];
+        $this->saleFees        = [    300,    300,    350,     624,     624  ];
 
         $this->purchaseBands   = [ 125000, 250000, 500000, 1000000, 9999999 ];
-        $this->purchaseFees    = [ 300, 324, 340, 624, 624 ];
+        $this->purchaseFees    = [    300,    324,    340,     624,     624 ];
 
         $this->remortgageBands = [ 99999999 ];
         $this->remortgageFees  = [ 250 ];
@@ -63,47 +75,50 @@ class CalculatorConfig{
 
         $this->noWinNoFee   = 100;
 
+        $this->saleLeaseholdFee       = 95;
+        $this->purchaseLeaseholdFee   = 95;
+        $this->remortgageLeaseholdFee =  0;
+        $this->transferLeaseholdFee   =  0;
+
         $this->saleDisbursements = [
-                'SALE_LREP'                     => (object) ['price' => 8 ,    'name' => 'disbursement' ],
-                'SALE_BANK_TRANSFER'            => (object) ['price' => 36.80, 'name' => 'disbursement' ],
-                'SALE_LEASEHOLD_FEE'            => (object) ['price' => 95 ,   'name' => 'disbursement' ]
-            ];
+            (object) [ 'code' => 'SALE_LREP'                 , 'optional' => false , 'price' => 8 ,    'name' => 'Land Registry Entry and Plan' ],
+            (object) [ 'code' => 'SALE_BANK_TRANSFER'        , 'optional' => false , 'price' => 36.80, 'name' => 'Bank Transfer' ],
+        ];
 
         $this->remortgageDisbursements = [
-                'REMORTGAGE_LREP'           => (object) ['price' => 8 ,    'name' => 'disbursement' ],
-                'REMORTGAGE_LRS'            => (object) ['price' => 4 ,    'name' => 'disbursement' ],
-                'REMORTGAGE_BS'             => (object) ['price' => 2 ,    'name' => 'disbursement' ]
-            ];
+            (object) [ 'code' => 'REMORTGAGE_LREP'           , 'optional' => false , 'price' => 8 ,    'name' => 'Land Registry Entry and Plan' ],
+            (object) [ 'code' => 'REMORTGAGE_LRS'            , 'optional' => false , 'price' => 4 ,    'name' => 'Land Registry Search' ],
+            (object) [ 'code' => 'REMORTGAGE_BS'             , 'optional' => false , 'price' => 2 ,    'name' => 'Bankruptcy Search' ]
+        ];
 
         $this->transferDisbursements = [
-                'TRANSFER_LREP'             => (object) ['price' => 6 ,    'name' => 'disbursement' ],
-                'TRANSFER_LRS'              => (object) ['price' => 4 ,    'name' => 'disbursement' ],
-                'TRANSFER_BS'               => (object) ['price' => 2 ,    'name' => 'disbursement' ]
-            ];
+            (object) [ 'code' => 'TRANSFER_LREP'             , 'optional' => false , 'price' => 6 ,    'name' => 'Land Registry Entry and Plan' ],
+            (object) [ 'code' => 'TRANSFER_LRS'              , 'optional' => false , 'price' => 4 ,    'name' => 'Land Registry Search' ],
+            (object) [ 'code' => 'TRANSFER_BS'               , 'optional' => false , 'price' => 2 ,    'name' => 'Bankruptcy Search' ]
+        ];
 
         $this->purchaseDisbursements = [
-                'PURCHASE_LS'               => (object) ['price' => 100 ,  'name' => 'disbursement' ],
-                'PURCHASE_ES'               => (object) ['price' => 50 ,   'name' => 'disbursement' ],
-                'PURCHASE_WS'               => (object) ['price' => 45 ,   'name' => 'disbursement' ],
-                'PURCHASE_CS'               => (object) ['price' => 42 ,   'name' => 'disbursement' ],
-                'PURCHASE_CHS'              => (object) ['price' => 20 ,   'name' => 'disbursement' ],
-                'PURCHASE_HS2S'             => (object) ['price' => 25 ,   'name' => 'disbursement' ],
-                'PURCHASE_HMLRS'            => (object) ['price' => 8 ,    'name' => 'disbursement' ],
-                'PURCHASE_BS'               => (object) ['price' => 2 ,    'name' => 'disbursement' ],
-                'PURCHASE_DOCUMENT_RETURN'  => (object) ['price' => 10 ,   'name' => 'disbursement' ],
-                'PURCHASE_LEASEHOLD_FEE'    => (object) ['price' => 95 ,   'name' => 'disbursement' ],
-                'PURCHASE_BANK_TRANSFER'    => (object) ['price' => 36.80, 'name' => 'disbursement' ]
-            ];
+             (object) [ 'code' => 'PURCHASE_LS'              , 'optional' => true , 'price' => 100 ,  'name' => 'Local Search' ],
+             (object) [ 'code' => 'PURCHASE_ES'              , 'optional' => true , 'price' => 50 ,   'name' => 'Environmental Search' ],
+             (object) [ 'code' => 'PURCHASE_WS'              , 'optional' => true , 'price' => 45 ,   'name' => 'Water Search' ],
+             (object) [ 'code' => 'PURCHASE_CS'              , 'optional' => true , 'price' => 42 ,   'name' => 'Coal Search' ],
+             (object) [ 'code' => 'PURCHASE_CHS'             , 'optional' => true , 'price' => 20 ,   'name' => 'Chancel Search' ],
+             (object) [ 'code' => 'PURCHASE_HS2S'            , 'optional' => true , 'price' => 25 ,   'name' => 'High Speed 2 Search' ],
+             (object) [ 'code' => 'PURCHASE_HMLRS'           , 'optional' => true , 'price' => 8 ,    'name' => 'HMLR Search' ],
+             (object) [ 'code' => 'PURCHASE_BS'              , 'optional' => true , 'price' => 2 ,    'name' => 'Bankruptcy Search' ],
+//             (object) [ 'code' => 'PURCHASE_DOCUMENT_RETURN' , 'optional' => true , 'price' => 10 ,   'name' => 'Document Return' ],
+             (object) [ 'code' => 'PURCHASE_BANK_TRANSFER'   , 'optional' => false , 'price' => 36.80, 'name' => 'Bank Transfer' ]
+        ];
 
-        $this->salePurchaseLRBands =        [ 50000, 80000, 100000,200000, 500000, 1000000];
+        $this->salePurchaseLRBands =        [ 50000, 80000, 100000, 200000, 500000, 1000000];
+        $this->salePurchaseLRFees  =        [    20,    20,     40,     95,    135,     270 ];
+
         $this->remortgageTransferLRBands =  [ 100000, 200000, 500000, 1000000 ];
-
-        $this->salePurchaseLRFees =       [ 20 , 20, 40, 95, 135, 270 ];
-        $this->remortgageTransferLRFees = [ 20 , 30 , 40 , 60];
+        $this->remortgageTransferLRFees  =  [     20,     30,     40,      60 ];
 
         $this->discountCodes = [
 //            'TEST-CODE-912'          => (object) [ 'type' => 'F', 'amount' => 50,     'name' => '£50 off' ],
-//            'TEST-CODE-2123'         => (object) [ 'type' => 'P', 'amount' => 0.25 ,  'name' => '25% off' ],
+//            'dbhalved12'             => (object) [ 'type' => 'P', 'amount' => 0.50 ,  'name' => '50% off' ],
             'CSUK25'                 => (object) [ 'type' => 'F', 'amount' => 25 ,    'name' => '£25 off' ]
         ];
 
@@ -136,7 +151,6 @@ class CalculatorConfig{
         return 1;
     }
 
-
     public function checkDiscountCode( $code ){
 
         if( array_key_exists( $code, $this->discountCodes ) ){
@@ -144,9 +158,7 @@ class CalculatorConfig{
         }else{
             return false;
         }
-
     }
-
 
     public function getSPLandRegistryFees( $propertyPrice ){// type = SP or RT
 
@@ -211,9 +223,7 @@ class CalculatorConfig{
         }
     }
     public function getBandIndex( $bands, $price ){
-
         $i = 0;
-
         while( ( $bands[$i] < $price ) && ( $i < ( count( $bands ) - 1 ) ) ){
             $i++;
         }
@@ -222,7 +232,6 @@ class CalculatorConfig{
             return '9999';
         }
         return $i;
-
     }
 
 
@@ -241,4 +250,5 @@ class CalculatorConfig{
     }
 
 
-}
+
+} 

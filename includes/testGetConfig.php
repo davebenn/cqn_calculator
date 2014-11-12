@@ -1,37 +1,168 @@
 <?php
 
-    require './classes/CalculatorConfig.php';
-
-
-    $config = new CalculatorConfig;
-
-//    print_r( $config->getSaleDisbursements() );
-
-
-$prices = [ 50000, 120000, 180000, 501000, 900000, 1200000, 2200000 ];
-
-
-echo "\nStamp Duty ";
-echo "\n=============";
-
-foreach ($prices as $price){
-    echo "\n"  . number_format( $price ) . '  -  ' . number_format( $config->getStampDuty($price, false));
-}
-
-
- echo "\n";
-echo "\nStamp Duty (1st time buyer)";
-echo "\n===========================";
-
-foreach ($prices as $price){
-
-    echo "\n"  . number_format( $price ) . '  -  ' . number_format( $config->getStampDuty($price, true));
-
-
-}
+require_once './classes/CQN_Calculator_Config.php';
+require_once './classes/CQN_Calculator_Submission.php';
+require_once '../../../../wp-blog-header.php';
 
 
 echo "\n";
+
+$config = new CQN_Calculator_Config;
+
+
+
+
+$sub = new CQN_Calculator_Submission( $config );
+
+$sub->loadFromPost( [   'quote_type' => 'sale_purchase',
+                        'purchase_no_of_buyers' => 2,
+                        'purchase_leasehold' => true,
+                        'purchase_price'     => 350000,
+                        'purchase_1st_time_buyer'     => true,
+                        'sale_price'         => 400000,
+                        'sale_leasehold'         => true,
+                        'sale_price'         => 400000,
+                        'discount_code'         => 'dbhalved12',
+
+] );
+
+$sub->calculate();
+
+echo $sub->getTextQuote();
+echo "\n";
+
+foreach( $sub->getDisbursements() as $db ){
+    echo "\n ". $db->code . " : ". $db->name . " - " . number_format( $db->price, 2 );
+}
+
+
+
+
+//
+//$sub = new CQN_Calculator_Submission( $config );
+//
+//$sub->loadFromPost( [   'quote_type' => 'remortgage',
+//                        'remortgage_involves_transfer' => 1,
+//                        'remortgage_no_of_people' => 2,
+//                        'transfer_no_of_people' => 2,
+//                        'transfer_leasehold' => 1,
+//                        'transfer_price'        => 80000,
+//                        'remortgage_price'        => 250000,
+//
+//] );
+//
+//$sub->calculate();
+//
+//echo $sub->getTextQuote();
+//echo "\n";
+//
+//foreach( $sub->getDisbursements() as $db ){
+//    echo "\n ". $db->code . " : ". $db->name . " - " . number_format( $db->price );
+//}
+
+
+
+//
+//
+//
+//
+//
+//
+//$sub = new CQN_Calculator_Submission( $config );
+//
+//$sub->loadFromPost( [   'quote_type' => 'remortgage',
+//                        'remortgage_no_of_people' => 7,
+//                        'remortgage_price'        => 298000,
+//] );
+//
+//$sub->calculate();
+//
+//echo $sub->getTextQuote();
+//echo "\n";
+//
+//foreach( $sub->getDisbursements() as $db ){
+//    echo "\n ". $db->name . " - " . number_format( $db->price );
+//}
+//
+//
+//
+//
+//
+//
+//
+
+
+
+//
+//$sub = new CQN_Calculator_Submission( $config );
+//
+//$sub->loadFromPost( [   'quote_type' => 'sale_purchase',
+//                        'purchase_no_of_buyers' => 2,
+//                        'purchase_price'        => 198000,
+//                        'sale_price'            => 400000,
+//                        'purchase_1st_time_buyer' => true
+//] );
+//
+//$sub->calculate();
+//
+//echo $sub->getTextQuote();
+//echo "\n";
+//
+//foreach( $sub->getDisbursements() as $db ){
+//    echo "\n ". $db->name . " - " . number_format( $db->price );
+//}
+//
+//
+
+
+
+
+
+
+
+
+
+
+//$sub = new CQN_Calculator_Submission( $config );
+//
+//$sub->loadFromPost( [   'quote_type' => 'sale',
+//                        'sale_price' => 123000 ] );
+//
+//$sub->calculate();
+//
+//echo $sub->getTextQuote();
+//
+
+
+
+//print_r($sub);
+//global $wpdb;
+//print_r($wpdb);
+//    print_r( $config->getSaleDisbursements() );
+
+//
+//$prices = [ 50000, 120000, 180000, 501000, 900000, 1200000, 2200000 ];
+//
+//
+//echo "\nStamp Duty ";
+//echo "\n=============";
+//
+//foreach ($prices as $price){
+//    echo "\n"  . number_format( $price ) . '  -  ' . number_format( $config->getStampDuty($price, false));
+//}
+//
+//
+//echo "\n";
+//echo "\nStamp Duty (1st time buyer)";
+//echo "\n===========================";
+//
+//foreach ($prices as $price){
+//
+//    echo "\n"  . number_format( $price ) . '  -  ' . number_format( $config->getStampDuty($price, true));
+//
+//}
+//
+//echo "\n";
 //
 //$codes = [ 'CSUK25', 'TEST-CODE-912' , 'some', 'TEST-CODE-2123'    ];
 //
@@ -73,10 +204,10 @@ echo "\n";
 //echo "\n 2400000 = " . $config->getRTLandRegistryFees( 2400000 );
 //echo "\n";
 //
-//
+////
 //foreach( $config->getSaleDisbursements() as $d ){
 //
-//    echo "\n " . $d->price;
+//    echo "\n " . $d->name .  ' -- ' . $d->price;
 //
 //}
 
@@ -132,3 +263,4 @@ echo "\n";
 //echo "\n 1200000 = " . $config->getTransferFees( 1200000 );
 //echo "\n 2400000 = " . $config->getTransferFees( 2400000 );
 //echo "\n";
+echo "\n";
