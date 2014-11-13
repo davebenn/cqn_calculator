@@ -17,10 +17,10 @@ class CQN_Calculator_Submission
     private $instructClicked;
     private $emailedToClient;
 
-    private $involves_sale;
-    private $involves_purchase;
-    private $involves_remortgage;
-    private $involves_transfer;
+    public $involves_sale;
+    public $involves_purchase;
+    public $involves_remortgage;
+    public $involves_transfer;
 
     private $purchaseLegalFees;
     private $saleLegalFees;
@@ -52,10 +52,10 @@ class CQN_Calculator_Submission
 
     // for storing json of disbursements at time of quoting , as they can change over time
 
-    private $purchaseDisbursementsList = [];
-    private $saleDisbursementsList = [];
-    private $remortgageDisbursementsList = [];
-    private $transferDisbursementsList = [];
+    public $purchaseDisbursementsList = [];
+    public $saleDisbursementsList = [];
+    public $remortgageDisbursementsList = [];
+    public $transferDisbursementsList = [];
 
     public $discount_code;
     public $discount_total;

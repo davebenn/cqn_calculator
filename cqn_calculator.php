@@ -122,6 +122,22 @@ function cqn_init(){
         require_once  CQN_PLUGIN_PATH . '/includes/classes/CQN_Calculator_Config.php' ;
         require_once  CQN_PLUGIN_PATH . '/includes/classes/CQN_Calculator_Submission.php' ;
 
+        require_once CQN_PLUGIN_PATH . '/vendor/twig/twig/lib/Twig/Autoloader.php';
+        Twig_Autoloader::register();
+
+
+        global $CQN_twigLoader;
+        global $CQN_twig;
+
+        $CQN_twigLoader = new Twig_Loader_Filesystem ( CQN_PLUGIN_PATH . '/includes/templates');
+
+//        $CQN_twig = new Twig_Environment($CQN_twigLoader, array(
+//            'cache' => CQN_PLUGIN_PATH . '/cache',
+//        ));
+        $CQN_twig = new Twig_Environment($CQN_twigLoader, array(
+            'cache' => false,
+        ));
+
         if( $_POST['cqn_calc_form'] ){
 
             if( $_POST[ 'cqn_instructType' ] ) {
@@ -235,40 +251,23 @@ function cqn_init(){
 
 
 function cqn_show_thanks(   ){
-    /*
-        show form
-        or show the results +  email me and instruct links
-    */
-    //$html = file_get_contents( CQN_PLUGIN_PATH . '/includes/calc-form.html'  );
-    require( CQN_PLUGIN_PATH . '/includes/calc-thanks.php'  );
-    $html = calcThanks( $_POST );
-    return $html;
+    global $CQN_twig;
+    $template = $CQN_twig->loadTemplate('calc-thanks.twig');
+    return $template->render( [ 'sub' => $_SESSION['CQN_calculator_submission'] ] );
 }
+
 function cqn_show_quote(   ){
-    /*
-        show form
-        or show the results +  email me and instruct links
-    */
-    //$html = file_get_contents( CQN_PLUGIN_PATH . '/includes/calc-form.html'  );
-    require( CQN_PLUGIN_PATH . '/includes/calc-quote.php'  );
-    $html = calcQuote( $_POST );
-    return $html;
-}
-function cqn_show_calculator(  $errors ){
-    /*
-        show form
-        or show the results +  email me and instruct links
-    */
-    //$html = file_get_contents( CQN_PLUGIN_PATH . '/includes/calc-form.html'  );
-    require( CQN_PLUGIN_PATH . '/includes/calc-form.php'  );
-    $html = calcForm( $_POST );
-    return $html;
+    global $CQN_twig;
+    $template = $CQN_twig->loadTemplate('calc-quote.twig');
+    return $template->render( [ 'sub' => $_SESSION['CQN_calculator_submission'] ] );
 }
 
-function cqn_show_thankyou(){
+function cqn_show_calculator(  $errors )
+{
+    global $CQN_twig;
+    $template = $CQN_twig->loadTemplate('calc-form.twig');
+    return $template->render( [ 'sub' => $_SESSION['CQN_calculator_submission'] ] );
 
-    $html = file_get_contents( CQN_PLUGIN_PATH . '/includes/thankyou.html'  );
-    return $html;
 }
 
 add_action(     'init', 'cqn_init' );
