@@ -14,52 +14,105 @@ jQuery(document).ready(function( $ ) {
             transfer_section.hide();
         }
     });
-    $('input[name=quote_type]:radio').change(function () {
+    //
+    //$('input[name=quote_type]:radio').change(function () {
+    //
+    //    section = $(this).val();
+    //    sale_section.hide();
+    //    purchase_section.hide();
+    //    remortgage_section.hide();
+    //    transfer_section.hide();
+    //    no_move.hide();
+    //
+    //    sale_section.find(':input').addClass('ignore');
+    //    purchase_section.find(':input').addClass('ignore');
+    //    remortgage_section.find(':input').addClass('ignore');
+    //    transfer_section.find(':input').addClass('ignore');
+    //
+    //    switch(section)
+    //    {
+    //        case 'sale':
+    //            sale_section.show();
+    //            sale_section.find(':input').removeClass('ignore');
+    //            no_move.show();
+    //            break;
+    //        case 'purchase':
+    //            purchase_section.show();
+    //            purchase_section.find(':input').removeClass('ignore');
+    //            no_move.show();
+    //            break;
+    //        case 'sale_purchase':
+    //            sale_section.show();
+    //            purchase_section.show();
+    //            sale_section.find(':input').removeClass('ignore');
+    //            purchase_section.find(':input').removeClass('ignore');
+    //            no_move.show();
+    //            break;
+    //        case 'remortgage':
+    //            remortgage_section.show();
+    //            remortgage_section.find(':input').removeClass('ignore');
+    //            if($('input[name=remortgage_involves_transfer]:checkbox').is(':checked')){
+    //                transfer_section.show();
+    //            }
+    //            break;
+    //        case 'transfer':
+    //            transfer_section.show();
+    //            transfer_section.find(':input').removeClass('ignore');
+    //            break;
+    //    }
+    //});
 
+    $( '#quote_type').change( function( e ){
         section = $(this).val();
-        sale_section.hide();
-        purchase_section.hide();
-        remortgage_section.hide();
-        transfer_section.hide();
-        no_move.hide();
+            section = $(this).val();
+            sale_section.hide();
+            purchase_section.hide();
+            remortgage_section.hide();
+            transfer_section.hide();
+            no_move.hide();
 
-        sale_section.find(':input').addClass('ignore');
-        purchase_section.find(':input').addClass('ignore');
-        remortgage_section.find(':input').addClass('ignore');
-        transfer_section.find(':input').addClass('ignore');
+            sale_section.find(':input').addClass('ignore');
+            purchase_section.find(':input').addClass('ignore');
+            remortgage_section.find(':input').addClass('ignore');
+            transfer_section.find(':input').addClass('ignore');
 
-        switch(section)
-        {
-            case 'sale':
-                sale_section.show();
-                sale_section.find(':input').removeClass('ignore');
-                no_move.show();
-                break;
-            case 'purchase':
-                purchase_section.show();
-                purchase_section.find(':input').removeClass('ignore');
-                no_move.show();
-                break;
-            case 'sale_purchase':
-                sale_section.show();
-                purchase_section.show();
-                sale_section.find(':input').removeClass('ignore');
-                purchase_section.find(':input').removeClass('ignore');
-                no_move.show();
-                break;
-            case 'remortgage':
-                remortgage_section.show();
-                remortgage_section.find(':input').removeClass('ignore');
-                if($('input[name=remortgage_involves_transfer]:checkbox').is(':checked')){
+
+
+            switch(section)
+            {
+                case 'sale':
+                    sale_section.show();
+                    sale_section.find(':input').removeClass('ignore');
+                    no_move.show();
+                    break;
+                case 'purchase':
+                    purchase_section.show();
+                    purchase_section.find(':input').removeClass('ignore');
+                    no_move.show();
+                    break;
+                case 'sale_purchase':
+                    sale_section.show();
+                    purchase_section.show();
+                    sale_section.find(':input').removeClass('ignore');
+                    purchase_section.find(':input').removeClass('ignore');
+                    no_move.show();
+                    break;
+                case 'remortgage':
+                    remortgage_section.show();
+                    remortgage_section.find(':input').removeClass('ignore');
+                    if($('input[name=remortgage_involves_transfer]:checkbox').is(':checked')){
+                        transfer_section.show();
+                    }
+                    break;
+                case 'transfer':
                     transfer_section.show();
-                }
-                break;
-            case 'transfer':
-                transfer_section.show();
-                transfer_section.find(':input').removeClass('ignore');
-                break;
-        }
-    });
+                    transfer_section.find(':input').removeClass('ignore');
+                    break;
+            }
+
+
+        } );
+
 
     $( '#instruct-form' ).hide();
 

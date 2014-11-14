@@ -1,15 +1,5 @@
-input{
-  color: #4aa;
+$output_MQs: true;
+$max_nomq_size: 999999;// doesnt really matter due to logic in bp mixin
 
+@import "_all";
 
-}
-
-table{
-  
-  .heading-row{
-    background-color: #0033DD;
-    color: #fff ;
-    padding:  .5em 1em;
-
-  }
-}

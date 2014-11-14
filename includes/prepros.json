@@ -1,0 +1,169 @@
+{
+  "id": "b42f1896",
+  "cfgVersion": 1,
+  "name": "CQN-calculator",
+  "files": {
+    "558f4984": {
+      "id": "558f4984",
+      "pid": "b42f1896",
+      "name": "cqn_calc.js",
+      "input": "js\\cqn_calc.js",
+      "customOutput": false,
+      "type": "Js",
+      "config": {
+        "autoCompile": true,
+        "uglify": true,
+        "mangle": true,
+        "sourcemaps": false
+      }
+    },
+    "ec71d449": {
+      "id": "ec71d449",
+      "pid": "b42f1896",
+      "name": "cqn_styles.scss",
+      "input": "sass\\cqn_styles.scss",
+      "customOutput": false,
+      "type": "Scss",
+      "config": {
+        "autoCompile": true,
+        "lineNumbers": false,
+        "unixNewlines": false,
+        "sourcemaps": false,
+        "debug": false,
+        "compass": true,
+        "fullCompass": false,
+        "outputStyle": "compressed",
+        "autoprefixer": true
+      }
+    },
+    "3d7d3558": {
+      "id": "3d7d3558",
+      "pid": "b42f1896",
+      "name": "cqn_pdf-quote.scss",
+      "input": "sass\\cqn_pdf-quote.scss",
+      "customOutput": false,
+      "type": "Scss",
+      "config": {
+        "autoCompile": true,
+        "lineNumbers": false,
+        "unixNewlines": false,
+        "sourcemaps": false,
+        "debug": false,
+        "compass": false,
+        "fullCompass": false,
+        "outputStyle": "expanded",
+        "autoprefixer": false
+      }
+    },
+    "590d5820": {
+      "id": "590d5820",
+      "pid": "b42f1896",
+      "name": "cqn_styles-noMQ.scss",
+      "input": "sass\\cqn_styles-noMQ.scss",
+      "customOutput": false,
+      "type": "Scss",
+      "config": {
+        "autoCompile": true,
+        "lineNumbers": false,
+        "unixNewlines": false,
+        "sourcemaps": false,
+        "debug": false,
+        "compass": true,
+        "fullCompass": false,
+        "outputStyle": "compressed",
+        "autoprefixer": true
+      }
+    }
+  },
+  "imports": {
+    "2628563e": {
+      "id": "2628563e",
+      "pid": "b42f1896",
+      "path": "sass\\_all.scss",
+      "parents": [
+        "ec71d449",
+        "590d5820"
+      ]
+    },
+    "5d3e44a2": {
+      "id": "5d3e44a2",
+      "pid": "b42f1896",
+      "path": "sass\\_partials\\_variables.scss",
+      "parents": [
+        "ec71d449",
+        "590d5820"
+      ]
+    },
+    "b27886c6": {
+      "id": "b27886c6",
+      "pid": "b42f1896",
+      "path": "sass\\_partials\\_mixins.scss",
+      "parents": [
+        "ec71d449",
+        "590d5820"
+      ]
+    },
+    "841175c6": {
+      "id": "841175c6",
+      "pid": "b42f1896",
+      "path": "sass\\_partials\\_util.scss",
+      "parents": [
+        "ec71d449",
+        "590d5820"
+      ]
+    },
+    "9c0fd099": {
+      "id": "9c0fd099",
+      "pid": "b42f1896",
+      "path": "sass\\_partials\\_forms.scss",
+      "parents": [
+        "ec71d449",
+        "590d5820"
+      ]
+    },
+    "2d12c33a": {
+      "id": "2d12c33a",
+      "pid": "b42f1896",
+      "path": "sass\\_partials\\_quote-table.scss",
+      "parents": [
+        "ec71d449",
+        "590d5820"
+      ]
+    }
+  },
+  "images": {},
+  "config": {
+    "watch": true,
+    "liveRefresh": true,
+    "liveRefreshDelay": 0,
+    "filterPatterns": "",
+    "useCustomServer": true,
+    "customServerUrl": "http://newcalc.dbennett.demo/calculator",
+    "cssPath": "css/",
+    "jsPath": "js/",
+    "htmlPath": "html/",
+    "minJsPath": "min/",
+    "htmlExtension": ".html",
+    "cssPathType": "REPLACE_TYPE",
+    "htmlPathType": "REPLACE_TYPE",
+    "jsPathType": "REPLACE_TYPE",
+    "minJsPathType": "RELATIVE_FILEDIR",
+    "htmlTypes": "jade, haml, slim, markdown, md",
+    "cssTypes": "less, sass, stylus, scss, styl",
+    "jsTypes": "coffee, coffeescript, coffeescripts, ls, livescript, livescripts",
+    "cssPreprocessorPath": "",
+    "htmlPreprocessorPath": "",
+    "jsPreprocessorPath": "",
+    "minJsPreprocessorPath": "",
+    "autoprefixerBrowsers": "",
+    "ftpHost": "",
+    "ftpPort": "21",
+    "ftpRemotePath": "",
+    "ftpIgnorePreprocessorFiles": true,
+    "ftpType": "FTP",
+    "ftpExcludePatterns": "",
+    "ftpSecure": false,
+    "ftpPassword": "",
+    "ftpUsername": ""
+  }
+}

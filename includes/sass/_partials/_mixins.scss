@@ -1,0 +1,9 @@
+@mixin bp( $width){
+
+	@if( $output_MQs ){
+		@media screen and (min-width: $width+px) { @content; }
+	}@else if( $width <= $max_nomq_size  ){
+		@content;
+	}
+
+}

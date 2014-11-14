@@ -1,0 +1,98 @@
+//$smallBreakpoint 	:	320px;
+//$mediumBreakpoint 	:	540px;
+//$largeBreakpoint 	:	960px;
+//$fullWidthBreakpoint :	1090px;
+
+$small: 		 319;
+// bulk of smartphones in this zone
+// -  smiple 1 column normal scrolling 'pipe' of content
+// - dropdown / fixed menu nav
+// top limit of most smartphones, s3 is 640 wide in laandscape
+$medium: 		 641;
+
+// tablets and desktop browsers from here on up
+// get the fullscreen slide bits
+// nav fixed with icons visible ar all times
+
+$large: 		 801;
+$fullWidth:  1168;
+
+
+
+
+$teal: 		#00c5b4;
+
+$cream: #f1eee9;
+$darkCream:  #d0c4b4;
+$tan: 		 #998a76;
+
+$white: 	#ffffff;
+
+$grey2: #52524d;
+$grey1: #484845;
+$black: #030304;
+
+$blue: #1495DD;
+$red: #e32828;
+
+$QS:  'Quicksand', Verdana , sans-serif;
+$PT:  'PT Sans', Verdana , sans-serif;
+
+$PP:  'Pencil Pete W00 Reg', Helvetica, Arial, sans-serif;
+
+$headerHeight: 87px; 
+
+
+/*
+ from fonts.com
+font-family:'Pencil Pete W00 Reg';
+
+*/
+/*
+from google webfonts
+
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('PT Sans'), local('PTSans-Regular'), url(http://themes.googleusercontent.com/static/fonts/ptsans/v6/LKf8nhXsWg5ybwEGXk8UBQ.woff) format('woff');
+}
+@font-face {
+  font-family: 'PT Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: local('PT Sans Bold'), local('PTSans-Bold'), url(http://themes.googleusercontent.com/static/fonts/ptsans/v6/0XxGQsSc1g4rdRdjJKZrNBsxEYwM7FgeyaSgU71cLG0.woff) format('woff');
+}
+@font-face {
+  font-family: 'PT Sans';
+  font-style: italic;
+  font-weight: 400;
+  src: local('PT Sans Italic'), local('PTSans-Italic'), url(http://themes.googleusercontent.com/static/fonts/ptsans/v6/PIPMHY90P7jtyjpXuZ2cLD8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+@font-face {
+  font-family: 'PT Sans';
+  font-style: italic;
+  font-weight: 700;
+  src: local('PT Sans Bold Italic'), local('PTSans-BoldItalic'), url(http://themes.googleusercontent.com/static/fonts/ptsans/v6/lILlYDvubYemzYzN7GbLkHhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Quicksand Light'), local('Quicksand-Light'), url(http://themes.googleusercontent.com/static/fonts/quicksand/v3/qhfoJiLu10kFjChCCTvGlHhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Quicksand Regular'), local('Quicksand-Regular'), url(http://themes.googleusercontent.com/static/fonts/quicksand/v3/sKd0EMYPAh5PYCRKSryvWz8E0i7KZn-EPnyo3HZu7kw.woff) format('woff');
+}
+@font-face {
+  font-family: 'Quicksand';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Quicksand Bold'), local('Quicksand-Bold'), url(http://themes.googleusercontent.com/static/fonts/quicksand/v3/32nyIRHyCu6iqEka_hbKsnhCUOGz7vYGh680lGh-uXM.woff) format('woff');
+}
+
+
+*/

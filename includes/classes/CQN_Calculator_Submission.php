@@ -55,7 +55,7 @@ class CQN_Calculator_Submission
     public $purchase_disbursements_list = [];
     public $sale_disbursements_list = [];
     public $remortgage_disbursements_list = [];
-    public $transfer_disbursement_slist = [];
+    public $transfer_disbursements_list = [];
 
     public $discount_code;
     public $discount_total;
@@ -80,8 +80,36 @@ class CQN_Calculator_Submission
     public $contact_telephone;
     public $contact_name;
 
+
     public $quoteType;
 
+
+    public $contact_street_address;
+    public $contact_locality;
+    public $contact_town;
+    public $contact_postcode;
+    public $additional_1_title;
+    public $additional_1_forename;
+    public $additional_1_surname;
+    public $additional_2_title;
+    public $additional_2_forename;
+    public $additional_2_surname;
+    public $sale_street_address;
+    public $sale_locality;
+    public $sale_town;
+    public $sale_postcode;
+    public $purchase_street_address;
+    public $purchase_locality;
+    public $purchase_town;
+    public $purchase_postcode;
+    public $remortgage_street_address;
+    public $remortgage_locality;
+    public $remortgage_town;
+    public $remortgage_postcode;
+    public $transfer_street_address;
+    public $transfer_locality;
+    public $transfer_town;
+    public $transfer_postcode;
 
     public function calculate()
     {
@@ -415,15 +443,13 @@ class CQN_Calculator_Submission
             $this->disbursements_total  = $submission->disbursements_total;
 
 
-            $this->instructClicked  = $submission->instructClicked;
-            $this->emailedToClient  = $submission->emailedToClient;
+            $this->instruct_clicked  = $submission->instruct_clicked;
+            $this->emailed_to_client  = $submission->emailed_to_client;
 
             $this->loadedFromDB = true;
-            error_log( 'db loaded for ref: '.$calcRef );
             return true;
         } else {
             $this->loadedFromDB = false;
-            error_log( 'db not loaded' );
             return false;
         }
 
@@ -432,7 +458,6 @@ class CQN_Calculator_Submission
     public function generateUniqueID()
     {
         $calcRef = str_replace([' ', '.'], ['', ''], microtime(false));
-        error_log('generated ref: '.$calcRef);
         return $calcRef;
 
     }
@@ -476,29 +501,24 @@ class CQN_Calculator_Submission
             'contact_locality'             => mysql_real_escape_string($this->contact_locality),
             'contact_town'                 => mysql_real_escape_string($this->contact_town),
             'contact_postcode'             => mysql_real_escape_string($this->contact_postcode),
-
             'additional_1_title'           => mysql_real_escape_string($this->additional_1_title),
             'additional_1_forename'        => mysql_real_escape_string($this->additional_1_forename),
             'additional_1_surname'         => mysql_real_escape_string($this->additional_1_surname),
             'additional_2_title'           => mysql_real_escape_string($this->additional_2_title),
             'additional_2_forename'        => mysql_real_escape_string($this->additional_2_forename),
             'additional_2_surname'         => mysql_real_escape_string($this->additional_2_surname),
-
             'sale_street_address'          => mysql_real_escape_string($this->sale_street_address),
             'sale_locality'                => mysql_real_escape_string($this->sale_locality),
             'sale_town'                    => mysql_real_escape_string($this->sale_town),
             'sale_postcode'                => mysql_real_escape_string($this->sale_postcode),
-
             'purchase_street_address'      => mysql_real_escape_string($this->purchase_street_address),
             'purchase_locality'            => mysql_real_escape_string($this->purchase_locality),
             'purchase_town'                => mysql_real_escape_string($this->purchase_town),
             'purchase_postcode'            => mysql_real_escape_string($this->purchase_postcode),
-
             'remortgage_street_address'    => mysql_real_escape_string($this->remortgage_street_address),
             'remortgage_locality'          => mysql_real_escape_string($this->remortgage_locality),
             'remortgage_town'              => mysql_real_escape_string($this->remortgage_town),
             'remortgage_postcode'          => mysql_real_escape_string($this->remortgage_postcode),
-
             'transfer_street_address'      => mysql_real_escape_string($this->transfer_street_address),
             'transfer_locality'            => mysql_real_escape_string($this->transfer_locality),
             'transfer_town'                => mysql_real_escape_string($this->transfer_town),
@@ -510,10 +530,10 @@ class CQN_Calculator_Submission
             'transfer_disbursements_total'   => $this->transfer_disbursements_total,
             'disbursements_total'            => $this->disbursements_total,
 
-            'purchase_disbursements_list'    => json_encode(  $this->purchase_disbursement_slist ),
-            'sale_disbursements_list'        => json_encode(  $this->sale_disbursement_slist ),
-            'remortgage_disbursements_list'  => json_encode(  $this->remortgage_disbursement_slist ),
-            'transfer_disbursements_list'    => json_encode(  $this->transfer_disbursement_slist ),
+            'purchase_disbursements_list'    => json_encode(  $this->purchase_disbursements_list ),
+            'sale_disbursements_list'        => json_encode(  $this->sale_disbursements_list ),
+            'remortgage_disbursements_list'  => json_encode(  $this->remortgage_disbursements_list ),
+            'transfer_disbursements_list'    => json_encode(  $this->transfer_disbursements_list ),
 
 
             'purchase_legal_fees'		=> $this->purchase_legal_fees,

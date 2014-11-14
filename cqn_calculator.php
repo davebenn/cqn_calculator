@@ -151,13 +151,13 @@ function cqn_init(){
             'cache' => false,
         ));
 
-        if( $_POST['cqn_calc_form'] ){
+        if( isset( $_POST['cqn_calc_form'] ) ){
 
 
             require 'vendor/autoload.php';
 
 
-            if( $_POST[ 'cqn_instructType' ] ) {
+            if( isset(  $_POST[ 'cqn_instructType' ] ) ) {
 
                 /*
                  * instruct now or email me clicked
