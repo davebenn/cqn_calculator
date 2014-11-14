@@ -31,12 +31,13 @@ set additionalFields =  ['contact_street_address',
 
 <h2>Here is your quote</h2>
 
-<table class="calc-quote">
-
+<table class="calc-quote" style="width: 100%">
+<thead><tr><th></th><th></th></tr></thead>
+<tbody>
     {% autoescape false %}
         {#==== FEES  START====  #}
 
-            <tr class="heading-row"><td>Fees</td></tr>
+        <tr class="heading-row"><td>Fees</td></tr>
 
         {#
             fees
@@ -52,20 +53,21 @@ set additionalFields =  ['contact_street_address',
         #}
 
 
-        {{ sub.involves_sale        ?  '<tr ><td>Sale Legal Fees</td><td  class="amount">'           ~ sub.saleLegalFees           ~ '</td></tr>' : '' }}
-        {{ sub.involves_purchase    ?  '<tr ><td>Purchase Legal Fees</td><td  class="amount">'       ~ sub.purchaseLegalFees       ~ '</td></tr>' : '' }}
-        {{ sub.involves_remortgage  ?  '<tr ><td>Remortgage Legal Fees</td><td  class="amount">'     ~ sub.remortgageLegalFees     ~ '</td></tr>' : '' }}
-        {{ sub.involves_transfer    ?  '<tr ><td>Transfer Legal Fees</td><td  class="amount">'       ~ sub.transferLegalFees       ~ '</td></tr>' : '' }}
-        {{ sub.involves_sale        ?  '<tr ><td>Sale Leasehold Fees</td><td  class="amount">'       ~ sub.saleLeaseholdFees       ~ '</td></tr>' : '' }}
-        {{ sub.involves_purchase    ?  '<tr ><td>Purchase Leasehold Fees</td><td  class="amount">'   ~ sub.purchaseLeaseholdFees   ~ '</td></tr>' : '' }}
-        {{ sub.involves_remortgage  ?  '<tr ><td>Remortgage Leasehold Fees</td><td  class="amount">' ~ sub.remortgageLeaseholdFees ~ '</td></tr>' : '' }}
-        {{ sub.involves_transfer    ?  '<tr ><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.transferLegalFees       ~ '</td></tr>' : '' }}
-        {{ sub.noMoveNoFee          ?  '<tr ><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.noMoveNoFee             ~ '</td></tr>' : '' }}
+        {{ sub.involves_sale              ?  '<tr ><td>Sale Legal Fees</td><td  class="amount">'           ~ sub.sale_legal_fees           ~ '</td></tr>' : '' }}
+        {{ sub.involves_purchase          ?  '<tr ><td>Purchase Legal Fees</td><td  class="amount">'       ~ sub.purchase_legal_fees       ~ '</td></tr>' : '' }}
+        {{ sub.involves_remortgage        ?  '<tr ><td>Remortgage Legal Fees</td><td  class="amount">'     ~ sub.remortgage_legal_fees     ~ '</td></tr>' : '' }}
+        {{ sub.involves_transfer          ?  '<tr ><td>Transfer Legal Fees</td><td  class="amount">'       ~ sub.transfer_legal_fees       ~ '</td></tr>' : '' }}
+
+        {{ sub.sale_leasehold_fees        ?  '<tr ><td>Sale Leasehold Fees</td><td  class="amount">'       ~ sub.sale_leasehold_fees       ~ '</td></tr>' : '' }}
+        {{ sub.purchase_leasehold_fees    ?  '<tr ><td>Purchase Leasehold Fees</td><td  class="amount">'   ~ sub.purchase_leasehold_fees   ~ '</td></tr>' : '' }}
+        {{ sub.remortgage_leasehold_fees  ?  '<tr ><td>Remortgage Leasehold Fees</td><td  class="amount">' ~ sub.remortgage_leasehold_fees ~ '</td></tr>' : '' }}
+        {{ sub.transfer_leasehold_fees    ?  '<tr ><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.transfer_leasehold_fees   ~ '</td></tr>' : '' }}
+        {{ sub.no_move_no_fee             ?  '<tr ><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.no_move_no_fee            ~ '</td></tr>' : '' }}
 
             {# no move no fee ???? #}
 
-        <tr  class="vat-row"><td>VAT On Fees</td><td class="amount">{{ sub.VATOnFees }}</td></tr>
-        <tr class="total-row" ><td>Fees Total</td><td class="amount">{{ sub.feesPlusVAT }}</td></tr>
+        <tr class="vat-row"   ><td>VAT On Fees</td><td class="amount">{{ sub.vat_on_fees }}</td></tr>
+        <tr class="total-row" ><td>Fees Total</td><td class="amount">{{ sub.fees_plus_vat }}</td></tr>
 
 
 
@@ -75,46 +77,46 @@ set additionalFields =  ['contact_street_address',
 
             {% if sub.involves_sale %}
                 <tr class="heading-row"><td>Sale Disbursements</td></tr>
-                {%  for disb in sub.saleDisbursementsList %}
+                {%  for disb in sub.sale_disbursements_list %}
                     <tr class="{{ disb.optional ? 'disb-optional' : 'disb-mandatory' }}">
                         <td>{{  disb.name }}</td>
                         <td>{{  disb.price }}</td>
                     </tr>
                 {%  endfor %}
-                <tr  class="total-row"><td>SaleDisbursements       Total</td><td  class="amount">{{   sub.saleDisbursementsTotal       }}</td></tr>
+                <tr  class="total-row"><td>SaleDisbursements       Total</td><td  class="amount">{{   sub.sale_disbursements_total       }}</td></tr>
             {% endif %}
 
             {% if sub.involves_purchase %}
                 <tr class="heading-row"><td>Purchase Disbursements</td></tr>
-                {%  for disb in sub.purchaseDisbursementsList %}
+                {%  for disb in sub.purchase_disbursements_list %}
                     <tr class="{{ disb.optional ? 'disb-optional' : 'disb-mandatory' }}">
                         <td>{{  disb.name }}</td>
                         <td>{{  disb.price }}</td>
                     </tr>
                 {%  endfor %}
-                <tr class="total-row"><td>PurchaseDisbursements   Total</td><td  class="amount">{{   sub.purchaseDisbursementsTotal   }}</td></tr>
+                <tr class="total-row"><td>PurchaseDisbursements   Total</td><td  class="amount">{{   sub.purchase_disbursements_total   }}</td></tr>
             {% endif %}
 
             {% if sub.involves_remortgage %}
                 <tr class="heading-row"><td>Remortgage Disbursements</td></tr>
-                {%  for disb in sub.remortgageDisbursementsList %}
+                {%  for disb in sub.remortgage_disbursements_list %}
                     <tr class="{{ disb.optional ? 'disb-optional' : 'disb-mandatory' }}">
                         <td>{{  disb.name }}</td>
                         <td>{{  disb.price }}</td>
                     </tr>
                 {%  endfor %}
-                <tr class="total-row"><td>RemortgageDisbursements Total</td><td  class="amount">{{   sub.remortgageDisbursementsTotal }}</td></tr>
+                <tr class="total-row"><td>RemortgageDisbursements Total</td><td  class="amount">{{   sub.remortgage_disbursements_total }}</td></tr>
             {% endif %}
 
             {% if sub.involves_transfer %}
                 <tr class="heading-row"><td>Transfer Disbursements</td></tr>
-                {%  for disb in sub.transferDisbursementsList %}
+                {%  for disb in sub.transfer_disbursements_list %}
                     <tr class="{{ disb.optional ? 'disb-optional' : 'disb-mandatory' }}">
                         <td>{{  disb.name }}</td>
                         <td>{{  disb.price }}</td>
                     </tr>
                 {%  endfor %}
-                <tr class="total-row"><td>TransferDisbursements   Total</td><td  class="amount">{{   sub.transferDisbursementsTotal   }}</td></tr>
+                <tr class="total-row"><td>TransferDisbursements   Total</td><td  class="amount">{{   sub.transfer_disbursements_total   }}</td></tr>
             {% endif %}
 
     {# ==== DISBURSEMENTS END ====  #}
@@ -122,14 +124,14 @@ set additionalFields =  ['contact_street_address',
 
 
 
-            <tr><td>Disbursements Total</td><td  class="amount">{{             sub.disbursementsTotal           }}</td></tr>
+            <tr><td class="total-row">Disbursements Total</td><td  class="amount">{{             sub.disbursements_total           }}</td></tr>
 
-            <tr><td>Total</td><td  class="amount">{{                           sub.quoteTotal           }}</td></tr>
+            <tr><td class="total-row">Total</td><td  class="amount">{{                           sub.quote_total           }}</td></tr>
 
 
             {%  if( sub.discount_total ) %}
-                <tr><td>Discount</td><td  class="amount">{{                     sub.discount_total           }}</td></tr>
-                <tr><td>Discounted Total</td><td  class="amount">{{             sub.discountedTotal           }}</td></tr>
+                <tr><td class="discount-total">Discount</td><td  class="amount">{{                     sub.discount_total           }}</td></tr>
+                <tr><td class="total-row discounted-total">Discounted Total</td><td  class="amount">{{             sub.discounted_total           }}</td></tr>
 
             {%  endif %}
 
@@ -137,19 +139,27 @@ set additionalFields =  ['contact_street_address',
 
     {%  endautoescape %}
 
-
+</tbody>
 </table>
 
 <hr/>
 
-<form action="" method="post">
-    <input type="hidden" name="cqn_instructType" value="emailQuote">
-    <input type="hidden" name="cqn_calc_form" value="1">
+ <form action="" method="post">
+     <input type="hidden" name="cqn_instructType" value="emailQuote">
+     <input type="hidden" name="cqn_calc_form" value="1">
 
-    <input type="hidden" name="cqn_quote_viewed" value="1">
-    <input type="hidden" name="CQN_calculator_ref" value="' .$calcRef .  '">
-    <input class="instruct-input" type="submit" value="Email Me Details">
-</form>
+     <input type="hidden" name="cqn_quote_viewed" value="1">
+     <input type="hidden" name="CQN_calculator_ref" value="{{  sub.getCalculatorRef() }}">
+     <input class="instruct-input" type="submit" value="Email Me Details">
+ </form>
+ <form action="" method="post">
+     <input type="hidden" name="cqn_download_quote" value="emailQuote">
+     <input type="hidden" name="cqn_calc_form" value="1">
+
+     <input type="hidden" name="cqn_quote_viewed" value="1">
+     <input type="hidden" name="CQN_calculator_ref" value="{{  sub.getCalculatorRef() }}">
+     <input class="instruct-input" type="submit" value="Download Quote">
+ </form>
 <input name="instruct_now" class="show-instruct instruct-input" id="show-instruct" type="submit" value="Instruct Solicitor Now">
 
 <div class="instruct-form" id="instruct-form" style="display: none;">
@@ -158,7 +168,7 @@ set additionalFields =  ['contact_street_address',
 
         <input type="hidden" name="cqn_instructType" value="instructNow">
         <input type="hidden" name="cqn_calc_form" value="1">
-        <input type="hidden" name="CQN_calculator_ref" value="' .$calcRef .  '">
+        <input type="hidden" name="CQN_calculator_ref" value="{{  sub.getCalculatorRef() }}">
 
         <input name="instruct_now" class="instruct instruct-input" type="submit" value="Finish">
 

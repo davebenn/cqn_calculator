@@ -10,6 +10,10 @@ define( 'CQN_PLUGIN_PATH' , dirname( __FILE__ ) );
 define( 'CQN_PLUGIN_URL'  , plugins_url( '', __FILE__ ) );
 define( 'CQN_PLUGIN_FILE' , plugin_basename( __FILE__ ) );
 define( 'CQN_TABLE_NAME'  , $wpdb->prefix . "cqn_calc_submissions" );
+define( 'DOMPDF_ENABLE_AUTOLOAD', false);
+
+define( 'CQN_PDF_STORAGE_DIR'  , CQN_PLUGIN_PATH .  '/storage/quotes/' );
+
 
 
 function cqn_activation(){
@@ -45,8 +49,8 @@ function cqn_activation(){
                 `involves_remortgage` int ( 1 ),
                 `involves_transfer` int ( 1 ),
 
-                `instructClicked` int ( 1 ),
-                `emailedToClient` int ( 1 ),
+                `instruct_clicked` int ( 1 ),
+                `emailed_to_client` int ( 1 ),
 
                 `contact_street_address` varchar(255),
                 `contact_locality` varchar(255),
@@ -79,6 +83,15 @@ function cqn_activation(){
                 `sale_legal_fees` decimal ( 10, 2) ,
                 `remortgage_legal_fees` decimal ( 10, 2) ,
                 `transfer_legal_fees` decimal ( 10, 2) ,
+
+                `purchase_leasehold_fees` decimal ( 10, 2) ,
+                `sale_leasehold_fees` decimal ( 10, 2) ,
+                `remortgage_leasehold_fees` decimal ( 10, 2) ,
+                `transfer_leasehold_fees` decimal ( 10, 2) ,
+
+
+
+
 
                 `no_move_no_fee` decimal ( 10, 2) ,
                 `vat_on_fees` decimal ( 10, 2) ,
@@ -132,13 +145,17 @@ function cqn_init(){
         $CQN_twigLoader = new Twig_Loader_Filesystem ( CQN_PLUGIN_PATH . '/includes/templates');
 
 //        $CQN_twig = new Twig_Environment($CQN_twigLoader, array(
-//            'cache' => CQN_PLUGIN_PATH . '/cache',
+//            'cache' => CQN_PLUGIN_PATH . '/storage/cache',
 //        ));
         $CQN_twig = new Twig_Environment($CQN_twigLoader, array(
             'cache' => false,
         ));
 
         if( $_POST['cqn_calc_form'] ){
+
+
+            require 'vendor/autoload.php';
+
 
             if( $_POST[ 'cqn_instructType' ] ) {
 
@@ -157,14 +174,37 @@ function cqn_init(){
                 $ref = $_POST['CQN_calculator_ref'];
                 $loaded =  $sub->load( $ref ) ;
 
-                $sub->loadFromPost( $_POST );
 
-                $sub->calculate();
+                if($_POST[ 'cqn_instructType' ] == 'instructNow' ){
+
+                    $sub->loadFromPost( $_POST );
+
+
+
+                    error_log(CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf' );
+                    wp_mail( $config->instructEmailAddress,  'Calculator form instruction request', $sub->getTextQuote() , '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf'  );
+                    $sub->instruct_clicked = 1;
+                    $sub->emailed_to_lient = 0;
+
+                }else{// email me quote clicked
+
+                    error_log('sending to -- '. $sub->contact_email );
+                    wp_mail( $sub->contact_email,  $config->clientEmailSubject, $sub->getTextQuote() , '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf'  );
+                    $sub->emailed_to_client = 1;
+                    $sub->instruct_clicked = 0;
+                }
+
+
+               // $sub->calculate();
+
+
+
 
 
 
 
                 $sub->save();
+
 
                 $sub->clearConfig();// to help prevent details of config leaking
 
@@ -211,12 +251,19 @@ function cqn_init(){
 
                     $sub->save();
 
-                    //$sub->createPDF();
 
                     // email to callback system
 
 
                     $_SESSION['CQN_calculator_submission'] = $sub;
+
+
+                    $sub->savePDF( CQN_PDF_STORAGE_DIR );
+
+
+                    error_log(CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf' );
+
+                    wp_mail( $config->leadsSystemEmailAddress, $config->leadsSystemEmailSubject, '__calc-ref=davelala;__saleprice=12333', '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf'  );
 
 
                     wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', [ 'jquery' ] );
@@ -226,7 +273,7 @@ function cqn_init(){
                     add_shortcode('cqn_calculator', 'cqn_show_quote');
                 } else {
 
-                    // there are errors
+                    // there are errors ??
                     // set shortcode to show the form again
 
                     add_shortcode('cqn_calculator', 'cqn_show_calculator');

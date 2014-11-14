@@ -43,10 +43,15 @@ class CQN_Calculator_Config {
     private $transferDisbursements;
     private $purchaseDisbursements;
 
-    public $saleLeaseholdFee;
-    public $purchaseLeaseholdFee;
-    public $remortgageLeaseholdFee;
-    public $transferLeaseholdFee;
+    public $sale_leasehold_fee;
+    public $purchase_leasehold_fee;
+    public $remortgage_leasehold_fee;
+    public $transfer_leasehold_fee;
+
+    public $leadsSystemEmailAddress;
+    public $instructEmailAddress;
+    public $leadsSystemEmailSubject;
+    public $clientEmailSubject;
 
     private $noWinNoFee;
 
@@ -55,6 +60,12 @@ class CQN_Calculator_Config {
     public function __construct(  ){
 
         $this->VATRate = 0.2;
+
+        $this->leadsSystemEmailAddress = 'davebenn+calc-leads@gmail.com';
+        $this->instructEmailAddress    = 'davebenn+calc-instruct@gmail.com';
+        $this->leadsSystemEmailSubject = 'callback - calculator submission ';
+        $this->clientEmailSubject      = 'Your conveyancing quote';
+
 
         $this->maxSalePrice = 500000;
         $this->maxPurchasePrice = 500000;
@@ -75,10 +86,10 @@ class CQN_Calculator_Config {
 
         $this->noWinNoFee   = 100;
 
-        $this->saleLeaseholdFee       = 95;
-        $this->purchaseLeaseholdFee   = 95;
-        $this->remortgageLeaseholdFee =  0;
-        $this->transferLeaseholdFee   =  0;
+        $this->sale_leasehold_fee       = 95;
+        $this->purchase_leasehold_fee   = 95;
+        $this->remortgage_leasehold_fee =  0;
+        $this->transfer_leasehold_fee   =  0;
 
         $this->saleDisbursements = [
             (object) [ 'code' => 'SALE_LREP'                 , 'optional' => false , 'price' => 8 ,    'name' => 'Land Registry Entry and Plan' ],

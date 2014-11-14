@@ -14,47 +14,48 @@ class CQN_Calculator_Submission
     private $loadedFromDB;
     private $id;
 
-    private $instructClicked;
-    private $emailedToClient;
+    public $instruct_clicked;
+    public $emailed_to_client;
 
     public $involves_sale;
     public $involves_purchase;
     public $involves_remortgage;
     public $involves_transfer;
 
-    public $purchaseLegalFees;
-    public $saleLegalFees;
-    public $remortgageLegalFees;
-    public $transferLegalFees;
-    public $purchaseLeaseholdFees;
-    public $saleLeaseholdFees;
-    public $remortgageLeaseholdFees;
-    public $transferLeaseholdFees;
+    public $purchase_legal_fees;
+    public $sale_legal_fees;
+    public $remortgage_legal_fees;
+    public $transfer_legal_fees;
 
-    public $noMoveNoFee;
+    public $purchase_leasehold_fees;
+    public $sale_leasehold_fees;
+    public $remortgage_leasehold_fees;
+    public $transfer_leasehold_fees;
 
-    public $VATOnFees;
+    public $no_move_no_fee;
 
-    public $legalFeesTotal;// $fees excluding VAT
+    public $vat_on_fees;
 
-    public $feesPlusVAT;// $fees + VAT
+    public $legal_fees_total;// $fees excluding VAT
 
-    public $quoteTotal;
-    public $discountedTotal;
+    public $fees_plus_vat;// $fees + VAT
 
-    public $purchaseDisbursementsTotal;
-    public $saleDisbursementsTotal;
-    public $remortgageDisbursementsTotal;
-    public $transferDisbursementsTotal;
-    public $disbursementsTotal;
+    public $quote_total;
+    public $discounted_total;
+
+    public $purchase_disbursements_total;
+    public $sale_disbursements_total;
+    public $remortgage_disbursements_total;
+    public $transfer_disbursements_total;
+    public $disbursements_total;
 
 
     // for storing json of disbursements at time of quoting , as they can change over time
 
-    public $purchaseDisbursementsList = [];
-    public $saleDisbursementsList = [];
-    public $remortgageDisbursementsList = [];
-    public $transferDisbursementsList = [];
+    public $purchase_disbursements_list = [];
+    public $sale_disbursements_list = [];
+    public $remortgage_disbursements_list = [];
+    public $transfer_disbursement_slist = [];
 
     public $discount_code;
     public $discount_total;
@@ -85,81 +86,83 @@ class CQN_Calculator_Submission
     public function calculate()
     {
 
-        $this->saleLegalFees = 0;
-        $this->purchaseLegalFees = 0;
-        $this->transferLegalFees = 0;
-        $this->remortgageLegalFees = 0;
+        $this->sale_legal_fees = 0;
+        $this->purchase_legal_fees = 0;
+        $this->transfer_legal_fees = 0;
+        $this->remortgage_legal_fees = 0;
 
-        $this->purchaseLeaseholdFees = 0;
-        $this->saleLeaseholdFees = 0;
-        $this->remortgageLeaseholdFees = 0;
-        $this->transferLeaseholdFees = 0;
+        $this->purchase_leasehold_fees = 0;
+        $this->sale_leasehold_fees = 0;
+        $this->remortgage_leasehold_fees = 0;
+        $this->transfer_leasehold_fees = 0;
 
-        $this->noMoveNoFee = 0;
+        $this->no_move_no_fee = 0;
 
-        $this->saleDisbursementsTotal = 0;
-        $this->purchaseDisbursementsTotal = 0;
-        $this->transferDisbursementsTotal = 0;
-        $this->remortgageDisbursementsTotal = 0;
+        $this->sale_disbursements_total = 0;
+        $this->purchase_disbursements_total = 0;
+        $this->transfer_disbursements_total = 0;
+        $this->remortgage_disbursements_total = 0;
 
-        $this->disbursementsTotal = 0;
+        $this->disbursements_total = 0;
 
-        $this->legalFeesTotal = 0;
-        $this->VATOnFees = 0;
-        $this->quoteTotal = 0;
+        $this->legal_fees_total = 0;
+        $this->vat_on_fees = 0;
+        $this->quote_total = 0;
 
         if ($this->involves_sale) {
 
-            $this->saleLegalFees = $this->config->getSaleFees($this->sale_price);
+            $this->sale_legal_fees = $this->config->getSaleFees($this->sale_price);
 
             if ($this->sale_leasehold) {
-                $this->saleLeaseholdFees = $this->config->saleLeaseholdFee;
+                $this->sale_leasehold_fees = $this->config->sale_leasehold_fee;
             }
 
             $saleDisbursements = $this->config->getSaleDisbursements();
 
+
             foreach ($saleDisbursements as $disbursement) {
-                $this->saleDisbursementsTotal += $disbursement->price;
-                $this->saleDisbursementsList[] = $disbursement;
+                $this->sale_disbursements_total += $disbursement->price;
+                $this->sale_disbursements_list[] = $disbursement;
             }
+            error_log(  print_r( $this->sale_disbursements_list, true ));
         }
 
         if ($this->involves_purchase) {
 
-            $this->purchaseLegalFees = $this->config->getPurchaseFees($this->purchase_price);
+            $this->purchase_legal_fees = $this->config->getPurchaseFees($this->purchase_price);
 
             if ($this->purchase_leasehold) {
-                $this->purchaseLeaseholdFees = $this->config->purchaseLeaseholdFee;
+                $this->purchase_leasehold_fees = $this->config->purchase_leasehold_fee;
             }
             $purchaseDisbursements = $this->config->getPurchaseDisbursements();
 
             foreach ($purchaseDisbursements as $disbursement) {
                 if( $disbursement->code == 'PURCHASE_BS' ) {
                     for( $i = 1; $i <= $this->purchase_no_of_buyers; $i++ ){
-                        $this->purchaseDisbursementsTotal += $disbursement->price;
-                        $this->purchaseDisbursementsList[] = $disbursement;
+                        $this->purchase_disbursements_total += $disbursement->price;
+                        $this->purchase_disbursements_list[] = $disbursement;
                     }
                 }else {
-                    $this->purchaseDisbursementsTotal += $disbursement->price;
-                    $this->purchaseDisbursementsList[] = $disbursement;
+                    $this->purchase_disbursements_total += $disbursement->price;
+                    $this->purchase_disbursements_list[] = $disbursement;
                 }
             }
 
             $stampDuty = $this->config->getStampDuty( $this->purchase_price, $this->purchase_1st_time_buyer );
-            $this->purchaseDisbursementsTotal += $stampDuty;
-            $this->purchaseDisbursementsList[] = (object) [ 'code' => 'PURCHASE_SD'       , 'optional' => false      , 'price' => $stampDuty ,    'name' => 'Stamp Duty' ];
+            $this->purchase_disbursements_total += $stampDuty;
+            $this->purchase_disbursements_list[] = (object) [ 'code' => 'PURCHASE_SD'       , 'optional' => false      , 'price' => $stampDuty ,    'name' => 'Stamp Duty' ];
 
             $landRegistryFee = $this->config->getSPLandRegistryFees( $this->purchase_price );
-            $this->purchaseDisbursementsTotal += $landRegistryFee;
-            $this->purchaseDisbursementsList[] = (object) [ 'code' => 'PURCHASE_LRF'     , 'optional' => false        , 'price' => $landRegistryFee ,    'name' => 'Land Registry Fee' ];
+            $this->purchase_disbursements_total += $landRegistryFee;
+            $this->purchase_disbursements_list[] = (object) [ 'code' => 'PURCHASE_LRF'     , 'optional' => false        , 'price' => $landRegistryFee ,    'name' => 'Land Registry Fee' ];
         }
 
         if ($this->involves_remortgage) {
 
-            $this->remortgageLegalFees = $this->config->getRemortgageFees($this->remortgage_price);
+            $this->remortgage_legal_fees = $this->config->getRemortgageFees($this->remortgage_price);
 
             if ($this->remortgage_leasehold) {
-                $this->remortgageLeaseholdFees = $this->config->remortgageLeaseholdFee;
+                $this->remortgage_leasehold_fees = $this->config->remortgage_leasehold_fee;
             }
             $remortgageDisbursements = $this->config->getRemortgageDisbursements();
 
@@ -167,26 +170,26 @@ class CQN_Calculator_Submission
 
                 if( $disbursement->code == 'REMORTGAGE_BS' ) {
                     for( $i = 1; $i <= $this->remortgage_no_of_people; $i++ ){
-                        $this->remortgageDisbursementsTotal += $disbursement->price;
-                        $this->remortgageDisbursementsList[] = $disbursement;
+                        $this->remortgage_disbursements_total += $disbursement->price;
+                        $this->remortgage_disbursements_list[] = $disbursement;
                     }
                 }else {
-                    $this->remortgageDisbursementsTotal += $disbursement->price;
-                    $this->remortgageDisbursementsList[] = $disbursement;
+                    $this->remortgage_disbursements_total += $disbursement->price;
+                    $this->remortgage_disbursements_list[] = $disbursement;
                 }
             }
 
             $landRegistryFee = $this->config->getRTLandRegistryFees( $this->remortgage_price );
-            $this->remortgageDisbursementsTotal += $landRegistryFee;
-            $this->remortgageDisbursementsList[] = (object) [ 'code' => 'REMORTGAGE_LRF'     , 'optional' => false        , 'price' => $landRegistryFee ,    'name' => 'Land Registry Fee' ];
+            $this->remortgage_disbursements_total += $landRegistryFee;
+            $this->remortgage_disbursements_list[] = (object) [ 'code' => 'REMORTGAGE_LRF'     , 'optional' => false        , 'price' => $landRegistryFee ,    'name' => 'Land Registry Fee' ];
         }
 
         if ($this->involves_transfer) {
 
-            $this->transferLegalFees = $this->config->getTransferFees($this->transfer_price);
+            $this->transfer_legal_fees = $this->config->getTransferFees($this->transfer_price);
 
             if ($this->transfer_leasehold) {
-                $this->transferLeaseholdFees = $this->config->transferLeaseholdFee;
+                $this->transfer_leasehold_fees = $this->config->transfer_leasehold_fee;
             }
             $transferDisbursements = $this->config->getTransferDisbursements();
 
@@ -194,36 +197,36 @@ class CQN_Calculator_Submission
 
                 if( $disbursement->code == 'TRANSFER_BS' ) {
                     for( $i = 1; $i <= $this->transfer_no_of_people; $i++ ){
-                        $this->transferDisbursementsTotal += $disbursement->price;
+                        $this->transfer_disbursements_total += $disbursement->price;
 
-                        $this->transferDisbursementsList[] = $disbursement;
+                        $this->transfer_disbursements_list[] = $disbursement;
                     }
                 }else {
-                    $this->transferDisbursementsTotal += $disbursement->price;
-                    $this->transferDisbursementsList[] = $disbursement;
+                    $this->transfer_disbursements_total += $disbursement->price;
+                    $this->transfer_disbursements_list[] = $disbursement;
                 }
             }
 
             $landRegistryFee = $this->config->getRTLandRegistryFees( $this->transfer_price );
-            $this->transferDisbursementsTotal += $landRegistryFee;
-            $this->transferDisbursementsList[] = (object) [ 'code' => 'TRANSFER_LRF'     , 'optional' => false        , 'price' => $landRegistryFee ,    'name' => 'Land Registry Fee' ];
+            $this->transfer_disbursements_total += $landRegistryFee;
+            $this->transfer_disbursements_list[] = (object) [ 'code' => 'TRANSFER_LRF'     , 'optional' => false        , 'price' => $landRegistryFee ,    'name' => 'Land Registry Fee' ];
         }
 
-        $this->legalFeesTotal = $this->saleLegalFees + $this->purchaseLegalFees + $this->remortgageLegalFees + $this->transferLegalFees +
-            $this->saleLeaseholdFees + $this->purchaseLeaseholdFees + $this->remortgageLeaseholdFees + $this->transferLeaseholdFees +
-            $this->noMoveNoFee;
+        $this->legal_fees_total = $this->sale_legal_fees + $this->purchase_legal_fees + $this->remortgage_legal_fees + $this->transfer_legal_fees +
+            $this->sale_leasehold_fees + $this->purchase_leasehold_fees + $this->remortgage_leasehold_fees + $this->transfer_leasehold_fees +
+            $this->no_move_no_fee;
 
-        $this->disbursementsTotal = $this->saleDisbursementsTotal +
-            $this->purchaseDisbursementsTotal +
-            $this->remortgageDisbursementsTotal +
-            $this->transferDisbursementsTotal;
+        $this->disbursements_total = $this->sale_disbursements_total +
+            $this->purchase_disbursements_total +
+            $this->remortgage_disbursements_total +
+            $this->transfer_disbursements_total;
 
 
-        $this->VATOnFees = $this->legalFeesTotal * $this->config->VATRate;
+        $this->vat_on_fees = $this->legal_fees_total * $this->config->VATRate;
 
-        $this->feesPlusVAT = $this->VATOnFees + $this->legalFeesTotal;
+        $this->fees_plus_vat = $this->vat_on_fees + $this->legal_fees_total;
 
-        $this->quoteTotal = $this->legalFeesTotal + $this->VATOnFees + $this->disbursementsTotal;
+        $this->quote_total = $this->legal_fees_total + $this->vat_on_fees + $this->disbursements_total;
 
         $this->applyDiscount();
 
@@ -242,7 +245,7 @@ class CQN_Calculator_Submission
                             $this->discount_total = $discount->amount;
                             break;
                 case 'P':
-                            $this->discount_total = ( $discount->amount * $this->quoteTotal );
+                            $this->discount_total = ( $discount->amount * $this->quote_total );
                             break;
                 default:
 
@@ -255,7 +258,7 @@ class CQN_Calculator_Submission
             $this->discount_total = 0;
         }
 
-        $this->discountedTotal = $this->quoteTotal - $this->discount_total ;
+        $this->discounted_total = $this->quote_total - $this->discount_total ;
 
     }
 
@@ -379,6 +382,42 @@ class CQN_Calculator_Submission
             $this->contact_telephone = $submission->contact_telephone;
             $this->contact_name = $submission->contact_name;
 
+            $this->purchase_disbursements_list   = json_decode( $submission->purchase_disbursements_list );
+            $this->sale_disbursements_list       = json_decode( $submission->sale_disbursements_list );
+            $this->remortgage_disbursements_list = json_decode( $submission->remortgage_disbursements_list );
+            $this->transfer_disbursements_list   = json_decode( $submission->transfer_disbursements_list );
+
+            error_log( print_r( $this->sale_disbursements_list , true) );
+
+            $this->purchase_legal_fees  = $submission->purchase_legal_fees;
+            $this->sale_legal_fees  = $submission->sale_legal_fees;
+            $this->remortgage_legal_fees  = $submission->remortgage_legal_fees;
+            $this->transfer_legal_fees  = $submission->transfer_legal_fees;
+
+            $this->purchase_leasehold_fees  = $submission->purchase_leasehold_fees;
+            $this->sale_leasehold_fees  = $submission->sale_leasehold_fees;
+            $this->remortgage_leasehold_fees  = $submission->remortgage_leasehold_fees;
+            $this->transfer_leasehold_fees  = $submission->transfer_leasehold_fees;
+
+            $this->vat_on_fees  = $submission->vat_on_fees;
+
+            $this->no_move_no_fee  = $submission->no_move_no_fee;
+
+            $this->quote_total  = $submission->quote_total;
+            $this->discount_total  = $submission->discount_total;
+            $this->discounted_total  = $submission->discounted_total;
+
+
+            $this->purchase_disbursements_total  = $submission->purchase_disbursements_total;
+            $this->sale_disbursements_total  = $submission->sale_disbursements_total;
+            $this->remortgage_disbursements_total  = $submission->remortgage_disbursements_total;
+            $this->transfer_disbursements_total  = $submission->transfer_disbursements_total;
+            $this->disbursements_total  = $submission->disbursements_total;
+
+
+            $this->instructClicked  = $submission->instructClicked;
+            $this->emailedToClient  = $submission->emailedToClient;
+
             $this->loadedFromDB = true;
             error_log( 'db loaded for ref: '.$calcRef );
             return true;
@@ -465,44 +504,55 @@ class CQN_Calculator_Submission
             'transfer_town'                => mysql_real_escape_string($this->transfer_town),
             'transfer_postcode'            => mysql_real_escape_string($this->transfer_postcode),
 
-            'purchase_disbursements_total'   => $this->purchaseDisbursementsTotal,
-            'sale_disbursements_total'       => $this->saleDisbursementsTotal,
-            'remortgage_disbursements_total' => $this->remortgageDisbursementsTotal,
-            'transfer_disbursements_total'   => $this->transferDisbursementsTotal,
-            'disbursements_total'            => $this->disbursementsTotal,
+            'purchase_disbursements_total'   => $this->purchase_disbursements_total,
+            'sale_disbursements_total'       => $this->sale_disbursements_total,
+            'remortgage_disbursements_total' => $this->remortgage_disbursements_total,
+            'transfer_disbursements_total'   => $this->transfer_disbursements_total,
+            'disbursements_total'            => $this->disbursements_total,
 
-            'purchase_disbursements_list'    => json_encode(  $this->purchaseDisbursementsList ),
-            'sale_disbursements_list'        => json_encode(  $this->saleDisbursementsList ),
-            'remortgage_disbursements_list'  => json_encode(  $this->remortgageDisbursementsList ),
-            'transfer_disbursements_list'    => json_encode(  $this->transferDisbursementsList ),
+            'purchase_disbursements_list'    => json_encode(  $this->purchase_disbursement_slist ),
+            'sale_disbursements_list'        => json_encode(  $this->sale_disbursement_slist ),
+            'remortgage_disbursements_list'  => json_encode(  $this->remortgage_disbursement_slist ),
+            'transfer_disbursements_list'    => json_encode(  $this->transfer_disbursement_slist ),
 
 
-            'purchase_legal_fees'		=> $this->purchaseLegalFees,
-            'sale_legal_fees'		=> $this->saleLegalFees,
-            'remortgage_legal_fees'		=> $this->remortgageLegalFees,
-            'transfer_legal_fees'		=> $this->transferLegalFees,
+            'purchase_legal_fees'		=> $this->purchase_legal_fees,
+            'sale_legal_fees'		=> $this->sale_legal_fees,
+            'remortgage_legal_fees'		=> $this->remortgage_legal_fees,
+            'transfer_legal_fees'		=> $this->transfer_legal_fees,
 
-            'vat_on_fees' => $this->VATOnFees,
-            'no_move_no_fee' => $this->noMoveNoFee,
-            'quote_total' => $this->quoteTotal ,
-            'discounted_total' => $this->discountedTotal ,
+            'purchase_leasehold_fees'		=> $this->purchase_leasehold_fees,
+            'sale_leasehold_fees'		=> $this->sale_leasehold_fees,
+            'remortgage_leasehold_fees'		=> $this->remortgage_leasehold_fees,
+            'transfer_leasehold_fees'		=> $this->transfer_leasehold_fees,
+
+
+
+            'vat_on_fees' => $this->vat_on_fees,
+            'no_move_no_fee' => $this->no_move_no_fee,
+            'quote_total' => $this->quote_total ,
+            'discounted_total' => $this->discounted_total ,
             'discount_total' => $this->discount_total ,
 
             'involves_sale'		    => $this->involves_sale,
             'involves_purchase'		=> $this->involves_purchase,
             'involves_remortgage'	=> $this->involves_remortgage,
-            'involves_transfer'		=> $this->involves_transfer
+            'involves_transfer'		=> $this->involves_transfer,
+
+            'instruct_clicked'	    => $this->instruct_clicked,
+            'emailed_to_client'		=> $this->emailed_to_client
+
 
 
 
         );
 /*
  *
- *   $this->VATOnFees = $this->legalFeesTotal * $this->config->VATRate;
+ *   $this->vat_on_fees = $this->legal_fees_total * $this->config->VATRate;
 
-        $this->feesPlusVAT = $this->VATOnFees + $this->legalFeesTotal;
+        $this->fees_plus_vat = $this->vat_on_fees + $this->legal_fees_total;
 
-        $this->quoteTotal = $this->legalFeesTotal + $this->VATOnFees + $this->disbursementsTotal;
+        $this->quote_total = $this->legal_fees_total + $this->vat_on_fees + $this->disbursements_total;
 
  * */
 
@@ -547,39 +597,39 @@ class CQN_Calculator_Submission
         $ret  .= "\nTransfer Price        =  " . number_format( (int)$this->transfer_price , 2);
         $ret  .= "\n-------------------------------";
 
-        $ret  .= "\nSale LH Fee           =  " . number_format($this->saleLeaseholdFees , 2);
-        $ret  .= "\nPurchase LH Fee       =  " . number_format($this->purchaseLeaseholdFees , 2);
-        $ret  .= "\nRemortgage LH Fee     =  " . number_format($this->remortgageLeaseholdFees , 2);
-        $ret  .= "\nTransfer LH Fee       =  " . number_format($this->transferLeaseholdFees , 2);
+        $ret  .= "\nSale LH Fee           =  " . number_format( (int) $this->sale_leasehold_fees , 2);
+        $ret  .= "\nPurchase LH Fee       =  " . number_format( (int) $this->purchase_leasehold_fees , 2);
+        $ret  .= "\nRemortgage LH Fee     =  " . number_format( (int) $this->remortgage_leasehold_fees , 2);
+        $ret  .= "\nTransfer LH Fee       =  " . number_format( (int) $this->transfer_leasehold_fees , 2);
 
         $ret  .= "\n-------------------------------";
 
-        $ret  .= "\nSale Fees Total       =  " . number_format($this->saleLegalFees , 2);
-        $ret  .= "\nPurchase Fees Total   =  " . number_format($this->purchaseLegalFees , 2);
-        $ret  .= "\nRemortgage Fees Total =  " . number_format($this->remortgageLegalFees , 2);
-        $ret  .= "\nTransfer Fees Total   =  " . number_format($this->transferLegalFees , 2);
+        $ret  .= "\nSale Fees Total       =  " . number_format( (int) $this->sale_legal_fees , 2);
+        $ret  .= "\nPurchase Fees Total   =  " . number_format( (int) $this->purchase_legal_fees , 2);
+        $ret  .= "\nRemortgage Fees Total =  " . number_format( (int) $this->remortgage_legal_fees , 2);
+        $ret  .= "\nTransfer Fees Total   =  " . number_format( (int) $this->transfer_legal_fees , 2);
 
-        $ret  .= "\nVat                   =  " . number_format($this->VATOnFees , 2);
-
-        $ret  .= "\n         -------------------------------";
-        $ret  .= "\n         Fees incl VAT    =           " . number_format($this->feesPlusVAT , 2);
-        $ret  .= "\n         -------------------------------";
-
-
-        $ret  .= "\nSale Disb             =  " . number_format($this->saleDisbursementsTotal , 2);
-        $ret  .= "\nPurchase Disb         =  " . number_format($this->purchaseDisbursementsTotal , 2);
-        $ret  .= "\nRemortgage Disb       =  " . number_format($this->remortgageDisbursementsTotal , 2);
-        $ret  .= "\nTransfer Disb         =  " . number_format($this->transferDisbursementsTotal , 2);
-
-        $ret  .= "\n         Disb. Total      =           " . number_format($this->disbursementsTotal , 2);
-        $ret  .= "\n         -------------------------------";
-        $ret  .= "\n         Quote Total      =           " . number_format($this->quoteTotal , 2);
+        $ret  .= "\nVat                   =  " . number_format( (int) $this->vat_on_fees , 2);
 
         $ret  .= "\n         -------------------------------";
-        $ret  .= "\n         Discount Amount  =           " . number_format($this->discount_total , 2);
+        $ret  .= "\n         Fees incl VAT    =           " . number_format( (int) $this->fees_plus_vat , 2);
+        $ret  .= "\n         -------------------------------";
+
+
+        $ret  .= "\nSale Disb             =  " . number_format( (int) $this->sale_disbursements_total , 2);
+        $ret  .= "\nPurchase Disb         =  " . number_format( (int) $this->purchase_disbursements_total , 2);
+        $ret  .= "\nRemortgage Disb       =  " . number_format( (int) $this->remortgage_disbursements_total , 2);
+        $ret  .= "\nTransfer Disb         =  " . number_format( (int) $this->transfer_disbursements_total , 2);
+
+        $ret  .= "\n         Disb. Total      =           " . number_format( (int) $this->disbursements_total , 2);
+        $ret  .= "\n         -------------------------------";
+        $ret  .= "\n         Quote Total      =           " . number_format( (int) $this->quote_total , 2);
 
         $ret  .= "\n         -------------------------------";
-        $ret  .= "\n         Discounted Total =           " . number_format($this->discountedTotal , 2);
+        $ret  .= "\n         Discount Amount  =           " . number_format( (int) $this->discount_total , 2);
+
+        $ret  .= "\n         -------------------------------";
+        $ret  .= "\n         Discounted Total =           " . number_format( (int) $this->discounted_total , 2);
 
 
 
@@ -589,11 +639,54 @@ class CQN_Calculator_Submission
 
     public function getDisbursements()
     {
-        return array_merge( $this->purchaseDisbursementsList, $this->saleDisbursementsList, $this->remortgageDisbursementsList, $this->transferDisbursementsList );
+        return array_merge( $this->purchase_disbursements_list, $this->sale_disbursements_list, $this->remortgage_disbursements_list, $this->transfer_disbursement_slist );
     }
 
     public function clearConfig(){
         $this->config = 'XoXoXoXoXoXoXoX';
     }
+
+    public function savePDF( $saveDir )
+    {
+
+        require_once CQN_PLUGIN_PATH . '/vendor/dompdf/dompdf/dompdf_config.inc.php';
+
+        $html = $this->getPDFQuoteHTML();
+
+        $dompdf = new DOMPDF();
+        $dompdf->load_html($html);
+        $dompdf->render();
+        $saved = file_put_contents( $saveDir . $this->calculator_ref . '.pdf' , $dompdf->output() );
+        return $saved;
+//        $dompdf->stream( $this->calculator_ref .  '' . '.pdf' );
+
+    }
+
+
+    public function getPDFQuoteHTML()
+    {
+        global $CQN_twig;
+        $template = $CQN_twig->loadTemplate('calc-quote-pdf.twig');
+
+        $styles = '<style type="text/css">' . file_get_contents( CQN_PLUGIN_PATH . '/includes/css/cqn_pdf-quote.css' ) . '</style>';
+
+        $html = '<html><head>'.$styles.'</head><body>';
+
+//            $html .= $this->getTextQuote();
+        $html .=  $template->render( [ 'sub' => $_SESSION['CQN_calculator_submission'] ] );
+
+        $html .= '</body></html>';
+
+
+
+
+        return $html;
+    }
+
+
+    function emailToLeadsSystem(){
+        return true;
+    }
+
 
 }
