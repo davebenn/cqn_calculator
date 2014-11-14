@@ -151,6 +151,8 @@ function cqn_init(){
             'cache' => false,
         ));
 
+        $CQN_twig->getExtension('core')->setNumberFormat(2, '.', ',');
+
         if( isset( $_POST['cqn_calc_form'] ) ){
 
 

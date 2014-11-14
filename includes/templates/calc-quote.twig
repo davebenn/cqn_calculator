@@ -39,7 +39,7 @@ set additionalFields =  {
     {% autoescape false %}
         {#==== FEES  START====  #}
 
-        <tr class="heading-row"><td>Fees</td></tr>
+        <tr class="heading-row"><td colspan=2>Fees</td></tr>
 
         {#
             fees
@@ -55,21 +55,21 @@ set additionalFields =  {
         #}
 
 
-        {{ sub.involves_sale              ?  '<tr ><td>Sale Legal Fees</td><td  class="amount">'           ~ sub.sale_legal_fees           ~ '</td></tr>' : '' }}
-        {{ sub.involves_purchase          ?  '<tr ><td>Purchase Legal Fees</td><td  class="amount">'       ~ sub.purchase_legal_fees       ~ '</td></tr>' : '' }}
-        {{ sub.involves_remortgage        ?  '<tr ><td>Remortgage Legal Fees</td><td  class="amount">'     ~ sub.remortgage_legal_fees     ~ '</td></tr>' : '' }}
-        {{ sub.involves_transfer          ?  '<tr ><td>Transfer Legal Fees</td><td  class="amount">'       ~ sub.transfer_legal_fees       ~ '</td></tr>' : '' }}
+        {{ sub.involves_sale              ?  '<tr ><td>Sale Legal Fees</td><td  class="amount">'           ~ sub.sale_legal_fees|number_format            ~ '</td></tr>' : '' }}
+        {{ sub.involves_purchase          ?  '<tr ><td>Purchase Legal Fees</td><td  class="amount">'       ~ sub.purchase_legal_fees|number_format        ~ '</td></tr>' : '' }}
+        {{ sub.involves_remortgage        ?  '<tr ><td>Remortgage Legal Fees</td><td  class="amount">'     ~ sub.remortgage_legal_fees|number_format      ~ '</td></tr>' : '' }}
+        {{ sub.involves_transfer          ?  '<tr ><td>Transfer Legal Fees</td><td  class="amount">'       ~ sub.transfer_legal_fees|number_format        ~ '</td></tr>' : '' }}
 
-        {{ sub.sale_leasehold_fees        ?  '<tr ><td>Sale Leasehold Fees</td><td  class="amount">'       ~ sub.sale_leasehold_fees       ~ '</td></tr>' : '' }}
-        {{ sub.purchase_leasehold_fees    ?  '<tr ><td>Purchase Leasehold Fees</td><td  class="amount">'   ~ sub.purchase_leasehold_fees   ~ '</td></tr>' : '' }}
-        {{ sub.remortgage_leasehold_fees  ?  '<tr ><td>Remortgage Leasehold Fees</td><td  class="amount">' ~ sub.remortgage_leasehold_fees ~ '</td></tr>' : '' }}
-        {{ sub.transfer_leasehold_fees    ?  '<tr ><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.transfer_leasehold_fees   ~ '</td></tr>' : '' }}
-        {{ sub.no_move_no_fee             ?  '<tr ><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.no_move_no_fee            ~ '</td></tr>' : '' }}
+        {{ sub.sale_leasehold_fees        ?  '<tr ><td>Sale Leasehold Fees</td><td  class="amount">'       ~ sub.sale_leasehold_fees|number_format        ~ '</td></tr>' : '' }}
+        {{ sub.purchase_leasehold_fees    ?  '<tr ><td>Purchase Leasehold Fees</td><td  class="amount">'   ~ sub.purchase_leasehold_fees|number_format    ~ '</td></tr>' : '' }}
+        {{ sub.remortgage_leasehold_fees  ?  '<tr ><td>Remortgage Leasehold Fees</td><td  class="amount">' ~ sub.remortgage_leasehold_fees|number_format  ~ '</td></tr>' : '' }}
+        {{ sub.transfer_leasehold_fees    ?  '<tr ><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.transfer_leasehold_fees|number_format    ~ '</td></tr>' : '' }}
+        {{ sub.no_move_no_fee             ?  '<tr ><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.no_move_no_fee|number_format             ~ '</td></tr>' : '' }}
 
             {# no move no fee ???? #}
 
-        <tr class="vat-row"   ><td>VAT On Fees</td><td class="amount">{{ sub.vat_on_fees }}</td></tr>
-        <tr class="total-row" ><td>Fees Total</td><td class="amount">{{ sub.fees_plus_vat }}</td></tr>
+        <tr class="vat-row"   ><td>VAT On Fees</td><td class="amount">{{  sub.vat_on_fees|number_format  }}</td></tr>
+        <tr class="total-row" ><td>Fees Total</td><td class="amount">{{ sub.fees_plus_vat|number_format  }}</td></tr>
 
 
 
@@ -78,47 +78,47 @@ set additionalFields =  {
         {#==== DISBURSEMENTS START====  #}
 
             {% if sub.involves_sale %}
-                <tr class="heading-row"><td>Sale Disbursements</td></tr>
+                <tr class="heading-row"><td colspan=2>Sale Disbursements</td></tr>
                 {%  for disb in sub.sale_disbursements_list %}
                     <tr class="{{ disb.optional ? 'disb-optional' : 'disb-mandatory' }}">
                         <td>{{  disb.name }}</td>
-                        <td>{{  disb.price }}</td>
+                        <td class="amount">{{  disb.price|number_format  }}</td>
                     </tr>
                 {%  endfor %}
-                <tr  class="total-row"><td>SaleDisbursements       Total</td><td  class="amount">{{   sub.sale_disbursements_total       }}</td></tr>
+                <tr  class="total-row"><td>SaleDisbursements       Total</td><td  class="amount">{{   sub.sale_disbursements_total|number_format        }}</td></tr>
             {% endif %}
 
             {% if sub.involves_purchase %}
-                <tr class="heading-row"><td>Purchase Disbursements</td></tr>
+                <tr class="heading-row"><td colspan=2>Purchase Disbursements</td></tr>
                 {%  for disb in sub.purchase_disbursements_list %}
                     <tr class="{{ disb.optional ? 'disb-optional' : 'disb-mandatory' }}">
                         <td>{{  disb.name }}</td>
-                        <td>{{  disb.price }}</td>
+                        <td class="amount">{{  disb.price|number_format  }}</td>
                     </tr>
                 {%  endfor %}
-                <tr class="total-row"><td>PurchaseDisbursements   Total</td><td  class="amount">{{   sub.purchase_disbursements_total   }}</td></tr>
+                <tr class="total-row"><td>PurchaseDisbursements   Total</td><td  class="amount">{{   sub.purchase_disbursements_total|number_format    }}</td></tr>
             {% endif %}
 
             {% if sub.involves_remortgage %}
-                <tr class="heading-row"><td>Remortgage Disbursements</td></tr>
+                <tr class="heading-row"><td colspan=2>Remortgage Disbursements</td></tr>
                 {%  for disb in sub.remortgage_disbursements_list %}
                     <tr class="{{ disb.optional ? 'disb-optional' : 'disb-mandatory' }}">
                         <td>{{  disb.name }}</td>
-                        <td>{{  disb.price }}</td>
+                        <td class="amount">{{  disb.price|number_format  }}</td>
                     </tr>
                 {%  endfor %}
-                <tr class="total-row"><td>RemortgageDisbursements Total</td><td  class="amount">{{   sub.remortgage_disbursements_total }}</td></tr>
+                <tr class="total-row"><td>RemortgageDisbursements Total</td><td  class="amount">{{   sub.remortgage_disbursements_total|number_format  }}</td></tr>
             {% endif %}
 
             {% if sub.involves_transfer %}
-                <tr class="heading-row"><td>Transfer Disbursements</td></tr>
+                <tr class="heading-row"><td colspan=2>Transfer Disbursements</td></tr>
                 {%  for disb in sub.transfer_disbursements_list %}
                     <tr class="{{ disb.optional ? 'disb-optional' : 'disb-mandatory' }}">
                         <td>{{  disb.name }}</td>
-                        <td>{{  disb.price }}</td>
+                        <td class="amount">{{  disb.price|number_format  }}</td>
                     </tr>
                 {%  endfor %}
-                <tr class="total-row"><td>TransferDisbursements   Total</td><td  class="amount">{{   sub.transfer_disbursements_total   }}</td></tr>
+                <tr class="total-row"><td>TransferDisbursements   Total</td><td  class="amount">{{   sub.transfer_disbursements_total|number_format    }}</td></tr>
             {% endif %}
 
     {# ==== DISBURSEMENTS END ====  #}
@@ -126,14 +126,14 @@ set additionalFields =  {
 
 
 
-            <tr><td class="total-row">Disbursements Total</td><td  class="amount">{{             sub.disbursements_total           }}</td></tr>
+            <tr><td class="total-row">Disbursements Total</td><td  class="amount">{{             sub.disbursements_total|number_format            }}</td></tr>
 
-            <tr><td class="total-row">Total</td><td  class="amount">{{                           sub.quote_total           }}</td></tr>
+            <tr><td class="total-row">Total</td><td  class="amount">{{                           sub.quote_total|number_format            }}</td></tr>
 
 
             {%  if( sub.discount_total ) %}
-                <tr><td class="discount-total">Discount</td><td  class="amount">{{                     sub.discount_total           }}</td></tr>
-                <tr><td class="total-row discounted-total">Discounted Total</td><td  class="amount">{{             sub.discounted_total           }}</td></tr>
+                <tr><td class="discount-total">Discount</td><td  class="amount">{{                     sub.discount_total|number_format            }}</td></tr>
+                <tr><td class="total-row discounted-total">Discounted Total</td><td  class="amount">{{             sub.discounted_total|number_format            }}</td></tr>
 
             {%  endif %}
 

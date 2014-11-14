@@ -9,7 +9,7 @@ jQuery(document).ready(function( $ ) {
 
     $('input[name=remortgage_involves_transfer]:checkbox').change(function () {
         if($(this).is(':checked')){
-            transfer_section.show();
+            transfer_section.show( 'slow' );
         }else{
             transfer_section.hide();
         }
@@ -63,6 +63,9 @@ jQuery(document).ready(function( $ ) {
     //});
 
     $( '#quote_type').change( function( e ){
+
+        var showSpeed = 'slow';
+
         section = $(this).val();
             section = $(this).val();
             sale_section.hide();
@@ -81,31 +84,31 @@ jQuery(document).ready(function( $ ) {
             switch(section)
             {
                 case 'sale':
-                    sale_section.show();
+                    sale_section.show(showSpeed  );
                     sale_section.find(':input').removeClass('ignore');
-                    no_move.show();
+                    no_move.show(showSpeed);
                     break;
                 case 'purchase':
-                    purchase_section.show();
+                    purchase_section.show(showSpeed);
                     purchase_section.find(':input').removeClass('ignore');
-                    no_move.show();
+                    no_move.show(showSpeed);
                     break;
                 case 'sale_purchase':
-                    sale_section.show();
-                    purchase_section.show();
+                    sale_section.show(showSpeed);
+                    purchase_section.show(showSpeed);
                     sale_section.find(':input').removeClass('ignore');
                     purchase_section.find(':input').removeClass('ignore');
-                    no_move.show();
+                    no_move.show(showSpeed);
                     break;
                 case 'remortgage':
-                    remortgage_section.show();
+                    remortgage_section.show(showSpeed);
                     remortgage_section.find(':input').removeClass('ignore');
                     if($('input[name=remortgage_involves_transfer]:checkbox').is(':checked')){
-                        transfer_section.show();
+                        transfer_section.show(showSpeed);
                     }
                     break;
                 case 'transfer':
-                    transfer_section.show();
+                    transfer_section.show(showSpeed);
                     transfer_section.find(':input').removeClass('ignore');
                     break;
             }
