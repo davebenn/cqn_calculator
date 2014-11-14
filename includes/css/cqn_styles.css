@@ -1,3 +1,8 @@
-input{
-    color: #44a;
+input {
+  color: #4aa;
+}
+
+table .heading-row {
+  background-color: #0033DD;
+  color: #fff;
 }

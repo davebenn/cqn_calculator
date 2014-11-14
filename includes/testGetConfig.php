@@ -10,44 +10,19 @@ echo "\n";
 $config = new CQN_Calculator_Config;
 
 
-
-
-$sub = new CQN_Calculator_Submission( $config );
-
-$sub->loadFromPost( [   'quote_type' => 'sale_purchase',
-                        'purchase_no_of_buyers' => 2,
-                        'purchase_leasehold' => true,
-                        'purchase_price'     => 350000,
-                        'purchase_1st_time_buyer'     => true,
-                        'sale_price'         => 400000,
-                        'sale_leasehold'         => true,
-                        'sale_price'         => 400000,
-                        'discount_code'         => 'dbhalved12',
-
-] );
-
-$sub->calculate();
-
-echo $sub->getTextQuote();
-echo "\n";
-
-foreach( $sub->getDisbursements() as $db ){
-    echo "\n ". $db->code . " : ". $db->name . " - " . number_format( $db->price, 2 );
-}
-
-
-
-
+//
 //
 //$sub = new CQN_Calculator_Submission( $config );
 //
-//$sub->loadFromPost( [   'quote_type' => 'remortgage',
-//                        'remortgage_involves_transfer' => 1,
-//                        'remortgage_no_of_people' => 2,
-//                        'transfer_no_of_people' => 2,
-//                        'transfer_leasehold' => 1,
-//                        'transfer_price'        => 80000,
-//                        'remortgage_price'        => 250000,
+//$sub->loadFromPost( [   'quote_type' => 'sale_purchase',
+//                        'purchase_no_of_buyers' => 2,
+//                        'purchase_leasehold' => true,
+//                        'purchase_price'     => 350000,
+//                        'purchase_1st_time_buyer'     => true,
+//                        'sale_price'         => 400000,
+//                        'sale_leasehold'         => true,
+//                        'sale_price'         => 400000,
+//                        'discount_code'         => 'dbhalved12',
 //
 //] );
 //
@@ -57,8 +32,33 @@ foreach( $sub->getDisbursements() as $db ){
 //echo "\n";
 //
 //foreach( $sub->getDisbursements() as $db ){
-//    echo "\n ". $db->code . " : ". $db->name . " - " . number_format( $db->price );
+//    echo "\n ". $db->code . " : ". $db->name . " - " . number_format( $db->price, 2 );
 //}
+//
+//
+
+
+
+$sub = new CQN_Calculator_Submission( $config );
+
+$sub->loadFromPost( [   'quote_type' => 'remortgage',
+                        'remortgage_involves_transfer' => 1,
+                        'remortgage_no_of_people' => 2,
+                        'transfer_no_of_people' => 2,
+                        'transfer_leasehold' => 1,
+                        'transfer_price'        => 80000,
+                        'remortgage_price'        => 250000,
+
+] );
+
+$sub->calculate();
+
+echo $sub->getTextQuote();
+echo "\n";
+
+foreach( $sub->getDisbursements() as $db ){
+    echo "\n ". $db->code . " : ". $db->name . " - " . number_format( $db->price );
+}
 
 
 

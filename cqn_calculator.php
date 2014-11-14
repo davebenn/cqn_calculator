@@ -219,7 +219,7 @@ function cqn_init(){
                     $_SESSION['CQN_calculator_submission'] = $sub;
 
 
-                    wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/cqn_calc.js', [ 'jquery' ] );
+                    wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', [ 'jquery' ] );
                     wp_enqueue_style(  'cqn_calculator_styles', CQN_PLUGIN_URL . '/includes/css/cqn_styles.css');
 
                     $sub->clearConfig();// to help prevent details of config leaking
@@ -241,7 +241,7 @@ function cqn_init(){
 
             $_SESSION['CQN_calculator_submission'] = $sub;
 
-            wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/cqn_calc.js', [ 'jquery' ] );
+            wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', [ 'jquery' ] );
             wp_enqueue_style(  'cqn_calculator_styles', CQN_PLUGIN_URL . '/includes/css/cqn_styles.css');
 
             add_shortcode(     'cqn_calculator', 'cqn_show_calculator' );

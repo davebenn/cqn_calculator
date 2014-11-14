@@ -1,4 +1,8 @@
-{% set additionalFields =  ['contact_street_address',
+ {#/** @var CQN_Calculator_Submission $sub */ #}
+{%
+
+
+set additionalFields =  ['contact_street_address',
 'contact_locality',
 'contact_town',
 'contact_postcode',
@@ -27,35 +31,114 @@
 
 <h2>Here is your quote</h2>
 
-
 <table class="calc-quote">
 
-    {% if sub.involves_sale %}
-        <tr class="heading-row"><td>Sales Disbursements</td></tr>
-        {%  for disb in sub.saleDisbursementsList %}
-            <tr class="{{ disb.optional ? 'disb-optional' : 'disb-mandatory' }}">
-                <td>{{  disb.name }}</td>
-                <td>{{  disb.price }}</td>
-            </tr>
-        {%  endfor %}
-    {% endif %}
+    {% autoescape false %}
+        {#==== FEES  START====  #}
+
+            <tr class="heading-row"><td>Fees</td></tr>
+
+        {#
+            fees
+            leasehold
+            vat
+            fees total
+            disbursements
+            disbursements total
+            total
+            discount
+
+            discounted total
+        #}
 
 
-    {% if sub.involves_purchase %}
-        <tr class="heading-row"><td>Purchase Disbursements</td></tr>
-        {%  for disb in sub.purchaseDisbursementsList %}
-            <tr class="{{ disb.optional ? 'disb-optional' : 'disb-mandatory' }}">
-                <td>{{  disb.name }}</td>
-                <td>{{  disb.price }}</td>
-            </tr>
-        {%  endfor %}
-    {% endif %}
+        {{ sub.involves_sale        ?  '<tr ><td>Sale Legal Fees</td><td  class="amount">'           ~ sub.saleLegalFees           ~ '</td></tr>' : '' }}
+        {{ sub.involves_purchase    ?  '<tr ><td>Purchase Legal Fees</td><td  class="amount">'       ~ sub.purchaseLegalFees       ~ '</td></tr>' : '' }}
+        {{ sub.involves_remortgage  ?  '<tr ><td>Remortgage Legal Fees</td><td  class="amount">'     ~ sub.remortgageLegalFees     ~ '</td></tr>' : '' }}
+        {{ sub.involves_transfer    ?  '<tr ><td>Transfer Legal Fees</td><td  class="amount">'       ~ sub.transferLegalFees       ~ '</td></tr>' : '' }}
+        {{ sub.involves_sale        ?  '<tr ><td>Sale Leasehold Fees</td><td  class="amount">'       ~ sub.saleLeaseholdFees       ~ '</td></tr>' : '' }}
+        {{ sub.involves_purchase    ?  '<tr ><td>Purchase Leasehold Fees</td><td  class="amount">'   ~ sub.purchaseLeaseholdFees   ~ '</td></tr>' : '' }}
+        {{ sub.involves_remortgage  ?  '<tr ><td>Remortgage Leasehold Fees</td><td  class="amount">' ~ sub.remortgageLeaseholdFees ~ '</td></tr>' : '' }}
+        {{ sub.involves_transfer    ?  '<tr ><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.transferLegalFees       ~ '</td></tr>' : '' }}
+        {{ sub.noMoveNoFee          ?  '<tr ><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.noMoveNoFee             ~ '</td></tr>' : '' }}
+
+            {# no move no fee ???? #}
+
+        <tr  class="vat-row"><td>VAT On Fees</td><td class="amount">{{ sub.VATOnFees }}</td></tr>
+        <tr class="total-row" ><td>Fees Total</td><td class="amount">{{ sub.feesPlusVAT }}</td></tr>
 
 
+
+
+        {#==== FEES  END====  #}
+        {#==== DISBURSEMENTS START====  #}
+
+            {% if sub.involves_sale %}
+                <tr class="heading-row"><td>Sale Disbursements</td></tr>
+                {%  for disb in sub.saleDisbursementsList %}
+                    <tr class="{{ disb.optional ? 'disb-optional' : 'disb-mandatory' }}">
+                        <td>{{  disb.name }}</td>
+                        <td>{{  disb.price }}</td>
+                    </tr>
+                {%  endfor %}
+                <tr  class="total-row"><td>SaleDisbursements       Total</td><td  class="amount">{{   sub.saleDisbursementsTotal       }}</td></tr>
+            {% endif %}
+
+            {% if sub.involves_purchase %}
+                <tr class="heading-row"><td>Purchase Disbursements</td></tr>
+                {%  for disb in sub.purchaseDisbursementsList %}
+                    <tr class="{{ disb.optional ? 'disb-optional' : 'disb-mandatory' }}">
+                        <td>{{  disb.name }}</td>
+                        <td>{{  disb.price }}</td>
+                    </tr>
+                {%  endfor %}
+                <tr class="total-row"><td>PurchaseDisbursements   Total</td><td  class="amount">{{   sub.purchaseDisbursementsTotal   }}</td></tr>
+            {% endif %}
+
+            {% if sub.involves_remortgage %}
+                <tr class="heading-row"><td>Remortgage Disbursements</td></tr>
+                {%  for disb in sub.remortgageDisbursementsList %}
+                    <tr class="{{ disb.optional ? 'disb-optional' : 'disb-mandatory' }}">
+                        <td>{{  disb.name }}</td>
+                        <td>{{  disb.price }}</td>
+                    </tr>
+                {%  endfor %}
+                <tr class="total-row"><td>RemortgageDisbursements Total</td><td  class="amount">{{   sub.remortgageDisbursementsTotal }}</td></tr>
+            {% endif %}
+
+            {% if sub.involves_transfer %}
+                <tr class="heading-row"><td>Transfer Disbursements</td></tr>
+                {%  for disb in sub.transferDisbursementsList %}
+                    <tr class="{{ disb.optional ? 'disb-optional' : 'disb-mandatory' }}">
+                        <td>{{  disb.name }}</td>
+                        <td>{{  disb.price }}</td>
+                    </tr>
+                {%  endfor %}
+                <tr class="total-row"><td>TransferDisbursements   Total</td><td  class="amount">{{   sub.transferDisbursementsTotal   }}</td></tr>
+            {% endif %}
+
+    {# ==== DISBURSEMENTS END ====  #}
+
+
+
+
+            <tr><td>Disbursements Total</td><td  class="amount">{{             sub.disbursementsTotal           }}</td></tr>
+
+            <tr><td>Total</td><td  class="amount">{{                           sub.quoteTotal           }}</td></tr>
+
+
+            {%  if( sub.discount_total ) %}
+                <tr><td>Discount</td><td  class="amount">{{                     sub.discount_total           }}</td></tr>
+                <tr><td>Discounted Total</td><td  class="amount">{{             sub.discountedTotal           }}</td></tr>
+
+            {%  endif %}
+
+
+
+    {%  endautoescape %}
 
 
 </table>
-
 
 <hr/>
 

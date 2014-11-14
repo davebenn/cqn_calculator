@@ -22,32 +22,31 @@ class CQN_Calculator_Submission
     public $involves_remortgage;
     public $involves_transfer;
 
-    private $purchaseLegalFees;
-    private $saleLegalFees;
-    private $remortgageLegalFees;
-    private $transferLegalFees;
+    public $purchaseLegalFees;
+    public $saleLegalFees;
+    public $remortgageLegalFees;
+    public $transferLegalFees;
+    public $purchaseLeaseholdFees;
+    public $saleLeaseholdFees;
+    public $remortgageLeaseholdFees;
+    public $transferLeaseholdFees;
 
-    private $purchaseLeaseholdFees;
-    private $saleLeaseholdFees;
-    private $remortgageLeaseholdFees;
-    private $transferLeaseholdFees;
+    public $noMoveNoFee;
 
-    private $noMoveNoFee;
+    public $VATOnFees;
 
-    private $VATOnFees;
+    public $legalFeesTotal;// $fees excluding VAT
 
-    private $legalFeesTotal;// $fees excluding VAT
+    public $feesPlusVAT;// $fees + VAT
 
-    private $feesPlusVAT;// $fees + VAT
+    public $quoteTotal;
+    public $discountedTotal;
 
-    private $quoteTotal;
-    private $discountedTotal;
-
-    private $purchaseDisbursementsTotal;
-    private $saleDisbursementsTotal;
-    private $remortgageDisbursementsTotal;
-    private $transferDisbursementsTotal;
-    private $disbursementsTotal;
+    public $purchaseDisbursementsTotal;
+    public $saleDisbursementsTotal;
+    public $remortgageDisbursementsTotal;
+    public $transferDisbursementsTotal;
+    public $disbursementsTotal;
 
 
     // for storing json of disbursements at time of quoting , as they can change over time
@@ -121,12 +120,8 @@ class CQN_Calculator_Submission
 
             foreach ($saleDisbursements as $disbursement) {
                 $this->saleDisbursementsTotal += $disbursement->price;
-
                 $this->saleDisbursementsList[] = $disbursement;
-
             }
-
-
         }
 
         if ($this->involves_purchase) {
@@ -142,7 +137,6 @@ class CQN_Calculator_Submission
                 if( $disbursement->code == 'PURCHASE_BS' ) {
                     for( $i = 1; $i <= $this->purchase_no_of_buyers; $i++ ){
                         $this->purchaseDisbursementsTotal += $disbursement->price;
-
                         $this->purchaseDisbursementsList[] = $disbursement;
                     }
                 }else {
@@ -158,8 +152,6 @@ class CQN_Calculator_Submission
             $landRegistryFee = $this->config->getSPLandRegistryFees( $this->purchase_price );
             $this->purchaseDisbursementsTotal += $landRegistryFee;
             $this->purchaseDisbursementsList[] = (object) [ 'code' => 'PURCHASE_LRF'     , 'optional' => false        , 'price' => $landRegistryFee ,    'name' => 'Land Registry Fee' ];
-
-
         }
 
         if ($this->involves_remortgage) {
@@ -176,7 +168,6 @@ class CQN_Calculator_Submission
                 if( $disbursement->code == 'REMORTGAGE_BS' ) {
                     for( $i = 1; $i <= $this->remortgage_no_of_people; $i++ ){
                         $this->remortgageDisbursementsTotal += $disbursement->price;
-
                         $this->remortgageDisbursementsList[] = $disbursement;
                     }
                 }else {
@@ -216,7 +207,6 @@ class CQN_Calculator_Submission
             $landRegistryFee = $this->config->getRTLandRegistryFees( $this->transfer_price );
             $this->transferDisbursementsTotal += $landRegistryFee;
             $this->transferDisbursementsList[] = (object) [ 'code' => 'TRANSFER_LRF'     , 'optional' => false        , 'price' => $landRegistryFee ,    'name' => 'Land Registry Fee' ];
-
         }
 
         $this->legalFeesTotal = $this->saleLegalFees + $this->purchaseLegalFees + $this->remortgageLegalFees + $this->transferLegalFees +
