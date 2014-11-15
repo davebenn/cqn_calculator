@@ -39,6 +39,20 @@ set additionalFields =  {
     {% autoescape false %}
         {#==== FEES  START====  #}
 
+
+        {% if sub.involves_sale %}
+            <tr class="property-price-row"><td>Sale Price</td>  <td class="amount">£{{ sub.sale_price|number_format }}                </td></tr>
+        {% endif %}
+        {% if sub.involves_purchase %}
+            <tr class="property-price-row"><td>Purchase Price</td>  <td class="amount">£{{ sub.purchase_price|number_format }}                </td></tr>
+        {% endif %}
+        {% if sub.involves_remortgage %}
+            <tr class="property-price-row"><td>Remortgage Price</td>  <td class="amount">£{{ sub.remortgage_price|number_format }}                </td></tr>
+        {% endif %}
+        {% if sub.involves_transfer %}
+            <tr class="property-price-row"><td>Transfer Price</td>  <td class="amount">£{{ sub.transfer_price|number_format }}                </td></tr>
+        {% endif %}
+
         <tr class="heading-row"><td colspan=2>Fees</td></tr>
 
         {#
@@ -69,7 +83,7 @@ set additionalFields =  {
             {# no move no fee ???? #}
 
         <tr class="vat-row"   ><td>VAT On Fees</td><td class="amount">{{  sub.vat_on_fees|number_format  }}</td></tr>
-        <tr class="total-row" ><td>Fees Total</td><td class="amount">{{ sub.fees_plus_vat|number_format  }}</td></tr>
+        <tr class="total-row  major-total-row" ><td>Fees Total</td><td class="amount">{{ sub.fees_plus_vat|number_format  }}</td></tr>
 
 
 
@@ -126,14 +140,13 @@ set additionalFields =  {
 
 
 
-            <tr><td class="total-row">Disbursements Total</td><td  class="amount">{{             sub.disbursements_total|number_format            }}</td></tr>
-
-            <tr><td class="total-row">Total</td><td  class="amount">{{                           sub.quote_total|number_format            }}</td></tr>
+            <tr class="total-row major-total-row"><td>Disbursements Total</td><td  class="amount">{{             sub.disbursements_total|number_format            }}</td></tr>
+            <tr class="total-row major-total-row"><td>Total</td><td  class="amount">{{                           sub.quote_total|number_format            }}</td></tr>
 
 
             {%  if( sub.discount_total ) %}
-                <tr><td class="discount-total">Discount</td><td  class="amount">{{                     sub.discount_total|number_format            }}</td></tr>
-                <tr><td class="total-row discounted-total">Discounted Total</td><td  class="amount">{{             sub.discounted_total|number_format            }}</td></tr>
+                <tr class="total-row discount-total"            ><td>Discount</td><td  class="amount">-{{                     sub.discount_total|number_format            }}</td></tr>
+                <tr class="total-row major-total-row discounted-total"><td>Discounted Total</td><td  class="amount">{{             sub.discounted_total|number_format            }}</td></tr>
 
             {%  endif %}
 
@@ -141,7 +154,6 @@ set additionalFields =  {
 </tbody>
 </table>
 
-<hr/>
 
  <form action="" method="post">
      <input type="hidden" name="cqn_instructType" value="emailQuote">
@@ -152,7 +164,7 @@ set additionalFields =  {
      <input class="instruct-input" type="submit" value="Email Me Details">
  </form>
  <form action="" method="post">
-     <input type="hidden" name="cqn_download_quote" value="emailQuote">
+     <input type="hidden" name="cqn_instructType" value="downloadQuote">
      <input type="hidden" name="cqn_calc_form" value="1">
 
      <input type="hidden" name="cqn_quote_viewed" value="1">
@@ -161,7 +173,7 @@ set additionalFields =  {
  </form>
 <input name="instruct_now" class="show-instruct instruct-input" id="show-instruct" type="submit" value="Instruct Solicitor Now">
 
-<div class="instruct-form" id="instruct-form" style="display: none;">
+<div class="instruct-form cqn-quote-form" id="instruct-form" style="display: none;">
 
     <form action="" method="post">
 
@@ -171,69 +183,78 @@ set additionalFields =  {
 
         <input name="instruct_now" class="instruct instruct-input" type="submit" value="Finish">
 
-        <h2>Contact Address</h2>
-        <div class="form-group"><label for="contact_street_address">Address 1</label><input type="text" name="contact_street_address" id="contact_street_address" /></div>
-        <div class="form-group"><label for="contact_locality">Address 2</label><input type="text" name="contact_locality" id="contact_locality" /></div>
-        <div class="form-group"><label for="contact_town">Town</label><input type="text" name="contact_town" id="contact_town" /></div>
-        <div class="form-group"><label for="contact_postcode">Postcode</label><input type="text" name="contact_postcode" id="contact_postcode" /></div>
 
-        <h2>Additional Name 1</h2>
-        <div class="form-group">
-            <label for="additional_1_title">Title</label><input type="text" name="additional_1_title" id="additional_1_title" />
-        </div>
-        <div class="form-group">
-            <label for="additional_1_forename">Forename</label><input type="text" name="additional_1_forename" id="additional_1_forename" />
-        </div>
-        <div class="form-group">
-            <label for="additional_1_surname">Surname</label><input type="text" name="additional_1_surname" id="additional_1_surname" />
+
+        <div class="section_holder" id="contact_details">
+        <h2 class="form_title">Contact Address</h2>
+            <div class="form-row"><label for="contact_street_address">Address 1</label><input type="text" name="contact_street_address" id="contact_street_address" /></div>
+            <div class="form-row"><label for="contact_locality">Address 2</label><input type="text" name="contact_locality" id="contact_locality" /></div>
+            <div class="form-row"><label for="contact_town">Town</label><input type="text" name="contact_town" id="contact_town" /></div>
+            <div class="form-row"><label for="contact_postcode">Postcode</label><input type="text" name="contact_postcode" id="contact_postcode" /></div>
         </div>
 
-        <h2>Additional Name 2</h2>
-        <div class="form-group">
-            <label for="additional_2_title">Title</label><input type="text" name="additional_2_title" id="additional_2_title" />
+{#         <div class="section_holder" id="additional1_details">
+            <h2 class="form_title">Additional Name 1</h2>
+            <div class="form-row"><label for="additional_1_title">Title</label><input type="text" name="additional_1_title" id="additional_1_title" /></div>
+            <div class="form-row"><label for="additional_1_forename">Forename</label><input type="text" name="additional_1_forename" id="additional_1_forename" /></div>
+            <div class="form-row"><label for="additional_1_surname">Surname</label><input type="text" name="additional_1_surname" id="additional_1_surname" /></div>
         </div>
-        <div class="form-group">
-            <label for="additional_2_forename">Forename</label><input type="text" name="additional_2_forename" id="additional_2_forename" />
+
+        <div class="section_holder" id="additional2_details">
+            <h2 class="form_title">Additional Name 2</h2>
+            <div class="form-row"><label for="additional_2_title">Title</label><input type="text" name="additional_2_title" id="additional_2_title" /></div>
+            <div class="form-row"><label for="additional_2_forename">Forename</label><input type="text" name="additional_2_forename" id="additional_2_forename" /></div>
+            <div class="form-row"><label for="additional_2_surname">Surname</label><input type="text" name="additional_2_surname" id="additional_2_surname" /></div>
         </div>
-        <div class="form-group">
-            <label for="additional_2_surname">Surname</label><input type="text" name="additional_2_surname" id="additional_2_surname" />
+ #}
+
+        <div class="section_holder" id="additional1_name">
+            <h2 class="form_title">Additional Names</h2>
+            <div class="form-row"><label for="additional_1_full">Additional person 1 ( full name )</label><input type="text" name="additional_1_full" id="additional_1_full" /></div>
+            <div class="form-row"><label for="additional_2_full">Additional person 2 ( full name )</label><input type="text" name="additional_2_full" id="additional_2_full" /></div>
         </div>
 
         {% if( sub.involves_sale) %}
 
-            <h2>Sale Address</h2>
-            <div class="form-group"><label for="sale_street_address">Address 1</label><input type="text" name="sale_street_address" id="sale_street_address" /></div>
-            <div class="form-group"><label for="sale_locality">Address 2</label><input type="text" name="sale_locality" id="sale_locality" /></div>
-            <div class="form-group"><label for="sale_town">Town</label><input type="text" name="sale_town" id="sale_town" /></div>
-            <div class="form-group"><label for="sale_postcode">Postcode</label><input type="text" name="sale_postcode" id="sale_postcode" /></div>
+            <div class="section_holder" id="sale_address">
+                <h2 class="form_title">Sale Address</h2>
+                <div class="form-row"><label for="sale_street_address">Address 1</label><input type="text" name="sale_street_address" id="sale_street_address" /></div>
+                <div class="form-row"><label for="sale_locality">Address 2</label><input type="text" name="sale_locality" id="sale_locality" /></div>
+                <div class="form-row"><label for="sale_town">Town</label><input type="text" name="sale_town" id="sale_town" /></div>
+                <div class="form-row"><label for="sale_postcode">Postcode</label><input type="text" name="sale_postcode" id="sale_postcode" /></div>
+            </div>
 
         {% endif %}
         {% if( sub.involves_purchase) %}
 
-            <h2>Purchase Address</h2>
-            <div class="form-group"><label for="purchase_street_address">Address 1</label><input type="text" name="purchase_street_address" id="purchase_street_address" /></div>
-            <div class="form-group"><label for="purchase_locality">Address 2</label><input type="text" name="purchase_locality" id="purchase_locality" /></div>
-            <div class="form-group"><label for="purchase_town">Town</label><input type="text" name="purchase_town" id="purchase_town" /></div>
-            <div class="form-group"><label for="purchase_postcode">Postcode</label><input type="text" name="purchase_postcode" id="purchase_postcode" /></div>
+            <div class="section_holder" id="purchase_address">
+                <h2 class="form_title">Purchase Address</h2>
+                <div class="form-row"><label for="purchase_street_address">Address 1</label><input type="text" name="purchase_street_address" id="purchase_street_address" /></div>
+                <div class="form-row"><label for="purchase_locality">Address 2</label><input type="text" name="purchase_locality" id="purchase_locality" /></div>
+                <div class="form-row"><label for="purchase_town">Town</label><input type="text" name="purchase_town" id="purchase_town" /></div>
+                <div class="form-row"><label for="purchase_postcode">Postcode</label><input type="text" name="purchase_postcode" id="purchase_postcode" /></div>
+            </div>
 
 
         {% endif %}
         {% if( sub.involves_remortgage) %}
 
-            <h2>Remortgage Address</h2>
-            <div class="form-group"><label for="remortgage_street_address">Address 1</label><input type="text" name="remortgage_street_address" id="remortgage_street_address" /></div>
-            <div class="form-group"><label for="remortgage_locality">Address 2</label><input type="text" name="remortgage_locality" id="remortgage_locality" /></div>
-            <div class="form-group"><label for="remortgage_town">Town</label><input type="text" name="remortgage_town" id="remortgage_town" /></div>
-            <div class="form-group"><label for="remortgage_postcode">Postcode</label><input type="text" name="remortgage_postcode" id="remortgage_postcode" /></div>
-
+            <div class="section_holder" id="remortgage_address">
+                <h2 class="form_title">Remortgage Address</h2>
+                <div class="form-row"><label for="remortgage_street_address">Address 1</label><input type="text" name="remortgage_street_address" id="remortgage_street_address" /></div>
+                <div class="form-row"><label for="remortgage_locality">Address 2</label><input type="text" name="remortgage_locality" id="remortgage_locality" /></div>
+                <div class="form-row"><label for="remortgage_town">Town</label><input type="text" name="remortgage_town" id="remortgage_town" /></div>
+                <div class="form-row"><label for="remortgage_postcode">Postcode</label><input type="text" name="remortgage_postcode" id="remortgage_postcode" /></div>
+            </div>
         {% endif %}
         {% if( sub.involves_transfer) %}
-            <h2>Transfer Address</h2>
-            <div class="form-group"><label for="transfer_street_address">Address 1</label><input type="text" name="transfer_street_address" id="transfer_street_address" /></div>
-            <div class="form-group"><label for="transfer_locality">Address 2</label><input type="text" name="transfer_locality" id="transfer_locality" /></div>
-            <div class="form-group"><label for="transfer_town">Town</label><input type="text" name="transfer_town" id="transfer_town" /></div>
-            <div class="form-group"><label for="transfer_postcode">Postcode</label><input type="text" name="transfer_postcode" id="transfer_postcode" /></div>
-
+            <div class="section_holder" id="transfer_address">
+                <h2 class="form_title">Transfer Address</h2>
+                <div class="form-row"><label for="transfer_street_address">Address 1</label><input type="text" name="transfer_street_address" id="transfer_street_address" /></div>
+                <div class="form-row"><label for="transfer_locality">Address 2</label><input type="text" name="transfer_locality" id="transfer_locality" /></div>
+                <div class="form-row"><label for="transfer_town">Town</label><input type="text" name="transfer_town" id="transfer_town" /></div>
+                <div class="form-row"><label for="transfer_postcode">Postcode</label><input type="text" name="transfer_postcode" id="transfer_postcode" /></div>
+            </div>
         {% endif %}
 
         <input name="instruct_now" class="instruct instruct-input" type="submit" value="Finish">

@@ -72,11 +72,13 @@
 		color: $white;
 		font-weight: normal;
 		padding: .25em .5em;
+		margin: 0 0 1em 0;
 	}
 
 	.section_holder{
 		background-color: #efefef;
-		margin-bottom: 4px;
+		padding-bottom: 1em;
+		// margin-bottom: 4px;
 		
 		@extend .cf;
 	}
@@ -88,7 +90,7 @@
 }
 
 .entry-content{
-	max-width: none !important;
+	max-width: 620px !important;
 	padding-left:  0 !important;
 	padding-right: 0 !important;
 }

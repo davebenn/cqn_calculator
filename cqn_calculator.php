@@ -128,7 +128,10 @@ function validateInput(){
 
 }
 
+
+
 function cqn_init(){
+
 
     if( !is_admin() ){
 
@@ -177,16 +180,44 @@ function cqn_init(){
                 $loaded =  $sub->load( $ref ) ;
 
 
-                if($_POST[ 'cqn_instructType' ] == 'instructNow' ){
+                if( $_POST[ 'cqn_instructType' ] == 'instructNow' ) {
 
-                    $sub->loadFromPost( $_POST );
+                    $sub->loadFromPost($_POST);
 
 
-
-                    error_log(CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf' );
-                    wp_mail( $config->instructEmailAddress,  'Calculator form instruction request', $sub->getTextQuote() , '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf'  );
+                    error_log(CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf');
+                    wp_mail($config->instructEmailAddress, 'Calculator form instruction request', $sub->getTextQuote(), '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf');
                     $sub->instruct_clicked = 1;
-                    $sub->emailed_to_lient = 0;
+                    $sub->emailed_to_client = 0;
+
+                }elseif ( $_POST[ 'cqn_instructType' ] == 'downloadQuote' ){
+
+                    /*
+                     *  if pdf file exists ( it should by now!! )
+                     *          stream contents to browser
+                     *  else
+                     *      generate pdf
+                     *      save it
+                     *      stream it to browser
+                     *  endif
+                     */
+                    $file = CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf';
+
+                    if (file_exists($file)) {
+                        header('Content-Description: File Transfer');
+                        header('Content-Type: application/pdf');
+                        header('Content-Disposition: attachment; filename=CSUK-conveyancing-quote.pdf');
+                        header('Content-Transfer-Encoding: binary');
+                        header('Expires: 0');
+                        header('Cache-Control: must-revalidate');
+                        header('Pragma: public');
+                        header('Content-Length: ' . filesize($file));
+                        ob_clean();
+                        flush();
+                        readfile($file);
+                        exit;
+                    }
+
 
                 }else{// email me quote clicked
 
@@ -319,11 +350,6 @@ function cqn_show_calculator(  $errors )
 
 }
 
-add_action(     'init', 'cqn_init' );
-
-add_action( 'init',      'cqn_startSession', 1 );
-add_action( 'wp_logout', 'cqn_destroySession' );
-add_action( 'wp_login',  'cqn_destroySession' );
 
 function cqn_startSession() {
     //session_start();
@@ -342,3 +368,124 @@ function cqn_destroySession() {
 }
 
 
+
+function cqn_test_sale(   ){
+    return cqn_show_test ( [
+        'quote_type' => 'sale',
+        'sale_no_of_people' => 2,
+        'sale_leasehold' => 1,
+        'sale_price'        => 250000,
+    ]);
+}
+
+function cqn_test_purchase(   ){
+    return cqn_show_test ( [
+        'quote_type' => 'purchase',
+        'purchase_leasehold' => 1,
+        'purchase_no_of_buyers' => 2,
+        'purchase_price'        => 250000,
+    ]);
+}
+
+function cqn_test_sale_purchase(   ){
+    return cqn_show_test ( [
+        'quote_type' => 'sale_purchase',
+        'purchase_leasehold' => 1,
+        'purchase_no_of_buyers' => 2,
+        'purchase_price'        => 250000,
+        'sale_no_of_people' => 2,
+        'sale_leasehold' => 1,
+        'sale_price'        => 250000,
+    ]);
+}
+
+function cqn_test_remortgage(   ){
+    return cqn_show_test ( [
+        'quote_type' => 'remortgage',
+        'remortgage_involves_transfer' => 1,
+        'remortgage_no_of_people' => 2,
+        'transfer_no_of_people' => 2,
+        'transfer_leasehold' => 1,
+        'transfer_price'        => 80000,
+        'remortgage_price'        => 250000,
+    ]);
+}
+
+
+function cqn_test_transfer(   ){
+    return cqn_show_test ( [
+        'quote_type' => 'transfer',
+        'transfer_no_of_people' => 2,
+        'transfer_leasehold' => 1,
+        'transfer_price'        => 80000,
+    ]);
+}
+function cqn_test_remortgage_transfer(   ){
+    return cqn_show_test ( [
+        'quote_type' => 'remortgage',
+        'remortgage_involves_transfer' => 1,
+        'remortgage_no_of_people' => 2,
+        'transfer_no_of_people' => 2,
+        'transfer_leasehold' => 1,
+        'transfer_price'        => 80000,
+        'remortgage_price'        => 250000,
+    ]);
+}
+
+function cqn_show_test( $post ){
+
+    wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', [ 'jquery' ] );
+    wp_enqueue_style(  'cqn_calculator_styles', CQN_PLUGIN_URL . '/includes/css/cqn_styles.css');
+
+    $post['contact_email'] = 'davebenn@gmail.com';
+    $post['discount_code'] = 'CSUK25';
+
+    global $CQN_twig;
+    $template = $CQN_twig->loadTemplate('calc-quote.twig');
+
+    $config = new CQN_Calculator_Config;
+    $sub = new CQN_Calculator_Submission( $config );
+
+    $sub->loadFromPost( $post );
+
+    $sub->calculate();
+
+    return $template->render( [ 'sub' => $sub ] );
+}
+
+
+function cqn_add_test_shortcodes(){
+    /*
+     * adds shortcodes to display forms for easier tesing of the quote template / styles
+     *
+     * <ul>
+            <li><a href="/calctest-s"  title="Calctest Sale">Calctest Sale</a></li>
+            <li><a href="/calctest-p"  title="Calctest Sale">Calctest Purchase</a></li>
+            <li><a href="/calctest-sp" title="Calctest Sale">Calctest Sale Purchase</a></li>
+            <li><a href="/calctest-r"  title="Calctest Sale">Calctest Remortgage</a></li>
+            <li><a href="/calctest-t"  title="Calctest Sale">Calctest Transfer</a></li>
+            <li><a href="/calctest-rt" title="Calctest Sale">Calctest Remortgage & Transfer</a></li>
+        </ul>
+     *
+     *  */
+
+    add_shortcode('cqn_test_sale',                'cqn_test_sale');
+    add_shortcode('cqn_test_purchase',            'cqn_test_purchase');
+    add_shortcode('cqn_test_sale_purchase',       'cqn_test_sale_purchase');
+    add_shortcode('cqn_test_transfer',            'cqn_test_transfer');
+    add_shortcode('cqn_test_remortgage',          'cqn_test_remortgage');
+    add_shortcode('cqn_test_remortgage_transfer', 'cqn_test_remortgage_transfer');
+}
+
+
+
+add_action( 'init', 'cqn_init' );
+
+/* session initialising and killing actions */
+add_action( 'init',      'cqn_startSession', 1 );
+add_action( 'wp_logout', 'cqn_destroySession' );
+add_action( 'wp_login',  'cqn_destroySession' );
+
+/* shortcode to display the test quotes */
+
+add_action( 'init', 'cqn_add_test_shortcodes' );

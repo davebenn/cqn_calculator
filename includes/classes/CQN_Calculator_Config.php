@@ -145,6 +145,7 @@ class CQN_Calculator_Config {
 
     public function getStampDuty( $propertyPrice, $firstTimeBuyer = false ){
 
+
         $bandIndex = $this->getBandIndex( $this->stampDutyBands, $propertyPrice );
 
         if( $firstTimeBuyer ){

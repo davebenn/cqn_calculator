@@ -180,6 +180,8 @@ class CQN_Calculator_Submission
             $this->purchase_disbursements_total += $stampDuty;
             $this->purchase_disbursements_list[] = (object) [ 'code' => 'PURCHASE_SD'       , 'optional' => false      , 'price' => $stampDuty ,    'name' => 'Stamp Duty' ];
 
+            error_log( $stampDuty );
+
             $landRegistryFee = $this->config->getSPLandRegistryFees( $this->purchase_price );
             $this->purchase_disbursements_total += $landRegistryFee;
             $this->purchase_disbursements_list[] = (object) [ 'code' => 'PURCHASE_LRF'     , 'optional' => false        , 'price' => $landRegistryFee ,    'name' => 'Land Registry Fee' ];

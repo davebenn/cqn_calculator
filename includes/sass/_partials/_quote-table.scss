@@ -10,10 +10,46 @@ table{
 
   td{
   	// font-size: 16px;
-  	padding: .25em;
+  	padding: .25em .5em;
+    border-top: 1px solid #ededed;
   }
 
   .amount{
   	text-align: right;
+    font-family: monospace;
+
+    border-left: 1px solid #ededed;
+    width: 6em;
+  }
+
+  .property-price-row{
+    td{
+      font-weight: bold;
+      color: $blue;
+      border: none;
+    }
+  }
+
+  .discount-total{
+    td{
+      color: $red;
+    }
+  }
+
+  .major-total-row{
+      td{
+
+        font-weight: bold;
+      }
+  }
+  .total-row{
+      
+
+      td{
+        border-top   : 2px solid $blue ;
+        border-bottom: 2px solid $blue ;
+        text-align: right;
+
+      }
   }
 }
