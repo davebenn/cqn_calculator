@@ -47,6 +47,7 @@ class CQN_Calculator_Submission
     public $sale_disbursements_total;
     public $remortgage_disbursements_total;
     public $transfer_disbursements_total;
+
     public $disbursements_total;
 
 
@@ -56,6 +57,8 @@ class CQN_Calculator_Submission
     public $sale_disbursements_list = [];
     public $remortgage_disbursements_list = [];
     public $transfer_disbursements_list = [];
+
+    public $optional_disbursements_list = [];
 
     public $discount_code;
     public $discount_total;
@@ -109,6 +112,7 @@ class CQN_Calculator_Submission
     public $transfer_town;
     public $transfer_postcode;
 
+
     public function calculate()
     {
 
@@ -147,7 +151,12 @@ class CQN_Calculator_Submission
 
 
             foreach ($saleDisbursements as $disbursement) {
-                $this->sale_disbursements_total += $disbursement->price;
+
+                if( !$disbursement->optional ) {// if mandatory disbursement += total
+                    $this->sale_disbursements_total += $disbursement->price;
+                }else{//add to optional disbursements array
+                    $this->optional_disbursements_list[] = $disbursement;
+                }
                 $this->sale_disbursements_list[] = $disbursement;
             }
             error_log(  print_r( $this->sale_disbursements_list, true ));
@@ -169,7 +178,13 @@ class CQN_Calculator_Submission
                         $this->purchase_disbursements_list[] = $disbursement;
                     }
                 }else {
-                    $this->purchase_disbursements_total += $disbursement->price;
+
+
+                    if( !$disbursement->optional ) {// if mandatory disbursement += total
+                        $this->purchase_disbursements_total += $disbursement->price;
+                    }else{//add to optional disbursements array
+                        $this->optional_disbursements_list[] = $disbursement;
+                    }
                     $this->purchase_disbursements_list[] = $disbursement;
                 }
             }
@@ -202,7 +217,11 @@ class CQN_Calculator_Submission
                         $this->remortgage_disbursements_list[] = $disbursement;
                     }
                 }else {
-                    $this->remortgage_disbursements_total += $disbursement->price;
+                    if( !$disbursement->optional ) {// if mandatory disbursement += total
+                        $this->remortgage_disbursements_total += $disbursement->price;
+                    }else{//add to optional disbursements array
+                        $this->optional_disbursements_list[] = $disbursement;
+                    }
                     $this->remortgage_disbursements_list[] = $disbursement;
                 }
             }
@@ -230,7 +249,11 @@ class CQN_Calculator_Submission
                         $this->transfer_disbursements_list[] = $disbursement;
                     }
                 }else {
-                    $this->transfer_disbursements_total += $disbursement->price;
+                    if( !$disbursement->optional ) {// if mandatory disbursement += total
+                        $this->transfer_disbursements_total += $disbursement->price;
+                    }else{//add to optional disbursements array
+                        $this->optional_disbursements_list[] = $disbursement;
+                    }
                     $this->transfer_disbursements_list[] = $disbursement;
                 }
             }

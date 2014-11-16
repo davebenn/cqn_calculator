@@ -105,10 +105,23 @@ set additionalFields =  {
             {% if sub.involves_purchase %}
                 <tr class="heading-row"><td colspan=2>Purchase Disbursements</td></tr>
                 {%  for disb in sub.purchase_disbursements_list %}
-                    <tr class="{{ disb.optional ? 'disb-optional' : 'disb-mandatory' }}">
-                        <td>{{  disb.name }}</td>
-                        <td class="amount">{{  disb.price|number_format  }}</td>
-                    </tr>
+
+                    {% if(disb.optional) %}
+
+                     {#    <tr class="disb-optional">
+                            <td>{{  disb.name }}</td>
+                            <td class="amount">{{  disb.price|number_format  }}</td>
+                        </tr>
+ #}
+                    {% else %}
+                        <tr class="disb-mandatory">
+                            <td>{{  disb.name }}</td>
+                            <td class="amount">{{  disb.price|number_format  }}</td>
+                        </tr>
+
+                    {% endif %}
+
+
                 {%  endfor %}
                 <tr class="total-row"><td>Purchase Disbursements Total</td><td  class="amount">{{   sub.purchase_disbursements_total|number_format    }}</td></tr>
             {% endif %}
@@ -150,28 +163,34 @@ set additionalFields =  {
 
             {%  endif %}
 
+    
+
 
 </tbody>
 </table>
 
 
- <form action="" method="post">
-     <input type="hidden" name="cqn_instructType" value="emailQuote">
-     <input type="hidden" name="cqn_calc_form" value="1">
+<div class="instruct-buttons">
+     <form action="" method="post">
+         <input type="hidden" name="cqn_instructType" value="emailQuote">
+         <input type="hidden" name="cqn_calc_form" value="1">
 
-     <input type="hidden" name="cqn_quote_viewed" value="1">
-     <input type="hidden" name="CQN_calculator_ref" value="{{  sub.getCalculatorRef() }}">
-     <input class="instruct-input" type="submit" value="Email Me Details">
- </form>
- <form action="" method="post">
-     <input type="hidden" name="cqn_instructType" value="downloadQuote">
-     <input type="hidden" name="cqn_calc_form" value="1">
+         <input type="hidden" name="cqn_quote_viewed" value="1">
+         <input type="hidden" name="CQN_calculator_ref" value="{{  sub.getCalculatorRef() }}">
+         <input class="instruct-input" type="submit" value="Email Me Details">
+     </form>
+     <form action="" method="post">
+         <input type="hidden" name="cqn_instructType" value="downloadQuote">
+         <input type="hidden" name="cqn_calc_form" value="1">
 
-     <input type="hidden" name="cqn_quote_viewed" value="1">
-     <input type="hidden" name="CQN_calculator_ref" value="{{  sub.getCalculatorRef() }}">
-     <input class="instruct-input" type="submit" value="Download Quote">
- </form>
-<input name="instruct_now" class="show-instruct instruct-input" id="show-instruct" type="submit" value="Instruct Solicitor Now">
+         <input type="hidden" name="cqn_quote_viewed" value="1">
+         <input type="hidden" name="CQN_calculator_ref" value="{{  sub.getCalculatorRef() }}">
+         <input class="instruct-input" type="submit" value="Download Quote">
+     </form>
+
+
+    <input name="instruct_now" class="show-instruct instruct-input" id="show-instruct" type="submit" value="Instruct Solicitor Now">
+</div>
 
 <div class="instruct-form cqn-quote-form" id="instruct-form" style="display: none;">
 
@@ -181,9 +200,12 @@ set additionalFields =  {
         <input type="hidden" name="cqn_calc_form" value="1">
         <input type="hidden" name="CQN_calculator_ref" value="{{  sub.getCalculatorRef() }}">
 
-        <input name="instruct_now" class="instruct instruct-input" type="submit" value="Finish">
 
 
+        <div class="section_holder">
+            <h2 class="form_title">In order to help us to process your case more quickly, please provide us with some extra information.</h2>
+            <input name="instruct_now" class="instruct instruct-input" type="submit" value="Finish">
+        </div>
 
         <div class="section_holder" id="contact_details">
         <h2 class="form_title">Contact Address</h2>
@@ -257,9 +279,36 @@ set additionalFields =  {
             </div>
         {% endif %}
 
-        <input name="instruct_now" class="instruct instruct-input" type="submit" value="Finish">
+
+        <div class="section_holder">
+            <input name="instruct_now" class="instruct instruct-input" type="submit" value="Finish">
+        </div>
     </form>
 </div>
+
+
+
+{% if ( sub.optional_disbursements_list ) %}
+    <div class="possible-disbursements">
+        <p>Depending on the location of the property/properties you may also be liable to other disbursements. Here is a list of the most common ones.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                    {% for disb in sub.optional_disbursements_list %}
+                        <tr class="disb-optional">
+                            <td>{{  disb.name }}</td>
+                            <td class="amount">{{  disb.price|number_format  }}</td>
+                        </tr>
+                    {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
 
 
 

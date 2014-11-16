@@ -116,7 +116,7 @@ class CQN_Calculator_Config {
              (object) [ 'code' => 'PURCHASE_CHS'             , 'optional' => true , 'price' => 20 ,   'name' => 'Chancel Search' ],
              (object) [ 'code' => 'PURCHASE_HS2S'            , 'optional' => true , 'price' => 25 ,   'name' => 'High Speed 2 Search' ],
              (object) [ 'code' => 'PURCHASE_HMLRS'           , 'optional' => true , 'price' => 8 ,    'name' => 'HMLR Search' ],
-             (object) [ 'code' => 'PURCHASE_BS'              , 'optional' => true , 'price' => 2 ,    'name' => 'Bankruptcy Search' ],
+             (object) [ 'code' => 'PURCHASE_BS'              , 'optional' => false , 'price' => 2 ,    'name' => 'Bankruptcy Search' ],
 //             (object) [ 'code' => 'PURCHASE_DOCUMENT_RETURN' , 'optional' => true , 'price' => 10 ,   'name' => 'Document Return' ],
              (object) [ 'code' => 'PURCHASE_BANK_TRANSFER'   , 'optional' => false , 'price' => 36.80, 'name' => 'Bank Transfer' ]
         ];

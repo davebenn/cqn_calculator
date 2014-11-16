@@ -52,4 +52,20 @@ table{
 
       }
   }
+  .disb-optional{
+    td{
+      color: $red;
+      font-style: italic;
+    }
+  }
+}
+
+.instruct-buttons{
+  margin-bottom: 1em
+}
+form{
+  display: inline;
+}
+.possible-disbursements{
+  margin: 1em 0; 
 }
