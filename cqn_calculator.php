@@ -5,6 +5,7 @@
 *   Version: 0.001
 *
 */
+global $wpdb;
 
 define( 'CQN_PLUGIN_PATH' , dirname( __FILE__ ) );
 define( 'CQN_PLUGIN_URL'  , plugins_url( '', __FILE__ ) );
@@ -17,6 +18,7 @@ define( 'CQN_PDF_STORAGE_DIR'  , CQN_PLUGIN_PATH .  '/storage/quotes/' );
 
 
 function cqn_activation(){
+
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
     $tableName = $wpdb->prefix . "cqn_calc_submissions" ;
@@ -56,13 +58,8 @@ function cqn_activation(){
                 `contact_locality` varchar(255),
                 `contact_town` varchar(255),
                 `contact_postcode` varchar(255),
-                `additional_1_title` varchar(255),
-                `additional_1_forename` varchar(255),
-                `additional_1_surname` varchar(255),
-                `additional_2_title` varchar(255),
-                `additional_2_forename` varchar(255),
-                `additional_2_surname` varchar(255),
-                `sale_street_address` varchar(255),
+                `additional_1_fullname` varchar(255),
+                `additional_2_fullname` varchar(255),
                 `sale_locality` varchar(255),
                 `sale_town` varchar(255),
                 `sale_postcode` varchar(255),

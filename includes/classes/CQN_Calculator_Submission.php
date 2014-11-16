@@ -88,12 +88,10 @@ class CQN_Calculator_Submission
     public $contact_locality;
     public $contact_town;
     public $contact_postcode;
-    public $additional_1_title;
-    public $additional_1_forename;
-    public $additional_1_surname;
-    public $additional_2_title;
-    public $additional_2_forename;
-    public $additional_2_surname;
+
+    public $additional_1_fullname;
+    public $additional_2_fullname;
+
     public $sale_street_address;
     public $sale_locality;
     public $sale_town;
@@ -310,7 +308,7 @@ class CQN_Calculator_Submission
     {
 
         $fillable = [
-            'sale_price', 'sale_leasehold', 'sale_mortgage', 'purchase_price', 'purchase_leasehold', 'purchase_mortgage', 'purchase_1st_time_buyer', 'purchase_no_of_buyers', 'remortgage_price', 'remortgage_leasehold', 'remortgage_no_of_people', 'remortgage_involves_transfer', 'transfer_price', 'transfer_leasehold', 'transfer_no_of_people', 'discount_code', 'contact_email', 'contact_telephone', 'contact_name', 'contact_street_address', 'contact_locality', 'contact_town', 'contact_postcode', 'additional_1_title', 'additional_1_forename', 'additional_1_surname', 'additional_2_title', 'additional_2_forename', 'additional_2_surname', 'sale_street_address', 'sale_locality', 'sale_town', 'sale_postcode', 'purchase_street_address', 'purchase_locality', 'purchase_town', 'purchase_postcode', 'remortgage_street_address', 'remortgage_locality', 'remortgage_town', 'remortgage_postcode', 'transfer_street_address', 'transfer_locality', 'transfer_town', 'transfer_postcode'
+            'sale_price', 'sale_leasehold', 'sale_mortgage', 'purchase_price', 'purchase_leasehold', 'purchase_mortgage', 'purchase_1st_time_buyer', 'purchase_no_of_buyers', 'remortgage_price', 'remortgage_leasehold', 'remortgage_no_of_people', 'remortgage_involves_transfer', 'transfer_price', 'transfer_leasehold', 'transfer_no_of_people', 'discount_code', 'contact_email', 'contact_telephone', 'contact_name', 'contact_street_address', 'contact_locality', 'contact_town', 'contact_postcode', 'additional_1_fullname', 'additional_2_fullname' , 'sale_street_address', 'sale_locality', 'sale_town', 'sale_postcode', 'purchase_street_address', 'purchase_locality', 'purchase_town', 'purchase_postcode', 'remortgage_street_address', 'remortgage_locality', 'remortgage_town', 'remortgage_postcode', 'transfer_street_address', 'transfer_locality', 'transfer_town', 'transfer_postcode'
         ];
 
         foreach ($fillable as $field) {
@@ -321,6 +319,7 @@ class CQN_Calculator_Submission
             }
 
         }
+
 
         if (isset($postArray['quote_type'])) {
 
@@ -503,13 +502,8 @@ class CQN_Calculator_Submission
             'contact_locality'             => mysql_real_escape_string($this->contact_locality),
             'contact_town'                 => mysql_real_escape_string($this->contact_town),
             'contact_postcode'             => mysql_real_escape_string($this->contact_postcode),
-            'additional_1_title'           => mysql_real_escape_string($this->additional_1_title),
-            'additional_1_forename'        => mysql_real_escape_string($this->additional_1_forename),
-            'additional_1_surname'         => mysql_real_escape_string($this->additional_1_surname),
-            'additional_2_title'           => mysql_real_escape_string($this->additional_2_title),
-            'additional_2_forename'        => mysql_real_escape_string($this->additional_2_forename),
-            'additional_2_surname'         => mysql_real_escape_string($this->additional_2_surname),
-            'sale_street_address'          => mysql_real_escape_string($this->sale_street_address),
+            'additional_1_fullname'        => mysql_real_escape_string($this->additional_1_fullname),
+            'additional_2_fullname'        => mysql_real_escape_string($this->additional_2_fullname),
             'sale_locality'                => mysql_real_escape_string($this->sale_locality),
             'sale_town'                    => mysql_real_escape_string($this->sale_town),
             'sale_postcode'                => mysql_real_escape_string($this->sale_postcode),

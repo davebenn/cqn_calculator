@@ -99,7 +99,7 @@ set additionalFields =  {
                         <td class="amount">{{  disb.price|number_format  }}</td>
                     </tr>
                 {%  endfor %}
-                <tr  class="total-row"><td>SaleDisbursements       Total</td><td  class="amount">{{   sub.sale_disbursements_total|number_format        }}</td></tr>
+                <tr  class="total-row"><td>Sale Disbursements Total</td><td  class="amount">{{   sub.sale_disbursements_total|number_format        }}</td></tr>
             {% endif %}
 
             {% if sub.involves_purchase %}
@@ -110,7 +110,7 @@ set additionalFields =  {
                         <td class="amount">{{  disb.price|number_format  }}</td>
                     </tr>
                 {%  endfor %}
-                <tr class="total-row"><td>PurchaseDisbursements   Total</td><td  class="amount">{{   sub.purchase_disbursements_total|number_format    }}</td></tr>
+                <tr class="total-row"><td>Purchase Disbursements Total</td><td  class="amount">{{   sub.purchase_disbursements_total|number_format    }}</td></tr>
             {% endif %}
 
             {% if sub.involves_remortgage %}
@@ -121,7 +121,7 @@ set additionalFields =  {
                         <td class="amount">{{  disb.price|number_format  }}</td>
                     </tr>
                 {%  endfor %}
-                <tr class="total-row"><td>RemortgageDisbursements Total</td><td  class="amount">{{   sub.remortgage_disbursements_total|number_format  }}</td></tr>
+                <tr class="total-row"><td>Remortgage Disbursements Total</td><td  class="amount">{{   sub.remortgage_disbursements_total|number_format  }}</td></tr>
             {% endif %}
 
             {% if sub.involves_transfer %}
@@ -132,7 +132,7 @@ set additionalFields =  {
                         <td class="amount">{{  disb.price|number_format  }}</td>
                     </tr>
                 {%  endfor %}
-                <tr class="total-row"><td>TransferDisbursements   Total</td><td  class="amount">{{   sub.transfer_disbursements_total|number_format    }}</td></tr>
+                <tr class="total-row"><td>Transfer Disbursements Total</td><td  class="amount">{{   sub.transfer_disbursements_total|number_format    }}</td></tr>
             {% endif %}
 
     {# ==== DISBURSEMENTS END ====  #}
@@ -145,7 +145,7 @@ set additionalFields =  {
 
 
             {%  if( sub.discount_total ) %}
-                <tr class="total-row discount-total"            ><td>Discount</td><td  class="amount">-{{                     sub.discount_total|number_format            }}</td></tr>
+                <tr class="total-row discount-total"                  ><td>Discount</td><td  class="amount">-{{                     sub.discount_total|number_format            }}</td></tr>
                 <tr class="total-row major-total-row discounted-total"><td>Discounted Total</td><td  class="amount">{{             sub.discounted_total|number_format            }}</td></tr>
 
             {%  endif %}
@@ -210,8 +210,8 @@ set additionalFields =  {
 
         <div class="section_holder" id="additional1_name">
             <h2 class="form_title">Additional Names</h2>
-            <div class="form-row"><label for="additional_1_full">Additional person 1 ( full name )</label><input type="text" name="additional_1_full" id="additional_1_full" /></div>
-            <div class="form-row"><label for="additional_2_full">Additional person 2 ( full name )</label><input type="text" name="additional_2_full" id="additional_2_full" /></div>
+            <div class="form-row"><label for="additional_1_fullname">Additional person 1 ( full name )</label><input type="text" name="additional_1_fullname" id="additional_1_fullname" /></div>
+            <div class="form-row"><label for="additional_2_fullname">Additional person 2 ( full name )</label><input type="text" name="additional_2_fullname" id="additional_2_fullname" /></div>
         </div>
 
         {% if( sub.involves_sale) %}
