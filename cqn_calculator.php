@@ -25,26 +25,31 @@ function cqn_activation(){
     $sql = '  CREATE TABLE `' . $tableName . '` (
                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
                 `calculator_ref` varchar( 255 ),
+
                 `sale_price` int( 11 ) unsigned ,
                 `sale_leasehold` int( 1 ) unsigned ,
                 `sale_mortgage` int( 1 ) unsigned ,
+
                 `purchase_price` int( 11 ) unsigned ,
                 `purchase_leasehold` int( 1 ) unsigned ,
                 `purchase_mortgage` int( 1 ) unsigned ,
                 `purchase_1st_time_buyer` int( 1 ) unsigned ,
                 `purchase_no_of_buyers` int( 2 ) unsigned ,
+
                 `remortgage_price` int( 11 ) unsigned ,
                 `remortgage_leasehold` int( 1 ) unsigned ,
                 `remortgage_no_of_people` int( 2 ) unsigned ,
                 `remortgage_involves_transfer` int( 1 ) unsigned ,
+
                 `transfer_price` int( 11 ) unsigned ,
                 `transfer_leasehold` int( 1 ) unsigned ,
                 `transfer_no_of_people` int( 2 ) unsigned ,
+
                 `discount_code` varchar( 255  )  ,
+
                 `contact_email` varchar( 255 )  ,
                 `contact_telephone` varchar( 25  ),
                 `contact_name` varchar( 255 ),
-
 
                 `involves_sale` int ( 1 ),
                 `involves_purchase` int ( 1 ),
@@ -58,19 +63,25 @@ function cqn_activation(){
                 `contact_locality` varchar(255),
                 `contact_town` varchar(255),
                 `contact_postcode` varchar(255),
+
                 `additional_1_fullname` varchar(255),
                 `additional_2_fullname` varchar(255),
+
+                `sale_street_address` varchar(255),
                 `sale_locality` varchar(255),
                 `sale_town` varchar(255),
                 `sale_postcode` varchar(255),
+
                 `purchase_street_address` varchar(255),
                 `purchase_locality` varchar(255),
                 `purchase_town` varchar(255),
                 `purchase_postcode` varchar(255),
+
                 `remortgage_street_address` varchar(255),
                 `remortgage_locality` varchar(255),
                 `remortgage_town` varchar(255),
                 `remortgage_postcode` varchar(255),
+
                 `transfer_street_address` varchar(255),
                 `transfer_locality` varchar(255),
                 `transfer_town` varchar(255),
@@ -86,12 +97,10 @@ function cqn_activation(){
                 `remortgage_leasehold_fees` decimal ( 10, 2) ,
                 `transfer_leasehold_fees` decimal ( 10, 2) ,
 
-
-
-
-
                 `no_move_no_fee` decimal ( 10, 2) ,
                 `vat_on_fees` decimal ( 10, 2) ,
+
+                `fees_plus_vat` decimal ( 10, 2) ,
 
                 `purchase_disbursements_total` decimal ( 10, 2) ,
                 `sale_disbursements_total` decimal ( 10, 2) ,
@@ -100,13 +109,14 @@ function cqn_activation(){
                 `disbursements_total` decimal ( 10, 2) ,
 
                 `quote_total` decimal ( 10, 2) ,
-                `discounted_total` decimal ( 10, 2) ,
                 `discount_total` decimal ( 10, 2) ,
+                `discounted_total` decimal ( 10, 2) ,
 
                 `purchase_disbursements_list` text,
                 `sale_disbursements_list` text,
                 `remortgage_disbursements_list` text,
                 `transfer_disbursements_list` text,
+                `optional_disbursements_list` text,
 
                 `created_at` TIMESTAMP,
                 PRIMARY KEY (`id`)
@@ -176,28 +186,32 @@ function cqn_init(){
                 $ref = $_POST['CQN_calculator_ref'];
                 $loaded =  $sub->load( $ref ) ;
 
+                error_log( 'ref: '  . $ref .  '  = ' . $loaded ) ;
+
 
                 if( $_POST[ 'cqn_instructType' ] == 'instructNow' ) {
 
                     $sub->loadFromPost($_POST);
 
+                    $html = '<style type="text/css">' . file_get_contents( CQN_PLUGIN_PATH . '/includes/css/cqn_emails.css' ) . '</style>';
+                    $template = $CQN_twig->loadTemplate('calc-email-instruct-admin.twig');
+                    $html .= $template->render( [ 'sub' => $sub ] );
 
-                    error_log(CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf');
-                    wp_mail($config->instructEmailAddress, 'Calculator form instruction request', $sub->getTextQuote(), '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf');
+                    wp_mail($config->instructEmailAddress, 'Calculator form instruction request', $html, '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf');
+
                     $sub->instruct_clicked = 1;
                     $sub->emailed_to_client = 0;
 
-                }elseif ( $_POST[ 'cqn_instructType' ] == 'downloadQuote' ){
+                    $html = '<style type="text/css">' . file_get_contents( CQN_PLUGIN_PATH . '/includes/css/cqn_emails.css' ) . '</style>';
+                    $template = $CQN_twig->loadTemplate('calc-email-instruct-client.twig');
+                    $html .= $template->render( [ 'sub' => $sub ] );
 
-                    /*
-                     *  if pdf file exists ( it should by now!! )
-                     *          stream contents to browser
-                     *  else
-                     *      generate pdf
-                     *      save it
-                     *      stream it to browser
-                     *  endif
-                     */
+                    wp_mail($config->instructEmailAddress, 'Instruction Requested', $html, '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf');
+
+                }elseif ( $_POST[ 'cqn_instructType' ] == 'downloadQuote' ){// downloload clicked
+
+                    $sub->savePDF( CQN_PDF_STORAGE_DIR );
+
                     $file = CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf';
 
                     if (file_exists($file)) {
@@ -215,26 +229,18 @@ function cqn_init(){
                         exit;
                     }
 
-
                 }else{// email me quote clicked
 
-                    error_log('sending to -- '. $sub->contact_email );
-                    wp_mail( $sub->contact_email,  $config->clientEmailSubject, $sub->getTextQuote() , '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf'  );
+                    $html = '<style type="text/css">' . file_get_contents( CQN_PLUGIN_PATH . '/includes/css/cqn_emails.css' ) . '</style>';
+                    $template = $CQN_twig->loadTemplate('calc-email-instruct-client.twig');
+                    $html .= $template->render( [ 'sub' => $sub ] );
+
+                    wp_mail( $sub->contact_email,  $config->clientEmailSubject, $html, '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf'  );
                     $sub->emailed_to_client = 1;
                     $sub->instruct_clicked = 0;
                 }
 
-
-               // $sub->calculate();
-
-
-
-
-
-
-
                 $sub->save();
-
 
                 $sub->clearConfig();// to help prevent details of config leaking
 
@@ -246,7 +252,7 @@ function cqn_init(){
 
                 $errors = validateInput();
 
-                if (!$errors) {
+                if (!$errors) {//  calculator form submitted
 
                     /*
                      * do calculation
@@ -263,35 +269,21 @@ function cqn_init(){
                     $config = new CQN_Calculator_Config;
                     $sub    = new CQN_Calculator_Submission( $config );
 
-//
-//                    if( isset(  $_POST['CQN_calculator_ref']  ) ){
-//
-//                        $ref = $_POST['CQN_calculator_ref'];
-//                        $loaded =  $sub->load( $ref ) ;
-//                        error_log( 'loaded = ' . $loaded );
-//                        error_log('found posted ref: '. $ref );
-//
-//                    }
-
                     $sub->loadFromPost( $_POST );
 
-//                  error_log( "Quote type = " . $sub->quoteType );
 
                     $sub->calculate();
 
                     $sub->save();
 
 
+                    // send calculator used email?
+
+
+
                     // email to callback system
-
-
                     $_SESSION['CQN_calculator_submission'] = $sub;
-
-
                     $sub->savePDF( CQN_PDF_STORAGE_DIR );
-
-
-                    error_log(CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf' );
 
                     wp_mail( $config->leadsSystemEmailAddress, $config->leadsSystemEmailSubject, '__calc-ref=davelala;__saleprice=12333', '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf'  );
 
@@ -364,8 +356,6 @@ function cqn_destroySession() {
     session_destroy ();
 }
 
-
-
 function cqn_test_sale(   ){
     return cqn_show_test ( [
         'quote_type' => 'sale',
@@ -395,7 +385,6 @@ function cqn_test_sale_purchase(   ){
         'sale_price'        => 250000,
     ]);
 }
-
 function cqn_test_remortgage(   ){
     return cqn_show_test ( [
         'quote_type' => 'remortgage',
@@ -407,8 +396,6 @@ function cqn_test_remortgage(   ){
         'remortgage_price'        => 250000,
     ]);
 }
-
-
 function cqn_test_transfer(   ){
     return cqn_show_test ( [
         'quote_type' => 'transfer',
@@ -428,7 +415,6 @@ function cqn_test_remortgage_transfer(   ){
         'remortgage_price'        => 250000,
     ]);
 }
-
 function cqn_show_test( $post ){
 
     wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', [ 'jquery' ] );
@@ -450,6 +436,101 @@ function cqn_show_test( $post ){
     return $template->render( [ 'sub' => $sub ] );
 }
 
+function cqn_test_instruct_email(   ){
+
+    global $CQN_twig;
+
+    $post =  [
+
+        'contact_email' =>  'davebenn@gmail.com',
+        'contact_telephone' => '07875295076',
+        'contact_name' => 'Dave Tester',
+        'quote_type' => 'sale_purchase',
+            'quote_type' => 'remortgage',
+
+            'remortgage_involves_transfer' => 1,
+            'remortgage_no_of_people' => 2,
+            'transfer_no_of_people' => 2,
+            'transfer_leasehold' => 1,
+            'transfer_price'        => 80000,
+            'remortgage_price'        => 250000,
+
+            'contact_street_address' => '1 Chrurch St.',
+            'contact_locality' => 'Longridge',
+            'contact_town' => 'Preston',
+            'contact_postcode' => 'PR3 3ZZ',
+            'additional_1_fullname' => 'Dave Smith',
+            'additional_2_fullname' => 'Freddy Dodge',
+
+            'remortgage_street_address' => '1 Feee St.',
+            'remortgage_locality' => 'Fedd',
+            'remortgage_town' => 'Preston',
+            'remortgage_postcode' => 'LO3 5JJ',
+
+            'transfer_street_address' => '41 DsSd St.',
+            'transfer_locality' => 'Ssdfsf',
+            'transfer_town' => 'Preston',
+            'transfer_postcode' => 'LO3 5JJ',
+        ];
+    $post =  [
+
+        'contact_email' =>  'davebenn@gmail.com',
+        'contact_telephone' => '07875295076',
+        'contact_name' => 'Dave Tester',
+        'quote_type' => 'sale_purchase',
+
+            'sale_no_of_people' => 2,
+
+            'purchase_no_of_buyers' => 2,
+            'purchase_leasehold' => 1,
+
+            'sale_leasehold' => 1,
+            'sale_mortgage'  => 0,
+
+            'purchase_price'        => 80000,
+            'sale_price'        => 250000,
+
+            'contact_street_address' => '1 Chrurch St.',
+            'contact_locality' => 'Longridge',
+            'contact_town' => 'Preston',
+            'contact_postcode' => 'PR3 3ZZ',
+
+            'additional_1_fullname' => 'Dave Smith',
+            'additional_2_fullname' => 'Freddy Dodge',
+
+            'sale_street_address' => '1 Feee St.',
+            'sale_locality' => 'Fedd',
+            'sale_town' => 'Preston',
+            'sale_postcode' => 'LO3 5JJ',
+
+            'purchase_street_address' => '41 DsSd St.',
+            'purchase_locality' => 'Ssdfsf',
+            'purchase_town' => 'Preston',
+            'purchase_postcode' => 'LO3 5JJ',
+        ];
+
+    $post['discount_code'] = 'CSUK25';
+
+
+    $config = new CQN_Calculator_Config;
+    $sub = new CQN_Calculator_Submission( $config );
+
+    $sub->loadFromPost( $post );
+
+    $sub->calculate();
+
+    $html = '<style type="text/css">' . file_get_contents( CQN_PLUGIN_PATH . '/includes/css/cqn_emails.css' ) . '</style>';
+//    $template = $CQN_twig->loadTemplate('calc-email-instruct-admin.twig');
+//    $template = $CQN_twig->loadTemplate('calc-email-instruct-client.twig');
+    $template = $CQN_twig->loadTemplate('calc-email-client.twig');
+    $html .= $template->render( [ 'sub' => $sub ] );
+
+
+
+    return $html;
+
+
+}
 
 function cqn_add_test_shortcodes(){
     /*
@@ -472,9 +553,8 @@ function cqn_add_test_shortcodes(){
     add_shortcode('cqn_test_transfer',            'cqn_test_transfer');
     add_shortcode('cqn_test_remortgage',          'cqn_test_remortgage');
     add_shortcode('cqn_test_remortgage_transfer', 'cqn_test_remortgage_transfer');
+    add_shortcode('cqn_test_instruct_email',      'cqn_test_instruct_email');
 }
-
-
 
 add_action( 'init', 'cqn_init' );
 
@@ -484,5 +564,15 @@ add_action( 'wp_logout', 'cqn_destroySession' );
 add_action( 'wp_login',  'cqn_destroySession' );
 
 /* shortcode to display the test quotes */
-
 add_action( 'init', 'cqn_add_test_shortcodes' );
+
+
+
+add_filter( 'wp_mail_content_type', 'cqn_set_html_content_type' );
+
+function cqn_set_html_content_type() {
+
+    return 'text/html';
+}
+
+

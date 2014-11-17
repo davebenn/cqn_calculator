@@ -73,6 +73,25 @@
         "outputStyle": "compressed",
         "autoprefixer": true
       }
+    },
+    "76b2719d": {
+      "id": "76b2719d",
+      "pid": "b42f1896",
+      "name": "cqn_emails.scss",
+      "input": "sass\\cqn_emails.scss",
+      "customOutput": false,
+      "type": "Scss",
+      "config": {
+        "autoCompile": true,
+        "lineNumbers": false,
+        "unixNewlines": false,
+        "sourcemaps": false,
+        "debug": false,
+        "compass": false,
+        "fullCompass": false,
+        "outputStyle": "expanded",
+        "autoprefixer": false
+      }
     }
   },
   "imports": {
@@ -91,7 +110,9 @@
       "path": "sass\\_partials\\_variables.scss",
       "parents": [
         "ec71d449",
-        "590d5820"
+        "590d5820",
+        "3d7d3558",
+        "76b2719d"
       ]
     },
     "b27886c6": {

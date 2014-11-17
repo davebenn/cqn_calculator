@@ -1,0 +1,37 @@
+{% autoescape false %}
+
+
+{% if sub.involves_purchase %}
+    {% if sub.involves_sale %}
+        <p class="quote-heading" >Purchase & Sale Conveyancing Quote for Property values £{{ sub.purchase_price|number_format }} and £{{ sub.sale_price|number_format }}</h3>
+    {% else %}
+        <p class="quote-heading" >Purchase Conveyancing Quote for Property value £{{ sub.purchase_price|number_format }}</h3>
+    {% endif %}
+{% else %}
+    {% if sub.involves_sale %}
+        <p class="quote-heading" >Sale Conveyancing Quote for Property value £{{ sub.sale_price|number_format }}</h3>
+    {% endif %}
+{% endif %}
+
+{% if sub.involves_remortgage %}
+    {% if sub.involves_transfer %}
+        <p class="quote-heading" >Remortgage & transfer Conveyancing Quote for Property values £{{ sub.remortgage_price|number_format }} and £{{ sub.transfer_price|number_format }}</h3>
+    {% else %}
+        <p class="quote-heading" >Remortgage Conveyancing Quote for Property value £{{ sub.remortgage_price|number_format }}</h3>
+    {% endif %}
+{% else %}
+    {% if sub.involves_transfer %}
+        <p class="quote-heading" >Transfer Conveyancing Quote for Property value £{{ sub.transfer_price|number_format }}</h3>
+    {% endif %}
+{% endif %}
+
+<p>Thank you for using our instant conveyancing quote system. The results for your property are attached to this email in a PDF file.</p>
+<p>If you wish to discuss your quote further or employ our service then please contact us directly on 0161 797 4000 to speak to an advisor today.</p>
+
+<p>Thank you.</p>
+
+
+<hr />
+{% include "calc-email-footer.twig" %}
+
+{%  endautoescape %}

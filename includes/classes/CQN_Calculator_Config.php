@@ -8,7 +8,6 @@
 
 class CQN_Calculator_Config {
 
-
     public $VATRate;
 
     private $maxSalePrice;
@@ -66,7 +65,6 @@ class CQN_Calculator_Config {
         $this->leadsSystemEmailSubject = 'callback - calculator submission ';
         $this->clientEmailSubject      = 'Your conveyancing quote';
 
-
         $this->maxSalePrice = 500000;
         $this->maxPurchasePrice = 500000;
         $this->maxRemortgagePrice = 500000;
@@ -109,17 +107,17 @@ class CQN_Calculator_Config {
         ];
 
         $this->purchaseDisbursements = [
-             (object) [ 'code' => 'PURCHASE_LS'              , 'optional' => true , 'price' => 100 ,  'name' => 'Local Search' ],
-             (object) [ 'code' => 'PURCHASE_ES'              , 'optional' => true , 'price' => 50 ,   'name' => 'Environmental Search' ],
-             (object) [ 'code' => 'PURCHASE_WS'              , 'optional' => true , 'price' => 45 ,   'name' => 'Water Search' ],
-             (object) [ 'code' => 'PURCHASE_CS'              , 'optional' => true , 'price' => 42 ,   'name' => 'Coal Search' ],
-             (object) [ 'code' => 'PURCHASE_CHS'             , 'optional' => true , 'price' => 20 ,   'name' => 'Chancel Search' ],
-             (object) [ 'code' => 'PURCHASE_HS2S'            , 'optional' => true , 'price' => 25 ,   'name' => 'High Speed 2 Search' ],
-             (object) [ 'code' => 'PURCHASE_HMLRS'           , 'optional' => true , 'price' => 8 ,    'name' => 'HMLR Search' ],
-             (object) [ 'code' => 'PURCHASE_BS'              , 'optional' => false , 'price' => 2 ,    'name' => 'Bankruptcy Search' ],
-//             (object) [ 'code' => 'PURCHASE_DOCUMENT_RETURN' , 'optional' => true , 'price' => 10 ,   'name' => 'Document Return' ],
-             (object) [ 'code' => 'PURCHASE_BANK_TRANSFER'   , 'optional' => false , 'price' => 36.80, 'name' => 'Bank Transfer' ]
-        ];
+                 (object) [ 'code' => 'PURCHASE_LS'              , 'optional' => true , 'price' => 100 ,  'name' => 'Local Search' ],
+                 (object) [ 'code' => 'PURCHASE_ES'              , 'optional' => true , 'price' => 50 ,   'name' => 'Environmental Search' ],
+                 (object) [ 'code' => 'PURCHASE_WS'              , 'optional' => true , 'price' => 45 ,   'name' => 'Water Search' ],
+                 (object) [ 'code' => 'PURCHASE_CS'              , 'optional' => true , 'price' => 42 ,   'name' => 'Coal Search' ],
+                 (object) [ 'code' => 'PURCHASE_CHS'             , 'optional' => true , 'price' => 20 ,   'name' => 'Chancel Search' ],
+                 (object) [ 'code' => 'PURCHASE_HS2S'            , 'optional' => true , 'price' => 25 ,   'name' => 'High Speed 2 Search' ],
+                 (object) [ 'code' => 'PURCHASE_HMLRS'           , 'optional' => false , 'price' => 8 ,    'name' => 'HMLR Search' ],
+                 (object) [ 'code' => 'PURCHASE_BS'              , 'optional' => false , 'price' => 2 ,    'name' => 'Bankruptcy Search' ],
+//               (object) [ 'code' => 'PURCHASE_DOCUMENT_RETURN' , 'optional' => true , 'price' => 10 ,   'name' => 'Document Return' ],
+                 (object) [ 'code' => 'PURCHASE_BANK_TRANSFER'   , 'optional' => false , 'price' => 36.80, 'name' => 'Bank Transfer' ]
+            ];
 
         $this->salePurchaseLRBands =        [ 50000, 80000, 100000, 200000, 500000, 1000000];
         $this->salePurchaseLRFees  =        [    20,    20,     40,     95,    135,     270 ];
@@ -133,18 +131,12 @@ class CQN_Calculator_Config {
             'CSUK25'                 => (object) [ 'type' => 'F', 'amount' => 25 ,    'name' => '£25 off' ]
         ];
 
-
         $this->stampDutyBands =                [ 125000, 250000, 500000, 1000000, 2000000 ];
 
         $this->stampDutyFees  =                [ 0.00 , 0.01 , 0.03 , 0.04 , 0.05 , 0.07 ];
         $this->stampDutyFeesFirstTimeBuyers  = [ 0.00 , 0.01 , 0.03 , 0.04 , 0.05 , 0.07 ];
-
-
     }
-
-
     public function getStampDuty( $propertyPrice, $firstTimeBuyer = false ){
-
 
         $bandIndex = $this->getBandIndex( $this->stampDutyBands, $propertyPrice );
 
@@ -159,19 +151,18 @@ class CQN_Calculator_Config {
         }else{
             return false;
         }
-
         return 1;
     }
-
     public function checkDiscountCode( $code ){
 
-        if( array_key_exists( $code, $this->discountCodes ) ){
+        $code = strtoupper( $code );
+        if( array_key_exists(  $code,  $this->discountCodes ) ) {
+
             return $this->discountCodes[$code];
         }else{
             return false;
         }
     }
-
     public function getSPLandRegistryFees( $propertyPrice ){// type = SP or RT
 
         $bandIndex = $this->getBandIndex( $this->salePurchaseLRBands, $propertyPrice );
@@ -213,6 +204,7 @@ class CQN_Calculator_Config {
         }else{
             return false;
         }
+
     }
     public function getRemortgageFees( $propertyPrice ){
 
@@ -223,6 +215,7 @@ class CQN_Calculator_Config {
         }else{
             return false;
         }
+
     }
     public function getTransferFees( $propertyPrice ){
 
@@ -239,14 +232,11 @@ class CQN_Calculator_Config {
         while( ( $bands[$i] < $price ) && ( $i < ( count( $bands ) - 1 ) ) ){
             $i++;
         }
-
         if( $i > count( $bands ) - 1 ){
             return '9999';
         }
         return $i;
     }
-
-
 
     public function getSaleDisbursements(  ){
         return $this->saleDisbursements;
@@ -260,7 +250,4 @@ class CQN_Calculator_Config {
     public function getTransferDisbursements(  ){
         return $this->transferDisbursements;
     }
-
-
-
-} 
+}

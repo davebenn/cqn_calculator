@@ -1,15 +1,107 @@
+@import "_partials/variables";
+
+
+table{
+	margin-bottom: 10px;
+
+	.heading-row{
+		background-color: $blue;
+		color: $white ;
+		padding:  3px 10px;
+
+	}
+
+	td{
+		padding: 3px;
+		border-top: 1px solid #ededed;
+	}
+
+	.amount{
+		text-align: right;
+		font-family: monospace;
+
+		border-left: 1px solid #ededed;
+		width: 6em;
+	}
+
+	.property-price-row{
+		td{
+			font-weight: bold;
+			color: $blue;
+			border: none;
+		}
+	}
+
+	.discount-total{
+		td{
+			color: $red;
+		}
+	}
+
+	.major-total-row{
+		td{
+			font-weight: bold;
+		}
+	}
+	.total-row{
+
+		td{
+			border-top   : 2px solid $blue ;
+			border-bottom: 2px solid $blue ;
+			text-align: right;
+		}
+	}
+  .disb-optional{
+    td{
+      color: $red;
+      font-style: italic;
+    }
+  }
+}
+.optional-disbursements-wrapper{
+	text-align: center;
+}
+table.optional-disbursements{
+	td{
+		padding: 0;
+		text-align: left;
+		
+	}
+	.amount{
+		text-align: right;
+		font-family: monospace;
+	}
+}
+
+.instruct-buttons{
+	margin-bottom: 1em
+}
+form{
+	display: inline;
+}
+.possible-disbursements{
+	margin: 10px 0; 
+}
 body{
 	font-family: sans-serif;
-	color: #222222;
+	font-size: 12px;
+	margin: 0;
 }
-table{
-  
-  .heading-row{
-    background-color: #0033DD;
-    color: #fff ;
-    padding:  .5em 1em;
-   
-  }
-  td{
-  }
+
+.footer{
+	font-size: 8px;
+	color: #444;
+	position: absolute;
+	bottom: 0;
+
+	p{
+		margin: 2px 0;
+	}
+	h3{
+		margin: 2px 0;
+	}
+}
+
+@page{
+	margin-bottom: 8px;
 }

@@ -64,18 +64,22 @@ class CQN_Calculator_Submission
     public $discount_total;
 
     public $sale_price;
+    public $purchase_price;
+    public $remortgage_price;
+    public $transfer_price;
+
     public $sale_leasehold;
     public $sale_mortgage;
-    public $purchase_price;
+
     public $purchase_leasehold;
     public $purchase_mortgage;
     public $purchase_1st_time_buyer;
     public $purchase_no_of_buyers;
-    public $remortgage_price;
+
     public $remortgage_leasehold;
     public $remortgage_no_of_people;
     public $remortgage_involves_transfer;
-    public $transfer_price;
+
     public $transfer_leasehold;
     public $transfer_no_of_people;
 
@@ -99,18 +103,24 @@ class CQN_Calculator_Submission
     public $sale_locality;
     public $sale_town;
     public $sale_postcode;
+
     public $purchase_street_address;
     public $purchase_locality;
     public $purchase_town;
     public $purchase_postcode;
+
     public $remortgage_street_address;
     public $remortgage_locality;
     public $remortgage_town;
     public $remortgage_postcode;
+
     public $transfer_street_address;
     public $transfer_locality;
     public $transfer_town;
     public $transfer_postcode;
+
+    public $site_name;
+
 
 
     public function calculate()
@@ -159,7 +169,6 @@ class CQN_Calculator_Submission
                 }
                 $this->sale_disbursements_list[] = $disbursement;
             }
-            error_log(  print_r( $this->sale_disbursements_list, true ));
         }
 
         if ($this->involves_purchase) {
@@ -193,7 +202,6 @@ class CQN_Calculator_Submission
             $this->purchase_disbursements_total += $stampDuty;
             $this->purchase_disbursements_list[] = (object) [ 'code' => 'PURCHASE_SD'       , 'optional' => false      , 'price' => $stampDuty ,    'name' => 'Stamp Duty' ];
 
-            error_log( $stampDuty );
 
             $landRegistryFee = $this->config->getSPLandRegistryFees( $this->purchase_price );
             $this->purchase_disbursements_total += $landRegistryFee;
@@ -325,6 +333,7 @@ class CQN_Calculator_Submission
         $this->config = $config;
         $this->calculator_ref = $this->generateUniqueID();
 
+        $this->site_name = get_bloginfo();
     }
 
     public function loadFromPost($postArray)
@@ -396,7 +405,6 @@ class CQN_Calculator_Submission
 
         global $wpdb;
         $q = 'SELECT * FROM `' . CQN_TABLE_NAME . '` WHERE `calculator_ref` =  "' . $calcRef . '";';
-        error_log( $q );
         $submission = $wpdb->get_row($q, OBJECT);
 
         if ($submission) {
@@ -438,8 +446,8 @@ class CQN_Calculator_Submission
             $this->sale_disbursements_list       = json_decode( $submission->sale_disbursements_list );
             $this->remortgage_disbursements_list = json_decode( $submission->remortgage_disbursements_list );
             $this->transfer_disbursements_list   = json_decode( $submission->transfer_disbursements_list );
+            $this->optional_disbursements_list   = json_decode( $submission->optional_disbursements_list );
 
-            error_log( print_r( $this->sale_disbursements_list , true) );
 
             $this->purchase_legal_fees  = $submission->purchase_legal_fees;
             $this->sale_legal_fees  = $submission->sale_legal_fees;
@@ -454,6 +462,11 @@ class CQN_Calculator_Submission
             $this->vat_on_fees  = $submission->vat_on_fees;
 
             $this->no_move_no_fee  = $submission->no_move_no_fee;
+
+            $this->fees_plus_vat  = $submission->fees_plus_vat;
+
+
+
 
             $this->quote_total  = $submission->quote_total;
             $this->discount_total  = $submission->discount_total;
@@ -553,6 +566,7 @@ class CQN_Calculator_Submission
             'sale_disbursements_list'        => json_encode(  $this->sale_disbursements_list ),
             'remortgage_disbursements_list'  => json_encode(  $this->remortgage_disbursements_list ),
             'transfer_disbursements_list'    => json_encode(  $this->transfer_disbursements_list ),
+            'optional_disbursements_list'    => json_encode(  $this->optional_disbursements_list ),
 
 
             'purchase_legal_fees'		=> $this->purchase_legal_fees,
@@ -569,6 +583,10 @@ class CQN_Calculator_Submission
 
             'vat_on_fees' => $this->vat_on_fees,
             'no_move_no_fee' => $this->no_move_no_fee,
+
+            'fees_plus_vat' => $this->fees_plus_vat,
+
+
             'quote_total' => $this->quote_total ,
             'discounted_total' => $this->discounted_total ,
             'discount_total' => $this->discount_total ,
@@ -711,8 +729,9 @@ class CQN_Calculator_Submission
 
         $html = '<html><head>'.$styles.'</head><body>';
 
-//            $html .= $this->getTextQuote();
-        $html .=  $template->render( [ 'sub' => $_SESSION['CQN_calculator_submission'] ] );
+            //$html .= $this->getTextQuote();
+//        $html .=  $template->render( [ 'sub' => $_SESSION['CQN_calculator_submission'] ] );
+        $html .=  $template->render( [ 'sub' => $this ] );
 
         $html .= '</body></html>';
 

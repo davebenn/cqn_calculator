@@ -1,0 +1,133 @@
+{% autoescape false %}
+<table class="instruction-details" >
+
+    <tr class="header-row"><td colspan=2>Instruction Requested</td>
+
+    <tr><td>Contact Name</td><td class="amount">{{ sub.contact_name }}</td>
+    <tr><td>Telephone</td><td class="amount">{{ sub.contact_telephone }}</td>
+    <tr><td>Email</td><td class="amount">{{ sub.contact_email }}</td>
+    <tr><td></td><td class="amount"></td>
+
+
+
+    <tr class="header-row"><td colspan=2>Quote Details</td>
+
+
+{{ sub.involves_sale              ?  '<tr><td>Sale Legal Fees</td><td  class="amount">'                  ~ sub.sale_legal_fees|number_format           ~ '</td></tr>' : '' }}
+{{ sub.involves_purchase          ?  '<tr><td>Purchase Legal Fees</td><td  class="amount">'              ~ sub.purchase_legal_fees|number_format       ~ '</td></tr>' : '' }}
+{{ sub.involves_remortgage        ?  '<tr><td>Remortgage Legal Fees</td><td  class="amount">'            ~ sub.remortgage_legal_fees|number_format     ~ '</td></tr>' : '' }}
+{{ sub.involves_transfer          ?  '<tr><td>Transfer Legal Fees</td><td  class="amount">'              ~ sub.transfer_legal_fees|number_format       ~ '</td></tr>' : '' }}
+{{ ( sub.sale_leasehold_fees       > 0 ) ?  '<tr><td>Sale Leasehold Fees</td><td  class="amount">'       ~ sub.sale_leasehold_fees|number_format       ~ '</td></tr>' : '' }}
+{{ ( sub.purchase_leasehold_fees   > 0 ) ?  '<tr><td>Purchase Leasehold Fees</td><td  class="amount">'   ~ sub.purchase_leasehold_fees|number_format   ~ '</td></tr>' : '' }}
+{{ ( sub.remortgage_leasehold_fees > 0 ) ?  '<tr><td>Remortgage Leasehold Fees</td><td  class="amount">' ~ sub.remortgage_leasehold_fees|number_format ~ '</td></tr>' : '' }}
+{{ ( sub.transfer_leasehold_fees   > 0 ) ?  '<tr><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.transfer_leasehold_fees|number_format   ~ '</td></tr>' : '' }}
+{{ ( sub.no_move_no_fee            > 0 ) ?  '<tr><td>No Move No Fee</td><td  class="amount">'            ~ sub.no_move_no_fee|number_format            ~ '</td></tr>' : '' }}
+
+{# no move no fee ???? #}
+
+<tr class="vat-row"   ><td>VAT On Fees</td><td class="amount">{{ sub.vat_on_fees|number_format }}</td></tr>
+<tr class="total-row" ><td>Fees Total</td><td class="amount">{{ sub.fees_plus_vat|number_format }}</td></tr>
+
+
+
+
+
+<tr class="total-row"><td>Disbursements Total</td><td class="amount">{{ sub.disbursements_total|number_format }}</td>
+<tr class="total-row"><td>Quote Total</td><td class="amount">{{ sub.quote_total|number_format }}</td>
+
+<tr class="total-row discount-row"><td>Discount Total</td><td class="amount">- {{ sub.discount_total|number_format }}</td>
+<tr class="total-row"><td>Discounted Total</td><td class="amount">{{ sub.discounted_total|number_format }}</td>
+
+{#==== FEES  END====  #}
+
+
+
+    <tr class="header-row"><td colspan=2>Contact Details</td>
+
+
+
+    <tr><td>Street Address</td><td class="amount">{{ sub.contact_street_address }}</td>
+    <tr><td>Address 2</td><td class="amount">{{ sub.contact_locality }}</td>
+    <tr><td>Town</td><td class="amount">{{ sub.contact_town }}</td>
+    <tr><td>Postcode</td><td class="amount">{{ sub.contact_postcode }}</td>
+    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    <tr><td>Additional 1 fullname</td><td class="amount">{{ sub.additional_1_fullname }}</td>
+    <tr><td>Additional 2 fullname</td><td class="amount">{{ sub.additional_2_fullname }}</td>
+    <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+
+
+
+    {% if sub.involves_sale %}
+        <tr class="header-row"><td colspan=2>Sale Details</td>
+
+        <tr><td>Sale Leasehold</td><td class="amount">{{        sub.sale_leasehold ? 'Yes' : 'No' }}</td></tr>
+        <tr><td>Sale Mortgage</td><td class="amount">{{         sub.sale_mortgage ? 'Yes' : 'No' }}</td></tr>
+
+        <tr><td>Sale Price</td><td class="amount">{{            sub.sale_price|number_format }}</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+
+        <tr><td>Street Address</td><td class="amount">{{        sub.sale_street_address }}</td>
+        <tr><td>Address 2</td><td class="amount">{{             sub.sale_locality }}</td>
+        <tr><td>Town</td><td class="amount">{{                  sub.sale_town }}</td>
+        <tr><td>Postcode</td><td class="amount">{{              sub.sale_postcode }}</td>
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    {% endif %}
+
+    {% if sub.involves_purchase %}
+        <tr class="header-row"><td colspan=2>Purchase Details</td>
+
+        <tr><td>Purchase Leasehold</td><td class="amount">{{    sub.purchase_leasehold ? 'Yes' : 'No' }}</td></tr>
+        <tr><td>Mortgage</td><td class="amount">{{              sub.purchase_mortgage ? 'Yes' : 'No' }}</td></tr>
+        <tr><td>1st iime buyer</td><td class="amount">{{        sub.purchase_1st_time_buyer ? 'Yes' : 'No' }}</td></tr>
+        <tr><td>Number of buyers</td><td class="amount">{{      sub.purchase_no_of_buyers  }}</td></tr>
+
+
+
+
+
+        <tr><td>Purchase Price</td><td class="amount">{{    sub.purchase_price|number_format }}</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>Street Address</td><td class="amount">{{    sub.purchase_street_address }}</td>
+        <tr><td>Address 2</td><td class="amount">{{         sub.purchase_locality }}</td>
+        <tr><td>Town</td><td class="amount">{{              sub.purchase_town }}</td>
+        <tr><td>Postcode</td><td class="amount">{{          sub.purchase_postcode }}</td>
+
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    {% endif %}
+
+    {% if sub.involves_remortgage %}
+        <tr class="header-row"><td colspan=2>Remortgage Details</td>
+
+            
+        <tr><td>Remortgage Leasehold</td><td class="amount">{{    sub.remortgage_leasehold ? 'Yes' : 'No' }}</td></tr>
+        <tr><td>Number of people</td><td class="amount">{{      sub.remortgage_no_of_people  }}</td></tr>
+
+        <tr><td>Remortgage  Price</td><td class="amount">{{ sub.remortgage_price|number_format }}</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>Street Address</td><td class="amount">{{ sub.remortgage_street_address }}</td>
+        <tr><td>Address 2</td><td class="amount">{{ sub.remortgage_locality }}</td>
+        <tr><td>Town</td><td class="amount">{{ sub.remortgage_town }}</td>
+        <tr><td>Postcode</td><td class="amount">{{ sub.remortgage_postcode }}</td>
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    {% endif %}
+
+    {% if sub.involves_transfer %}
+        <tr class="header-row"><td colspan=2>Transfer Details</td>
+
+        <tr><td>Transfer Leasehold</td><td class="amount">{{    sub.transfer_leasehold ? 'Yes' : 'No' }}</td></tr>
+        <tr><td>Number of people</td><td class="amount">{{      sub.transfer_no_of_people  }}</td></tr>
+
+        <tr><td>Transfer  Price</td><td class="amount">{{ sub.transfer_price|number_format }}</td></tr>
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+        <tr><td>Street Address</td><td class="amount">{{ sub.transfer_street_address }}</td>
+        <tr><td>Address 2</td><td class="amount">{{ sub.transfer_locality }}</td>
+        <tr><td>Town</td><td class="amount">{{ sub.transfer_town }}</td>
+        <tr><td>Postcode</td><td class="amount">{{ sub.transfer_postcode }}</td>
+        <tr><td>&nbsp;</td><td>&nbsp;</td></tr>
+    {% endif %}
+
+</table>
+
+
+
+{%  endautoescape %}

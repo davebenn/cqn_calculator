@@ -1,10 +1,86 @@
-body {
-  font-family: sans-serif;
-  color: #222222;
+table {
+  margin-bottom: 10px;
+}
+table .heading-row {
+  background-color: #1495dd;
+  color: white;
+  padding: 3px 10px;
+}
+table td {
+  padding: 3px;
+  border-top: 1px solid #ededed;
+}
+table .amount {
+  text-align: right;
+  font-family: monospace;
+  border-left: 1px solid #ededed;
+  width: 6em;
+}
+table .property-price-row td {
+  font-weight: bold;
+  color: #1495dd;
+  border: none;
+}
+table .discount-total td {
+  color: #e32828;
+}
+table .major-total-row td {
+  font-weight: bold;
+}
+table .total-row td {
+  border-top: 2px solid #1495dd;
+  border-bottom: 2px solid #1495dd;
+  text-align: right;
+}
+table .disb-optional td {
+  color: #e32828;
+  font-style: italic;
 }
 
-table .heading-row {
-  background-color: #0033DD;
-  color: white;
-  padding: .5em 1em;
+.optional-disbursements-wrapper {
+  text-align: center;
+}
+
+table.optional-disbursements td {
+  padding: 0;
+  text-align: left;
+}
+table.optional-disbursements .amount {
+  text-align: right;
+  font-family: monospace;
+}
+
+.instruct-buttons {
+  margin-bottom: 1em;
+}
+
+form {
+  display: inline;
+}
+
+.possible-disbursements {
+  margin: 10px 0;
+}
+
+body {
+  font-family: sans-serif;
+  font-size: 12px;
+  margin: 0;
+}
+
+.footer {
+  font-size: 8px;
+  color: #444;
+  position: absolute;
+  bottom: 0;
+}
+.footer p {
+  margin: 2px 0;
+}
+.footer h3 {
+  margin: 2px 0;
+}
+
+@page {
+  margin-bottom: 8px;
 }
