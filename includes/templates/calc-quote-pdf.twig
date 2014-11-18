@@ -24,20 +24,20 @@
 #}
 
 
-{{ sub.involves_sale              ?  '<tr><td>Sale Legal Fees</td><td  class="amount">'           ~ sub.sale_legal_fees           ~ '</td></tr>' : '' }}
-{{ sub.involves_purchase          ?  '<tr><td>Purchase Legal Fees</td><td  class="amount">'       ~ sub.purchase_legal_fees       ~ '</td></tr>' : '' }}
-{{ sub.involves_remortgage        ?  '<tr><td>Remortgage Legal Fees</td><td  class="amount">'     ~ sub.remortgage_legal_fees     ~ '</td></tr>' : '' }}
-{{ sub.involves_transfer          ?  '<tr><td>Transfer Legal Fees</td><td  class="amount">'       ~ sub.transfer_legal_fees       ~ '</td></tr>' : '' }}
-{{ ( sub.sale_leasehold_fees       > 0 ) ?  '<tr><td>Sale Leasehold Fees</td><td  class="amount">'       ~ sub.sale_leasehold_fees       ~ '</td></tr>' : '' }}
-{{ ( sub.purchase_leasehold_fees   > 0 ) ?  '<tr><td>Purchase Leasehold Fees</td><td  class="amount">'   ~ sub.purchase_leasehold_fees   ~ '</td></tr>' : '' }}
-{{ ( sub.remortgage_leasehold_fees > 0 ) ?  '<tr><td>Remortgage Leasehold Fees</td><td  class="amount">' ~ sub.remortgage_leasehold_fees ~ '</td></tr>' : '' }}
-{{ ( sub.transfer_leasehold_fees   > 0 ) ?  '<tr><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.transfer_leasehold_fees   ~ '</td></tr>' : '' }}
-{{ ( sub.no_move_no_fee            > 0 ) ?  '<tr><td>No Move No Fee</td><td  class="amount">'   ~ sub.no_move_no_fee            ~ '</td></tr>' : '' }}
+{{ sub.involves_sale              ?  '<tr><td>Sale Legal Fees</td><td  class="amount">'           ~ sub.sale_legal_fees|number_format           ~ '</td></tr>' : '' }}
+{{ sub.involves_purchase          ?  '<tr><td>Purchase Legal Fees</td><td  class="amount">'       ~ sub.purchase_legal_fees|number_format       ~ '</td></tr>' : '' }}
+{{ sub.involves_remortgage        ?  '<tr><td>Remortgage Legal Fees</td><td  class="amount">'     ~ sub.remortgage_legal_fees|number_format     ~ '</td></tr>' : '' }}
+{{ sub.involves_transfer          ?  '<tr><td>Transfer Legal Fees</td><td  class="amount">'       ~ sub.transfer_legal_fees|number_format       ~ '</td></tr>' : '' }}
+{{ ( sub.sale_leasehold_fees       > 0 ) ?  '<tr><td>Sale Leasehold Fees</td><td  class="amount">'       ~ sub.sale_leasehold_fees|number_format       ~ '</td></tr>' : '' }}
+{{ ( sub.purchase_leasehold_fees   > 0 ) ?  '<tr><td>Purchase Leasehold Fees</td><td  class="amount">'   ~ sub.purchase_leasehold_fees|number_format   ~ '</td></tr>' : '' }}
+{{ ( sub.remortgage_leasehold_fees > 0 ) ?  '<tr><td>Remortgage Leasehold Fees</td><td  class="amount">' ~ sub.remortgage_leasehold_fees|number_format ~ '</td></tr>' : '' }}
+{{ ( sub.transfer_leasehold_fees   > 0 ) ?  '<tr><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.transfer_leasehold_fees|number_format   ~ '</td></tr>' : '' }}
+{{ ( sub.no_move_no_fee            > 0 ) ?  '<tr><td>No Move No Fee</td><td  class="amount">'   ~ sub.no_move_no_fee|number_format            ~ '</td></tr>' : '' }}
 
 {# no move no fee ???? #}
 
-<tr class="vat-row"   ><td>VAT On Fees</td><td class="amount">{{ sub.vat_on_fees }}</td></tr>
-<tr class="total-row" ><td>Fees Total</td><td class="amount">{{ sub.fees_plus_vat }}</td></tr>
+<tr class="vat-row"   ><td>VAT On Fees</td><td class="amount">{{  sub.vat_on_fees|number_format }}</td></tr>
+<tr class="total-row" ><td>Fees Total</td><td class="amount">{{ sub.fees_plus_vat|number_format }}</td></tr>
 
 {#==== FEES  END====  #}
 {#==== DISBURSEMENTS START====  #}
@@ -48,11 +48,11 @@
         {% if not disb.optional_disbursements_list %}
             <tr class="disb-mandatory">
                 <td>{{  disb.name }}</td>
-                <td class="amount">{{  disb.price }}</td>
+                <td class="amount">{{  disb.price|number_format }}</td>
             </tr>
         {% endif %}
     {%  endfor %}
-    <tr  class="total-row"><td>Sale Disbursements       Total:</td><td  class="amount">{{   sub.sale_disbursements_total       }}</td></tr>
+    <tr  class="total-row"><td>Sale Disbursements       Total:</td><td  class="amount">{{   sub.sale_disbursements_total|number_format       }}</td></tr>
 {% endif %}
 
 {% if sub.involves_purchase %}
@@ -61,7 +61,7 @@
         {% if not disb.optional %}
             <tr class="disb-mandatory">
                 <td>{{  disb.name }}</td>
-                <td class="amount">{{  disb.price }}</td>
+                <td class="amount">{{  disb.price|number_format }}</td>
             </tr>
         {% endif %}
     {%  endfor %}
@@ -74,7 +74,7 @@
         {% if not disb.optional %}
             <tr class="disb-mandatory">
                 <td>{{  disb.name }}</td>
-                <td class="amount">{{  disb.price }}</td>
+                <td class="amount">{{  disb.price|number_format }}</td>
             </tr>
         {% endif %}
     {%  endfor %}
@@ -87,7 +87,7 @@
         {% if not disb.optional %}
             <tr class="disb-mandatory">
                 <td>{{  disb.name }}</td>
-                <td class="amount">{{  disb.price }}</td>
+                <td class="amount">{{  disb.price|number_format }}</td>
             </tr>
         {% endif %}
     {%  endfor %}
@@ -115,7 +115,7 @@
 
 {% if ( sub.optional_disbursements_list ) %}
     <div class="possible-disbursements">
-        <p>Depending on the location of the property/properties you may also be liable to other disbursements. Here is a list of the most common ones.</p>
+        <p>Depending on various factors including who your lender is or the location of the property you may also be liable to other disbursements. Here is a list of the most common ones.</p>
         <table  class="optional-disbursements" style="width: 66%" >
             <thead>
                 <tr>
@@ -127,7 +127,7 @@
                     {% for disb in sub.optional_disbursements_list %}
                         <tr class="disb-optional">
                             <td>{{  disb.name }}</td>
-                            <td class="amount">{{  disb.price|number_format  }}</td>
+                            <td class="amount">{{  disb.price|number_format }}</td>
                         </tr>
                     {% endfor %}
             </tbody>

@@ -15,7 +15,9 @@
 
 {% if sub.involves_remortgage %}
     {% if sub.involves_transfer %}
-        <p class="quote-heading" >Remortgage & transfer Conveyancing Quote for Property values £{{ sub.remortgage_price|number_format }} and £{{ sub.transfer_price|number_format }}</h3>
+        <p class="quote-heading" >Remortgage & transfer Conveyancing Quote for Property values
+         £{{ sub.remortgage_price|number_format }} and
+         £{{ sub.transfer_price|number_format }}</p>
     {% else %}
         <p class="quote-heading" >Remortgage Conveyancing Quote for Property value £{{ sub.remortgage_price|number_format }}</h3>
     {% endif %}

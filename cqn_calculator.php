@@ -127,25 +127,17 @@ function cqn_activation(){
 
 register_activation_hook( __FILE__ , 'cqn_activation' );
 
-function validateInput(){
-    return null;
-    return ['CQN_ERROR_contact_email' => 'Invalid Email Address'];
-    // idea for validation, just add the error to the $_POST array with keys prewfixed
-    // wit some determinable and namespacey string
-
-}
-
-
 
 function cqn_init(){
 
-
     if( !is_admin() ){
+
+        require 'vendor/autoload.php';
 
         require_once  CQN_PLUGIN_PATH . '/includes/classes/CQN_Calculator_Config.php' ;
         require_once  CQN_PLUGIN_PATH . '/includes/classes/CQN_Calculator_Submission.php' ;
 
-        require_once CQN_PLUGIN_PATH . '/vendor/twig/twig/lib/Twig/Autoloader.php';
+        //require_once CQN_PLUGIN_PATH . '/vendor/twig/twig/lib/Twig/Autoloader.php';
         Twig_Autoloader::register();
 
 
@@ -154,9 +146,10 @@ function cqn_init(){
 
         $CQN_twigLoader = new Twig_Loader_Filesystem ( CQN_PLUGIN_PATH . '/includes/templates');
 
-//        $CQN_twig = new Twig_Environment($CQN_twigLoader, array(
-//            'cache' => CQN_PLUGIN_PATH . '/storage/cache',
-//        ));
+//       $CQN_twig = new Twig_Environment($CQN_twigLoader, array(
+//           'cache' => CQN_PLUGIN_PATH . '/storage/cache',
+//       ));
+
         $CQN_twig = new Twig_Environment($CQN_twigLoader, array(
             'cache' => false,
         ));
@@ -165,12 +158,9 @@ function cqn_init(){
 
         if( isset( $_POST['cqn_calc_form'] ) ){
 
-
             require 'vendor/autoload.php';
 
-
             if( isset(  $_POST[ 'cqn_instructType' ] ) ) {
-
                 /*
                  * instruct now or email me clicked
                  *
@@ -182,12 +172,8 @@ function cqn_init(){
                 $config = new CQN_Calculator_Config;
                 $sub    = new CQN_Calculator_Submission( $config );
 
-
                 $ref = $_POST['CQN_calculator_ref'];
                 $loaded =  $sub->load( $ref ) ;
-
-                error_log( 'ref: '  . $ref .  '  = ' . $loaded ) ;
-
 
                 if( $_POST[ 'cqn_instructType' ] == 'instructNow' ) {
 
@@ -250,10 +236,18 @@ function cqn_init(){
 
             }else{// show quote
 
-                $errors = validateInput();
+                $config = new CQN_Calculator_Config;
+                $sub    = new CQN_Calculator_Submission( $config );
 
-                if (!$errors) {//  calculator form submitted
+                $sub->loadFromPost( $_POST );
+               //
 
+                $sub->validate();
+
+                $errors = $sub->errors;
+
+
+                if (  !$errors  ) {//  calculator form submitted
                     /*
                      * do calculation
                      * save the submission to database
@@ -264,46 +258,35 @@ function cqn_init(){
                      *
                     */
 
-
-
-                    $config = new CQN_Calculator_Config;
-                    $sub    = new CQN_Calculator_Submission( $config );
-
-                    $sub->loadFromPost( $_POST );
-
-
                     $sub->calculate();
-
                     $sub->save();
 
-
-                    // send calculator used email?
-
-
-
+                    // still need to send calculator used email?
                     // email to callback system
+
                     $_SESSION['CQN_calculator_submission'] = $sub;
                     $sub->savePDF( CQN_PDF_STORAGE_DIR );
 
                     wp_mail( $config->leadsSystemEmailAddress, $config->leadsSystemEmailSubject, '__calc-ref=davelala;__saleprice=12333', '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf'  );
-
 
                     wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', [ 'jquery' ] );
                     wp_enqueue_style(  'cqn_calculator_styles', CQN_PLUGIN_URL . '/includes/css/cqn_styles.css');
 
                     $sub->clearConfig();// to help prevent details of config leaking
                     add_shortcode('cqn_calculator', 'cqn_show_quote');
-                } else {
 
+                }else{
+
+                    wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', [ 'jquery' ] );
+                    wp_enqueue_style(  'cqn_calculator_styles', CQN_PLUGIN_URL . '/includes/css/cqn_styles.css');
+
+                    $_SESSION['CQN_calculator_submission'] = $sub;
                     // there are errors ??
                     // set shortcode to show the form again
-
                     add_shortcode('cqn_calculator', 'cqn_show_calculator');
                 }
             }
         }else{
-
-
 
             $config = new CQN_Calculator_Config;
             $sub    = new CQN_Calculator_Submission( $config );
@@ -317,7 +300,6 @@ function cqn_init(){
         }
     }
 }
-
 
 function cqn_show_thanks(   ){
     global $CQN_twig;
@@ -338,7 +320,6 @@ function cqn_show_calculator(  $errors )
     return $template->render( [ 'sub' => $_SESSION['CQN_calculator_submission'] ] );
 
 }
-
 
 function cqn_startSession() {
     //session_start();
@@ -442,10 +423,10 @@ function cqn_test_instruct_email(   ){
 
     $post =  [
 
-        'contact_email' =>  'davebenn@gmail.com',
-        'contact_telephone' => '07875295076',
-        'contact_name' => 'Dave Tester',
-        'quote_type' => 'sale_purchase',
+            'contact_email' =>  'davebenn@gmail.com',
+            'contact_telephone' => '07875295076',
+            'contact_name' => 'Dave Tester',
+            'quote_type' => 'sale_purchase',
             'quote_type' => 'remortgage',
 
             'remortgage_involves_transfer' => 1,
@@ -474,10 +455,10 @@ function cqn_test_instruct_email(   ){
         ];
     $post =  [
 
-        'contact_email' =>  'davebenn@gmail.com',
-        'contact_telephone' => '07875295076',
-        'contact_name' => 'Dave Tester',
-        'quote_type' => 'sale_purchase',
+            'contact_email' =>  'davebenn@gmail.com',
+            'contact_telephone' => '07875295076',
+            'contact_name' => 'Dave Tester',
+            'quote_type' => 'sale_purchase',
 
             'sale_no_of_people' => 2,
 
@@ -520,16 +501,12 @@ function cqn_test_instruct_email(   ){
     $sub->calculate();
 
     $html = '<style type="text/css">' . file_get_contents( CQN_PLUGIN_PATH . '/includes/css/cqn_emails.css' ) . '</style>';
-//    $template = $CQN_twig->loadTemplate('calc-email-instruct-admin.twig');
-//    $template = $CQN_twig->loadTemplate('calc-email-instruct-client.twig');
-    $template = $CQN_twig->loadTemplate('calc-email-client.twig');
+    $template = $CQN_twig->loadTemplate('calc-email-instruct-admin.twig');
+    //$template = $CQN_twig->loadTemplate('calc-email-instruct-client.twig');
+//    $template = $CQN_twig->loadTemplate('calc-email-client.twig');
     $html .= $template->render( [ 'sub' => $sub ] );
 
-
-
     return $html;
-
-
 }
 
 function cqn_add_test_shortcodes(){
@@ -565,8 +542,6 @@ add_action( 'wp_login',  'cqn_destroySession' );
 
 /* shortcode to display the test quotes */
 add_action( 'init', 'cqn_add_test_shortcodes' );
-
-
 
 add_filter( 'wp_mail_content_type', 'cqn_set_html_content_type' );
 

@@ -87,6 +87,13 @@
 		color: $grey2;
 		font-size: 0.875em;
 	}
+
+	.error{
+		input{
+			border: 1px solid $red;
+			box-shadow: 0 0 12px  tint( $red , 50) ;
+		}
+	}
 }
 
 .entry-content{

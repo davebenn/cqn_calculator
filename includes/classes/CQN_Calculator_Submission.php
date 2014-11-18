@@ -121,6 +121,7 @@ class CQN_Calculator_Submission
 
     public $site_name;
 
+    public $errors;
 
 
     public function calculate()
@@ -333,7 +334,36 @@ class CQN_Calculator_Submission
         $this->config = $config;
         $this->calculator_ref = $this->generateUniqueID();
 
+        $this->errors = false;
+
         $this->site_name = get_bloginfo();
+    }
+
+    public function validate()
+    {
+        $validator = new \Hampel\Validate\Validator();
+        $this->errors = false;
+
+        if( !$validator->isEmail( $this->contact_email ) )
+            $this->errors[ 'contact_email' ] = 'please enter a valid email';
+
+        if( !( is_numeric( $this->sale_price ) && $this->sale_price > 1000 )  )
+            $this->errors[ 'sale_price' ] = 'please enter a valid sale price';
+
+        if( !( is_numeric( $this->purchase_price ) && $this->purchase_price > 1000 )  )
+            $this->errors[ 'purchase_price' ] = 'please enter a valid purchase price';
+
+        if( !( is_numeric( $this->remortgage_price ) && $this->remortgage_price > 1000 )  )
+            $this->errors[ 'remortgage_price' ] = 'please enter a valid remortgage price';
+
+        if( !( is_numeric( $this->transfer_price ) && $this->transfer_price > 1000 )  )
+            $this->errors[ 'transfer_price' ] = 'please enter a valid transfer price';
+
+
+
+
+        return true;// true that validation has run ok, not validation is ok
+
     }
 
     public function loadFromPost($postArray)

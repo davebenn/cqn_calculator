@@ -56,9 +56,12 @@ class CQN_Calculator_Config {
 
     private $discountCodes;
 
+
     public function __construct(  ){
 
         $this->VATRate = 0.2;
+
+//        $this->quote_types = [ 'sale', 'purchase', 'sale_purchase', 'remortgage', 'transfer' ];
 
         $this->leadsSystemEmailAddress = 'davebenn+calc-leads@gmail.com';
         $this->instructEmailAddress    = 'davebenn+calc-instruct@gmail.com';
