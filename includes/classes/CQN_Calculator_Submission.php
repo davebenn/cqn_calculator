@@ -379,7 +379,25 @@ class CQN_Calculator_Submission
 
         $insertFields = array();
 
-        $insertFields[ 'fullname' ]                  = $this->contact_name;
+
+//        $insertFields[ 'fullname' ]                  = $this->contact_name;
+
+        $contactName = new CQN_Name( $this->contact_name );
+
+        if( $contactName ){
+            $insertFields[ 'title' ]        = $contactName->title;
+            $insertFields[ 'forename' ]        = $contactName->forename;
+            $insertFields[ 'surname' ]        = $contactName->surname;
+        }else{
+            $insertFields[ 'fullname' ]                  = $this->contact_name;
+
+        }
+
+
+
+
+
+
         $insertFields[ 'email' ]                     = $this->contact_email;
         $insertFields[ 'telephone' ]                 = $this->contact_telephone;
         $insertFields[ 'lead_type' ]                 = 'Conveyancing_Lead';
@@ -414,8 +432,6 @@ class CQN_Calculator_Submission
             $insertFields[ 'sale_is_leasehold' ]     = $this->sale_leasehold;
             $insertFields[ 'sale_has_mortgage' ]     = $this->sale_mortgage;
 
-        }else{
-            error_log( 'doean involve sale');
         }
         if( $this->involves_purchase ){
 
