@@ -1,34 +1,34 @@
 {%
 
-
-set additionalFields =  {
-'contact_street_address' : 'Contact Street Address',
-'contact_locality' : 'Contact Locality',
-'contact_town' : 'Contact Town',
-'contact_postcode' : 'Contact Postcode',
-'additional_1_title' : 'Additional 1 Title',
-'additional_1_forename' : 'Additional 1 Forename',
-'additional_1_surname' : 'Additional 1 Surname',
-'additional_2_title' : 'Additional 2 Title',
-'additional_2_forename' : 'Additional 2 Forename',
-'additional_2_surname' : 'Additional 2 Surname',
-'sale_street_address' : 'Sale Street Address',
-'sale_locality' : 'Sale Locality',
-'sale_town' : 'Sale Town',
-'sale_postcode' : 'Sale Postcode',
-'purchase_street_address' : 'Purchase Street Address',
-'purchase_locality' : 'Purchase Locality',
-'purchase_town' : 'Purchase Town',
-'purchase_postcode' : 'Purchase Postcode',
-'remortgage_street_address' : 'Remortgage Street Address',
-'remortgage_locality' : 'Remortgage Locality',
-'remortgage_town' : 'Remortgage Town',
-'remortgage_postcode' : 'Remortgage Postcode',
-'transfer_street_address' : 'Transfer Street Address',
-'transfer_locality' : 'Transfer Locality',
-'transfer_town' : 'Transfer Town',
-'transfer_postcode' : 'Transfer Postcode'
-} %}
+    set additionalFields =  {
+        'contact_street_address' : 'Contact Street Address',
+        'contact_locality' : 'Contact Locality',
+        'contact_town' : 'Contact Town',
+        'contact_postcode' : 'Contact Postcode',
+        'additional_1_title' : 'Additional 1 Title',
+        'additional_1_forename' : 'Additional 1 Forename',
+        'additional_1_surname' : 'Additional 1 Surname',
+        'additional_2_title' : 'Additional 2 Title',
+        'additional_2_forename' : 'Additional 2 Forename',
+        'additional_2_surname' : 'Additional 2 Surname',
+        'sale_street_address' : 'Sale Street Address',
+        'sale_locality' : 'Sale Locality',
+        'sale_town' : 'Sale Town',
+        'sale_postcode' : 'Sale Postcode',
+        'purchase_street_address' : 'Purchase Street Address',
+        'purchase_locality' : 'Purchase Locality',
+        'purchase_town' : 'Purchase Town',
+        'purchase_postcode' : 'Purchase Postcode',
+        'remortgage_street_address' : 'Remortgage Street Address',
+        'remortgage_locality' : 'Remortgage Locality',
+        'remortgage_town' : 'Remortgage Town',
+        'remortgage_postcode' : 'Remortgage Postcode',
+        'transfer_street_address' : 'Transfer Street Address',
+        'transfer_locality' : 'Transfer Locality',
+        'transfer_town' : 'Transfer Town',
+        'transfer_postcode' : 'Transfer Postcode'
+    }
+%}
 
 <h2>Here is your quote</h2>
 
@@ -54,20 +54,6 @@ set additionalFields =  {
 
         <tr class="heading-row"><td colspan=2>Fees</td></tr>
 
-        {#
-            fees
-            leasehold
-            vat
-            fees total
-            disbursements
-            disbursements total
-            total
-            discount
-
-            discounted total
-        #}
-
-
         {{ sub.involves_sale              ?  '<tr ><td>Sale Legal Fees</td><td  class="amount">'           ~ sub.sale_legal_fees|number_format            ~ '</td></tr>' : '' }}
         {{ sub.involves_purchase          ?  '<tr ><td>Purchase Legal Fees</td><td  class="amount">'       ~ sub.purchase_legal_fees|number_format        ~ '</td></tr>' : '' }}
         {{ sub.involves_remortgage        ?  '<tr ><td>Remortgage Legal Fees</td><td  class="amount">'     ~ sub.remortgage_legal_fees|number_format      ~ '</td></tr>' : '' }}
@@ -79,13 +65,10 @@ set additionalFields =  {
         {{ sub.transfer_leasehold_fees    ?  '<tr ><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.transfer_leasehold_fees|number_format    ~ '</td></tr>' : '' }}
         {{ sub.no_move_no_fee             ?  '<tr ><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.no_move_no_fee|number_format             ~ '</td></tr>' : '' }}
 
-            {# no move no fee ???? #}
+        {# no move no fee ???? #}
 
         <tr class="vat-row"   ><td>VAT On Fees</td><td class="amount">{{  sub.vat_on_fees|number_format  }}</td></tr>
         <tr class="total-row  major-total-row" ><td>Fees Total</td><td class="amount">{{ sub.fees_plus_vat|number_format  }}</td></tr>
-
-
-
 
         {#==== FEES  END====  #}
         {#==== DISBURSEMENTS START====  #}
@@ -105,9 +88,9 @@ set additionalFields =  {
                 <tr class="heading-row"><td colspan=2>Purchase Disbursements</td></tr>
                 {%  for disb in sub.purchase_disbursements_list %}
 
-                    {% if(disb.optional) %}
+                    {% if ( disb.optional ) %}
 
-                     {#    <tr class="disb-optional">
+{#    <tr class="disb-optional">
                             <td>{{  disb.name }}</td>
                             <td class="amount">{{  disb.price|number_format  }}</td>
                         </tr>
@@ -117,10 +100,7 @@ set additionalFields =  {
                             <td>{{  disb.name }}</td>
                             <td class="amount">{{  disb.price|number_format  }}</td>
                         </tr>
-
                     {% endif %}
-
-
                 {%  endfor %}
                 <tr class="total-row"><td>Purchase Disbursements Total</td><td  class="amount">{{   sub.purchase_disbursements_total|number_format    }}</td></tr>
             {% endif %}
@@ -148,9 +128,6 @@ set additionalFields =  {
             {% endif %}
 
     {# ==== DISBURSEMENTS END ====  #}
-
-
-
 
             <tr class="total-row major-total-row"><td>Disbursements Total</td><td  class="amount">{{             sub.disbursements_total|number_format            }}</td></tr>
             <tr class="total-row major-total-row"><td>Total</td><td  class="amount">{{                           sub.quote_total|number_format            }}</td></tr>
@@ -289,7 +266,7 @@ set additionalFields =  {
 
 {% if ( sub.optional_disbursements_list ) %}
     <div class="possible-disbursements">
-        <p>Depending on various factors including who your lender is or the location of the property you may also be liable to other disbursements. Here is a list of the most common ones.</p>
+        <p>Depending on various factors including who your lender is or the location of the property you may also be liable to other disbursements. Here is a list of the most common ones:</p>
         <table>
             <thead>
                 <tr>

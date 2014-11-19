@@ -1,3 +1,21 @@
+body {
+  color: #484845;
+}
+
+.quote-title {
+  font-family: sans-serif;
+  font-style: italic;
+  color: #52524d;
+}
+.quote-title span {
+  font-style: normal;
+  color: #1495dd;
+}
+
+.quote-generated {
+  color: #484845;
+}
+
 table {
   margin-bottom: 10px;
 }

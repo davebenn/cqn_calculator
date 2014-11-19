@@ -1,6 +1,7 @@
 {#/** @var CQN_Calculator_Submission $sub */ #}
 
-<h2>Your instant quote results</h2>
+<h1 class="quote-title"><span>{{ sub.site_name }}</span> - instant conveyancing quote</h1>
+
 
 <table class="calc-quote" style="width: 100%" cellspacing=0>
 <thead><tr><th></th><th></th></tr></thead>
@@ -24,20 +25,20 @@
 #}
 
 
-{{ sub.involves_sale              ?  '<tr><td>Sale Legal Fees</td><td  class="amount">'           ~ sub.sale_legal_fees|number_format           ~ '</td></tr>' : '' }}
-{{ sub.involves_purchase          ?  '<tr><td>Purchase Legal Fees</td><td  class="amount">'       ~ sub.purchase_legal_fees|number_format       ~ '</td></tr>' : '' }}
-{{ sub.involves_remortgage        ?  '<tr><td>Remortgage Legal Fees</td><td  class="amount">'     ~ sub.remortgage_legal_fees|number_format     ~ '</td></tr>' : '' }}
-{{ sub.involves_transfer          ?  '<tr><td>Transfer Legal Fees</td><td  class="amount">'       ~ sub.transfer_legal_fees|number_format       ~ '</td></tr>' : '' }}
+{{   sub.involves_sale                   ?  '<tr><td>Sale Legal Fees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;( on property value of £'  ~ sub.sale_price|number_format                             ~ ' )</td><td  class="amount">'           ~ sub.sale_legal_fees|number_format           ~ '</td></tr>' : '' }}
+{{   sub.involves_purchase               ?  '<tr><td>Purchase Legal Fees &nbsp; &nbsp; &nbsp; &nbsp;( on property value of £'                          ~ sub.purchase_price|number_format                         ~ ' )</td><td  class="amount">'       ~ sub.purchase_legal_fees|number_format       ~ '</td></tr>' : '' }}
+{{   sub.involves_remortgage             ?  '<tr><td>Remortgage Legal Fees &nbsp; &nbsp;( on remortgage value of £'                                      ~ sub.remortgage_price|number_format                       ~ ' )</td><td  class="amount">'     ~ sub.remortgage_legal_fees|number_format     ~ '</td></tr>' : '' }}
+{{   sub.involves_transfer               ?  '<tr><td>Transfer Legal Fees &nbsp; &nbsp; &nbsp; &nbsp;( on transfer value of £'                          ~ sub.transfer_price|number_format                         ~ ' )</td><td  class="amount">'       ~ sub.transfer_legal_fees|number_format       ~ '</td></tr>' : '' }}
 {{ ( sub.sale_leasehold_fees       > 0 ) ?  '<tr><td>Sale Leasehold Fees</td><td  class="amount">'       ~ sub.sale_leasehold_fees|number_format       ~ '</td></tr>' : '' }}
 {{ ( sub.purchase_leasehold_fees   > 0 ) ?  '<tr><td>Purchase Leasehold Fees</td><td  class="amount">'   ~ sub.purchase_leasehold_fees|number_format   ~ '</td></tr>' : '' }}
 {{ ( sub.remortgage_leasehold_fees > 0 ) ?  '<tr><td>Remortgage Leasehold Fees</td><td  class="amount">' ~ sub.remortgage_leasehold_fees|number_format ~ '</td></tr>' : '' }}
 {{ ( sub.transfer_leasehold_fees   > 0 ) ?  '<tr><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.transfer_leasehold_fees|number_format   ~ '</td></tr>' : '' }}
-{{ ( sub.no_move_no_fee            > 0 ) ?  '<tr><td>No Move No Fee</td><td  class="amount">'   ~ sub.no_move_no_fee|number_format            ~ '</td></tr>' : '' }}
+{{ ( sub.no_move_no_fee            > 0 ) ?  '<tr><td>No Move No Fee</td><td  class="amount">'            ~ sub.no_move_no_fee|number_format            ~ '</td></tr>' : '' }}
 
 {# no move no fee ???? #}
 
 <tr class="vat-row"   ><td>VAT On Fees</td><td class="amount">{{  sub.vat_on_fees|number_format }}</td></tr>
-<tr class="total-row" ><td>Fees Total</td><td class="amount">{{ sub.fees_plus_vat|number_format }}</td></tr>
+<tr class="total-row major-total-row " ><td>Fees Total</td><td class="amount">{{ sub.fees_plus_vat|number_format }}</td></tr>
 
 {#==== FEES  END====  #}
 {#==== DISBURSEMENTS START====  #}
@@ -91,17 +92,17 @@
             </tr>
         {% endif %}
     {%  endfor %}
-    <tr class="total-row"><td>TransferDisbursements   Total</td><td  class="amount">{{   sub.transfer_disbursements_total   }}</td></tr>
+    <tr class="total-row"><td>TransferDisbursements   Total</td><td  class="amount">£ {{   sub.transfer_disbursements_total   }}</td></tr>
 {% endif %}
 
 {# ==== DISBURSEMENTS END ====  #}
 
-<tr  class="total-row major-total-row"><td>Disbursements Total</td><td  class="amount">{{             sub.disbursements_total           }}</td></tr>
-<tr  class="total-row major-total-row"><td>Total</td><td  class="amount">{{                           sub.quote_total           }}</td></tr>
+<tr  class="total-row major-total-row"><td>Disbursements Total</td><td  class="amount">£ {{             sub.disbursements_total           }}</td></tr>
+<tr  class="total-row major-total-row"><td>Total</td><td  class="amount">£ {{                           sub.quote_total           }}</td></tr>
 
 {%  if ( sub.discount_total > 0 ) %}
     <tr class="total-row discount-total"            ><td>Discount</td><td  class="amount">{{                     sub.discount_total           }}</td></tr>
-    <tr class="total-row major-total-row discounted-total"><td>Discounted Total</td><td  class="amount">{{       sub.discounted_total           }}</td></tr>
+    <tr class="total-row major-total-row discounted-total"><td>Discounted Total</td><td  class="amount">£ {{       sub.discounted_total           }}</td></tr>
 {%  endif %}
 
 
@@ -111,8 +112,10 @@
 </tbody>
 </table>
 
-<p>This email was sent to '{{ sub.contact_email }}' after the quote was requested from the '{{ sub.site_name }}' website</p>
-
+<p class="quote-generated">
+    This email was sent to '{{ sub.contact_email }}' after the quote was requested from the '{{ sub.site_name }}' website
+    <span class="quote date">at {{ "now"|date('H:i') }} on {{ "now"|date('dS M Y') }}</span>
+</p>
 {% if ( sub.optional_disbursements_list ) %}
     <div class="possible-disbursements">
         <p>Depending on various factors including who your lender is or the location of the property you may also be liable to other disbursements. Here is a list of the most common ones.</p>

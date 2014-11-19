@@ -347,21 +347,35 @@ class CQN_Calculator_Submission
         if( !$validator->isEmail( $this->contact_email ) )
             $this->errors[ 'contact_email' ] = 'please enter a valid email';
 
-        if( !( is_numeric( $this->sale_price ) && $this->sale_price > 1000 )  )
-            $this->errors[ 'sale_price' ] = 'please enter a valid sale price';
 
-        if( !( is_numeric( $this->purchase_price ) && $this->purchase_price > 1000 )  )
-            $this->errors[ 'purchase_price' ] = 'please enter a valid purchase price';
+        if( $this->involves_sale ){
 
-        if( !( is_numeric( $this->remortgage_price ) && $this->remortgage_price > 1000 )  )
-            $this->errors[ 'remortgage_price' ] = 'please enter a valid remortgage price';
-
-        if( !( is_numeric( $this->transfer_price ) && $this->transfer_price > 1000 )  )
-            $this->errors[ 'transfer_price' ] = 'please enter a valid transfer price';
+            if( !( is_numeric( $this->sale_price ) && $this->sale_price > 1000 )  )
+                $this->errors[ 'sale_price' ] = 'please enter a valid sale price';
 
 
 
+        }
+        if( $this->involves_purchase  ){
 
+            if( !( is_numeric( $this->purchase_price ) && $this->purchase_price > 1000 )  )
+                $this->errors[ 'purchase_price' ] = 'please enter a valid purchase price';
+
+
+        }
+        if( $this->involves_remortgage ){
+
+            if( !( is_numeric( $this->remortgage_price ) && $this->remortgage_price > 1000 )  )
+                $this->errors[ 'remortgage_price' ] = 'please enter a valid remortgage price';
+
+
+        }
+        if( $this->involves_transfer ){
+
+            if( !( is_numeric( $this->transfer_price ) && $this->transfer_price > 1000 )  )
+                $this->errors[ 'transfer_price' ] = 'please enter a valid transfer price';
+
+        }
         return true;// true that validation has run ok, not validation is ok
 
     }

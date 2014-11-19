@@ -1,5 +1,24 @@
 @import "_partials/variables";
 
+body{
+	color: $grey1;	
+}
+
+.quote-title{
+
+	font-family: sans-serif;
+	font-style: italic;
+	color: $grey2;;
+	span{
+		font-style: normal;
+		color: $blue;
+
+	}
+}
+
+.quote-generated{
+	color: $grey1;
+}
 
 table{
 	margin-bottom: 10px;

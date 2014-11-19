@@ -1,6 +1,6 @@
 {% autoescape false %}
-    <h3>Errors In the form</h3>
     {% if sub.errors %}
+    <h3>Errors In the form</h3>
         {% for error in  sub.errors %}
             <li>{{ error }}</li>
         {% endfor %}

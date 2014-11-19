@@ -15,13 +15,12 @@ define( 'DOMPDF_ENABLE_AUTOLOAD', false);
 
 define( 'CQN_PDF_STORAGE_DIR'  , CQN_PLUGIN_PATH .  '/storage/quotes/' );
 
-
-
 function cqn_activation(){
 
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
     $tableName = $wpdb->prefix . "cqn_calc_submissions" ;
+
     $sql = '  CREATE TABLE `' . $tableName . '` (
                 `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
                 `calculator_ref` varchar( 255 ),
@@ -121,12 +120,10 @@ function cqn_activation(){
                 `created_at` TIMESTAMP,
                 PRIMARY KEY (`id`)
             )';
-
     dbDelta( $sql );
 }
 
 register_activation_hook( __FILE__ , 'cqn_activation' );
-
 
 function cqn_init(){
 
