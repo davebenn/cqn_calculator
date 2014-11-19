@@ -120,7 +120,7 @@ jQuery(document).ready(function( $ ) {
     $( '#instruct-form' ).hide();
 
     $( '#show-instruct' ).click(  function(){
-        $( '#instructButtons' ).hide();
+        $( '#show-instruct' ).hide();
 
         $('#quote_result tr:not(:last-child)').css('display', 'none');
 

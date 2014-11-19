@@ -146,27 +146,6 @@
 </table>
 
 
-<div class="instruct-buttons">
-     <form action="" method="post">
-         <input type="hidden" name="cqn_instructType" value="emailQuote">
-         <input type="hidden" name="cqn_calc_form" value="1">
-
-         <input type="hidden" name="cqn_quote_viewed" value="1">
-         <input type="hidden" name="CQN_calculator_ref" value="{{  sub.getCalculatorRef() }}">
-         <input class="instruct-input" type="submit" value="Email Me Details">
-     </form>
-     <form action="" method="post">
-         <input type="hidden" name="cqn_instructType" value="downloadQuote">
-         <input type="hidden" name="cqn_calc_form" value="1">
-
-         <input type="hidden" name="cqn_quote_viewed" value="1">
-         <input type="hidden" name="CQN_calculator_ref" value="{{  sub.getCalculatorRef() }}">
-         <input class="instruct-input" type="submit" value="Download Quote">
-     </form>
-
-
-    <input name="instruct_now" class="show-instruct instruct-input" id="show-instruct" type="submit" value="Instruct Solicitor Now">
-</div>
 
 <div class="instruct-form cqn-quote-form" id="instruct-form" style="display: none;">
 
@@ -260,6 +239,30 @@
             <input name="instruct_now" class="instruct instruct-input" type="submit" value="Finish">
         </div>
     </form>
+</div>
+
+
+
+<div class="instruct-buttons">
+     <form action="" method="post">
+         <input type="hidden" name="cqn_instructType" value="emailQuote">
+         <input type="hidden" name="cqn_calc_form" value="1">
+
+         <input type="hidden" name="cqn_quote_viewed" value="1">
+         <input type="hidden" name="CQN_calculator_ref" value="{{  sub.getCalculatorRef() }}">
+         <input class="instruct-input" type="submit" value="Email Me Details">
+     </form>
+     <form action="" method="post">
+         <input type="hidden" name="cqn_instructType" value="downloadQuote">
+         <input type="hidden" name="cqn_calc_form" value="1">
+
+         <input type="hidden" name="cqn_quote_viewed" value="1">
+         <input type="hidden" name="CQN_calculator_ref" value="{{  sub.getCalculatorRef() }}">
+         <input class="instruct-input" type="submit" value="Download Quote">
+     </form>
+
+
+    <input name="instruct_now" class="show-instruct instruct-input" id="show-instruct" type="submit" value="Instruct Solicitor Now">
 </div>
 
 

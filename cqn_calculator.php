@@ -170,6 +170,7 @@ function cqn_init(){
                 $sub    = new CQN_Calculator_Submission( $config );
 
                 $ref = $_POST['CQN_calculator_ref'];
+                error_log( $ref );
                 $loaded =  $sub->load( $ref ) ;
 
                 if( $_POST[ 'cqn_instructType' ] == 'instructNow' ) {
@@ -182,14 +183,24 @@ function cqn_init(){
 
                     wp_mail($config->instructEmailAddress, 'Calculator form instruction request', $html, '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf');
 
+
+
                     $sub->instruct_clicked = 1;
                     $sub->emailed_to_client = 0;
+
+
 
                     $html = '<style type="text/css">' . file_get_contents( CQN_PLUGIN_PATH . '/includes/css/cqn_emails.css' ) . '</style>';
                     $template = $CQN_twig->loadTemplate('calc-email-instruct-client.twig');
                     $html .= $template->render( [ 'sub' => $sub ] );
 
                     wp_mail($config->instructEmailAddress, 'Instruction Requested', $html, '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf');
+
+
+                    $leadsSubmissionBody = $sub->getWebleadsSubmissionBody();
+                    wp_mail( $config->leadsSystemEmailAddress, $config->leadsSystemEmailSubject, $leadsSubmissionBody , '' );
+
+
 
                 }elseif ( $_POST[ 'cqn_instructType' ] == 'downloadQuote' ){// downloload clicked
 
@@ -219,8 +230,13 @@ function cqn_init(){
                     $html .= $template->render( [ 'sub' => $sub ] );
 
                     wp_mail( $sub->contact_email,  $config->clientEmailSubject, $html, '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf'  );
+
                     $sub->emailed_to_client = 1;
                     $sub->instruct_clicked = 0;
+
+                    $leadsSubmissionBody = $sub->getWebleadsSubmissionBody();
+                    wp_mail( $config->leadsSystemEmailAddress, $config->leadsSystemEmailSubject, $leadsSubmissionBody , '' );
+
                 }
 
                 $sub->save();
@@ -237,12 +253,10 @@ function cqn_init(){
                 $sub    = new CQN_Calculator_Submission( $config );
 
                 $sub->loadFromPost( $_POST );
-               //
 
                 $sub->validate();
 
                 $errors = $sub->errors;
-
 
                 if (  !$errors  ) {//  calculator form submitted
                     /*
@@ -264,7 +278,13 @@ function cqn_init(){
                     $_SESSION['CQN_calculator_submission'] = $sub;
                     $sub->savePDF( CQN_PDF_STORAGE_DIR );
 
-                    wp_mail( $config->leadsSystemEmailAddress, $config->leadsSystemEmailSubject, '__calc-ref=davelala;__saleprice=12333', '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf'  );
+
+                    $leadsSubmissionBody = $sub->getWebleadsSubmissionBody();
+
+                    error_log( 'sending .."'.$config->leadsSystemEmailSubject.'" .... to ' . $config->leadsSystemEmailAddress );
+                    wp_mail( $config->leadsSystemEmailAddress, $config->leadsSystemEmailSubject, $leadsSubmissionBody , '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf'  );
+
+
 
                     wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', [ 'jquery' ] );
                     wp_enqueue_style(  'cqn_calculator_styles', CQN_PLUGIN_URL . '/includes/css/cqn_styles.css');
@@ -540,7 +560,7 @@ add_action( 'wp_login',  'cqn_destroySession' );
 /* shortcode to display the test quotes */
 add_action( 'init', 'cqn_add_test_shortcodes' );
 
-add_filter( 'wp_mail_content_type', 'cqn_set_html_content_type' );
+//add_filter( 'wp_mail_content_type', 'cqn_set_html_content_type' );
 
 function cqn_set_html_content_type() {
 

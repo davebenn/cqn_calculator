@@ -332,11 +332,147 @@ class CQN_Calculator_Submission
     {
 
         $this->config = $config;
+
+        $this->involves_sale = false;
+        $this->involves_purchase = false;
+        $this->involves_remortgage = false;
+        $this->involves_transfer = false;
+
         $this->calculator_ref = $this->generateUniqueID();
 
         $this->errors = false;
 
+
+
         $this->site_name = get_bloginfo();
+    }
+
+    public function getQuoteType(){
+        /*
+         *  returns the quote type in the format expected by the leads system
+         *
+         * ie sale, purchase, sale_purchase, remortgage, transfer
+         *
+         */
+
+        if( $this->involves_sale ){
+            if( $this->involves_purchase ){
+                return 'sale_purchase';
+            }else{
+                return 'sale';
+            }
+        }
+        if( $this->involves_remortgage ){
+            if( $this->involves_transfer ){
+                return 'remortgage_transfer';
+            }else{
+                return 'remortgage';
+            }
+        }
+
+        return 'unknown';
+    }
+
+    public function getWebleadsSubmissionBody(){
+
+        $body = "";
+
+        $insertFields = array();
+
+        $insertFields[ 'fullname' ]                  = $this->contact_name;
+        $insertFields[ 'email' ]                     = $this->contact_email;
+        $insertFields[ 'telephone' ]                 = $this->contact_telephone;
+        $insertFields[ 'lead_type' ]                 = 'Conveyancing_Lead';
+        $insertFields[ 'source' ]                    = 'Calculator on ' . $this->site_name ;
+
+        $insertFields[ 'street_address' ]            = $this->contact_street_address ;
+        $insertFields[ 'locality' ]                  = $this->contact_locality ;
+        $insertFields[ 'town' ]                      = $this->contact_town ;
+        $insertFields[ 'postcode' ]                  = $this->contact_postcode ;
+
+        $insertFields[ 'calculator_quote_amount']    = $this->quote_total;
+        $insertFields[ 'calculator_discount_amount'] = $this->discount_total;
+        $insertFields[ 'calculator_discount_code']   = $this->discount_code;
+        $insertFields[ 'discounted_total']   = $this->discounted_total;
+
+        $insertFields[ 'calculator_reference']       = $this->calculator_ref;
+
+        $insertFields[ 'conveyancing_type']          = $this->getQuoteType();;
+
+        $insertFields[ 'instruct_now_clicked' ]      = ( int ) $this->instruct_clicked;
+        $insertFields[ 'quote_emailed_to_client' ]   = ( int ) $this->emailed_to_client;
+
+        if( $this->involves_sale ){
+
+            $insertFields[ 'sale_price' ]            = $this->sale_price ;
+
+            $insertFields[ 'sale_street_address' ]   = $this->sale_street_address ;
+            $insertFields[ 'sale_locality' ]         = $this->sale_locality ;
+            $insertFields[ 'sale_town' ]             = $this->sale_town ;
+            $insertFields[ 'sale_postcode' ]         = $this->sale_postcode ;
+
+            $insertFields[ 'sale_is_leasehold' ]     = $this->sale_leasehold;
+            $insertFields[ 'sale_has_mortgage' ]     = $this->sale_mortgage;
+
+        }else{
+            error_log( 'doean involve sale');
+        }
+        if( $this->involves_purchase ){
+
+            $insertFields[ 'purchase_price' ]           = $this->purchase_price ;
+
+            $insertFields[ 'purchase_street_address']   = $this->purchase_street_address ;
+            $insertFields[ 'purchase_locality' ]        = $this->purchase_locality ;
+            $insertFields[ 'purchase_town' ]            = $this->purchase_town ;
+            $insertFields[ 'purchase_postcode' ]        = $this->purchase_postcode ;
+
+            $insertFields[ 'purchase_is_leasehold' ]    = $this->purchase_leasehold;
+            $insertFields[ 'purchase_has_mortgage' ]    = $this->purchase_mortgage;
+            $insertFields[ 'purchase_first_time_buyer'] = $this->purchase_1st_time_buyer;
+            $insertFields[ 'purchase_num_people' ]      = $this->purchase_no_of_buyers;
+
+
+        }
+        if( $this->involves_remortgage ){
+
+            $insertFields[ 'remortgage_price' ]         = $this->remortgage_price ;
+
+            $insertFields[ 'remortgage_street_address' ]= $this->remortgage_street_address ;
+            $insertFields[ 'remortgage_locality' ]      = $this->remortgage_locality ;
+            $insertFields[ 'remortgage_town' ]          = $this->remortgage_town ;
+            $insertFields[ 'remortgage_postcode' ]      = $this->remortgage_postcode ;
+
+            $insertFields[ 'remortgage_is_leasehold' ]  = $this->remortgage_leasehold;
+            $insertFields[ 'remortgage_num_people' ]    = $this->remortgage_no_of_people;
+
+        }
+        if( $this->involves_transfer ){
+
+            $insertFields[ 'transfer_price' ]           = $this->transfer_price ;
+
+            $insertFields[ 'transfer_street_address' ]  = $this->transfer_street_address ;
+            $insertFields[ 'transfer_locality' ]        = $this->transfer_locality ;
+            $insertFields[ 'transfer_town' ]            = $this->transfer_town ;
+            $insertFields[ 'transfer_postcode' ]        = $this->transfer_postcode ;
+
+            $insertFields[ 'transfer_is_leasehold' ]    = $this->transfer_leasehold;
+            $insertFields[ 'transfer_num_people' ]      = $this->transfer_no_of_people;
+
+        }
+
+        $insertFields[ 'additional_1_surname' ]        = $this->additional_1_fullname;
+        $insertFields[ 'additional_2_surname' ]        = $this->additional_2_fullname;
+
+        foreach ($insertFields  as $key => $value) {
+            if( strlen( trim( $value )   ) > 0 ){
+                $body .=  "\n___"   . $key . "||";
+                $body .=  "\n"      . $value;
+            }
+        }
+
+        $body .= "\n\n___END";
+        return $body;
+
     }
 
     public function validate()
@@ -399,10 +535,6 @@ class CQN_Calculator_Submission
 
         if (isset($postArray['quote_type'])) {
 
-            $this->involves_sale = false;
-            $this->involves_purchase = false;
-            $this->involves_remortgage = false;
-            $this->involves_transfer = false;
 
             switch ($postArray['quote_type']) {
 
@@ -439,8 +571,6 @@ class CQN_Calculator_Submission
             }
         }
         return true;
-
-
     }
 
     public function load($calcRef = '')
@@ -509,9 +639,6 @@ class CQN_Calculator_Submission
 
             $this->fees_plus_vat  = $submission->fees_plus_vat;
 
-
-
-
             $this->quote_total  = $submission->quote_total;
             $this->discount_total  = $submission->discount_total;
             $this->discounted_total  = $submission->discounted_total;
@@ -551,7 +678,6 @@ class CQN_Calculator_Submission
 
         $submission = array(
             'calculator_ref'               => mysql_real_escape_string($this->calculator_ref),
-
 
             'sale_price'                   => mysql_real_escape_string($this->sale_price),
             'sale_leasehold'               => mysql_real_escape_string($this->sale_leasehold),
@@ -613,27 +739,24 @@ class CQN_Calculator_Submission
             'optional_disbursements_list'    => json_encode(  $this->optional_disbursements_list ),
 
 
-            'purchase_legal_fees'		=> $this->purchase_legal_fees,
-            'sale_legal_fees'		=> $this->sale_legal_fees,
-            'remortgage_legal_fees'		=> $this->remortgage_legal_fees,
-            'transfer_legal_fees'		=> $this->transfer_legal_fees,
+            'purchase_legal_fees'		     => $this->purchase_legal_fees,
+            'sale_legal_fees'		         => $this->sale_legal_fees,
+            'remortgage_legal_fees'		     => $this->remortgage_legal_fees,
+            'transfer_legal_fees'		     => $this->transfer_legal_fees,
 
-            'purchase_leasehold_fees'		=> $this->purchase_leasehold_fees,
-            'sale_leasehold_fees'		=> $this->sale_leasehold_fees,
-            'remortgage_leasehold_fees'		=> $this->remortgage_leasehold_fees,
-            'transfer_leasehold_fees'		=> $this->transfer_leasehold_fees,
-
-
-
-            'vat_on_fees' => $this->vat_on_fees,
-            'no_move_no_fee' => $this->no_move_no_fee,
-
-            'fees_plus_vat' => $this->fees_plus_vat,
+            'purchase_leasehold_fees'	     => $this->purchase_leasehold_fees,
+            'sale_leasehold_fees'		     => $this->sale_leasehold_fees,
+            'remortgage_leasehold_fees'	     => $this->remortgage_leasehold_fees,
+            'transfer_leasehold_fees'	     => $this->transfer_leasehold_fees,
 
 
-            'quote_total' => $this->quote_total ,
-            'discounted_total' => $this->discounted_total ,
-            'discount_total' => $this->discount_total ,
+
+            'vat_on_fees'           => $this->vat_on_fees,
+            'no_move_no_fee'        => $this->no_move_no_fee,
+            'fees_plus_vat'         => $this->fees_plus_vat,
+            'quote_total'           => $this->quote_total ,
+            'discounted_total'      => $this->discounted_total ,
+            'discount_total'        => $this->discount_total ,
 
             'involves_sale'		    => $this->involves_sale,
             'involves_purchase'		=> $this->involves_purchase,

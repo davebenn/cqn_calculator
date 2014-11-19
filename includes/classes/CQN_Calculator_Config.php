@@ -63,7 +63,7 @@ class CQN_Calculator_Config {
 
 //        $this->quote_types = [ 'sale', 'purchase', 'sale_purchase', 'remortgage', 'transfer' ];
 
-        $this->leadsSystemEmailAddress = 'davebenn+calc-leads@gmail.com';
+        $this->leadsSystemEmailAddress = 'callback-inbox@wantfound.com';
         $this->instructEmailAddress    = 'davebenn+calc-instruct@gmail.com';
         $this->leadsSystemEmailSubject = 'callback - calculator submission ';
         $this->clientEmailSubject      = 'Your conveyancing quote';

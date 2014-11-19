@@ -25,29 +25,29 @@
         <h2  class="form_title">Sale Details</h2>
 
         <div class="form-row {{ sub.errors.sale_price                    ? ' error' }}"                      ><label for="sale_price">Property price</label><input name="sale_price" size="40" type="number" class="required number" value="{{ sub.sale_price }}"></div>
-        <div class="form-row {{ sub.errors.sale_leasehold                ? ' error' }}  checkbox-row"        ><label for="sale_leasehold">Is the sale property Leasehold?</label><input name="sale_leasehold" id="sale_leasehold" value="sale_leasehold" type="checkbox"></div>
-        <div class="form-row {{ sub.errors.sale_mortgage                 ? ' error' }} checkbox-row"         ><label for="sale_mortgage">Is there a mortgage on the sale property?</label><input name="sale_mortgage" id="sale_mortgage" value="sale_mortgage" type="checkbox"></div>
+        <div class="form-row {{ sub.errors.sale_leasehold                ? ' error' }}  checkbox-row"        ><label for="sale_leasehold">Is the sale property Leasehold?</label><input name="sale_leasehold" id="sale_leasehold" value="1" type="checkbox"></div>
+        <div class="form-row {{ sub.errors.sale_mortgage                 ? ' error' }} checkbox-row"         ><label for="sale_mortgage">Is there a mortgage on the sale property?</label><input name="sale_mortgage" id="sale_mortgage" value="1" type="checkbox"></div>
     </div>
     <div class="section_holder" id="purchase_details" style="display:none;">
         <h2 class="form_title">Purchase Details</h2>
 
         <div class="form-row {{ sub.errors.purchase_price               ? ' error' }}"                      ><label for="purchase_price">Property price</label><input value="{{ sub.purchase_price }}" name="purchase_price" size="40" type="number" class="required number ignore"></div>
-        <div class="form-row {{ sub.errors.purchase_leasehold           ? ' error' }} checkbox-row"         ><label for="purchase_leasehold">Is the purchase property Leasehold?</label><input name="purchase_leasehold" id="purchase_leasehold" value="purchase_leasehold" type="checkbox"></div>
-        <div class="form-row {{ sub.errors.purchase_mortgage            ? ' error' }} checkbox-row"         ><label for="purchase_mortgage">Will the purchase involve a mortgage?</label><input name="purchase_mortgage" id="purchase_mortgage" value="purchase_mortgage" type="checkbox"></div>
-        <div class="form-row {{ sub.errors.purchase_1st_time_buyer      ? ' error' }} checkbox-row"         ><label for="purchase_1st_time_buyer">Are you a 1st Time Buyer?</label><input name="purchase_1st_time_buyer" id="purchase_1st_time_buyer" value="purchase_1st_time_buyer" type="checkbox"></div>
+        <div class="form-row {{ sub.errors.purchase_leasehold           ? ' error' }} checkbox-row"         ><label for="purchase_leasehold">Is the purchase property Leasehold?</label><input name="purchase_leasehold" id="purchase_leasehold" value="1" type="checkbox"></div>
+        <div class="form-row {{ sub.errors.purchase_mortgage            ? ' error' }} checkbox-row"         ><label for="purchase_mortgage">Will the purchase involve a mortgage?</label><input name="purchase_mortgage" id="purchase_mortgage" value="1" type="checkbox"></div>
+        <div class="form-row {{ sub.errors.purchase_1st_time_buyer      ? ' error' }} checkbox-row"         ><label for="purchase_1st_time_buyer">Are you a 1st Time Buyer?</label><input name="purchase_1st_time_buyer" id="purchase_1st_time_buyer" value="1" type="checkbox"></div>
         <div class="form-row {{ sub.errors.purchase_no_of_buyers        ? ' error' }} small-text-input"     ><label for="purchase_no_of_buyers">No. Of Buyers?</label><input name="purchase_no_of_buyers" id="purchase_no_of_buyers" value="1" type="number" size="2" step="1"  max="10" min="1" class="required number ignore"></div>
     </div>
     <div class="section_holder" id="remortgage_details" style="display:none;">
         <h2 class="form_title">Remortgage Details</h2>
         <div class="form-row {{ sub.errors.remortgage_price             ? ' error' }}"                      ><label for="remortgage_price">Remortgage Value</label><input value="{{ sub.remortgage_price }}" name="remortgage_price" size="40" type="number" class="required number ignore"></div>
-        <div class="form-row {{ sub.errors.remortgage_leasehold         ? ' error' }} checkbox-row"         ><label for="remortgage_leasehold">Is the remortgage property Leasehold?</label><input name="remortgage_leasehold" id="remortgage_leasehold" value="remortgage_leasehold" type="checkbox"></div>
+        <div class="form-row {{ sub.errors.remortgage_leasehold         ? ' error' }} checkbox-row"         ><label for="remortgage_leasehold">Is the remortgage property Leasehold?</label><input name="remortgage_leasehold" id="remortgage_leasehold" value="1" type="checkbox"></div>
         <div class="form-row {{ sub.errors.remortgage_no_of_people      ? ' error' }} small-text-input"     ><label for="remortgage_no_of_people">No. Of People?</label><input name="remortgage_no_of_people" id="remortgage_no_of_people" value="1" type="text" size="2" class="required digits ignore"></div>
         <div class="form-row {{ sub.errors.remortgage_involves_transfer ? ' error' }} checkbox-row"         ><label for="remortgage_involves_transfer">Involves equity transfer?</label><input name="remortgage_involves_transfer" id="remortgage_involves_transfer" value="remortgage_involves_transfer" type="checkbox"></div>
     </div>
     <div class="section_holder" id="transfer_details" style="display:none;">
     <h2 class="form_title">Transfer Of Equity Details</h2>
         <div class="form-row {{ sub.errors.transfer_price               ? ' error' }}"                     ><label for="transfer_price">Equity Value</label><input value="{{ sub.transfer_price }}" name="transfer_price" size="40" type="number" class="required number ignore"></div>
-        <div class="form-row {{ sub.errors.transfer_leasehold           ? ' error' }} checkbox-row"        ><label for="transfer_leasehold">Is the transfer property Leasehold?</label><input name="transfer_leasehold" id="transfer_leasehold" value="transfer_leasehold" type="checkbox"></div>
+        <div class="form-row {{ sub.errors.transfer_leasehold           ? ' error' }} checkbox-row"        ><label for="transfer_leasehold">Is the transfer property Leasehold?</label><input name="transfer_leasehold" id="transfer_leasehold" value="1" type="checkbox"></div>
         <div class="form-row {{ sub.errors.transfer_no_of_people        ? ' error' }} small-text-input"    ><label for="transfer_no_of_people">No. Of People?</label><input name="transfer_no_of_people" id="transfer_no_of_people" value="1" type="number" step="1" max="10"  min="1" class="required digits ignore"></div>
     </div>
     <div class="section_holder" id="save_quote_holder">

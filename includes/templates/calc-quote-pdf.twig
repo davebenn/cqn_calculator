@@ -24,7 +24,6 @@
     discounted total
 #}
 
-
 {{   sub.involves_sale                   ?  '<tr><td>Sale Legal Fees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;( on property value of £'  ~ sub.sale_price|number_format                             ~ ' )</td><td  class="amount">'           ~ sub.sale_legal_fees|number_format           ~ '</td></tr>' : '' }}
 {{   sub.involves_purchase               ?  '<tr><td>Purchase Legal Fees &nbsp; &nbsp; &nbsp; &nbsp;( on property value of £'                          ~ sub.purchase_price|number_format                         ~ ' )</td><td  class="amount">'       ~ sub.purchase_legal_fees|number_format       ~ '</td></tr>' : '' }}
 {{   sub.involves_remortgage             ?  '<tr><td>Remortgage Legal Fees &nbsp; &nbsp;( on remortgage value of £'                                      ~ sub.remortgage_price|number_format                       ~ ' )</td><td  class="amount">'     ~ sub.remortgage_legal_fees|number_format     ~ '</td></tr>' : '' }}
@@ -105,8 +104,6 @@
     <tr class="total-row major-total-row discounted-total"><td>Discounted Total</td><td  class="amount">£ {{       sub.discounted_total           }}</td></tr>
 {%  endif %}
 
-
-
 {%  endautoescape %}
 
 </tbody>
@@ -116,6 +113,7 @@
     This email was sent to '{{ sub.contact_email }}' after the quote was requested from the '{{ sub.site_name }}' website
     <span class="quote date">at {{ "now"|date('H:i') }} on {{ "now"|date('dS M Y') }}</span>
 </p>
+
 {% if ( sub.optional_disbursements_list ) %}
     <div class="possible-disbursements">
         <p>Depending on various factors including who your lender is or the location of the property you may also be liable to other disbursements. Here is a list of the most common ones.</p>
@@ -137,6 +135,5 @@
         </table>
     </div>
 {% endif %}
-
 
 {% include "calc-quote-pdf-footer.twig" %}
