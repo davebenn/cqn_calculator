@@ -460,8 +460,28 @@ class CQN_Calculator_Submission
 
         }
 
-        $insertFields[ 'additional_1_surname' ]        = $this->additional_1_fullname;
-        $insertFields[ 'additional_2_surname' ]        = $this->additional_2_fullname;
+
+
+        $addName1 = new CQN_Name( $this->additional_1_fullname );
+
+        if( $addName1 ){
+            $insertFields[ 'additional_1_title' ]        = $addName1->title;
+            $insertFields[ 'additional_1_forename' ]        = $addName1->forename;
+            $insertFields[ 'additional_1_surname' ]        = $addName1->surname;
+        }
+
+        $addName2 = new CQN_Name($this->additional_2_fullname);
+
+        if( $addName2 ) {
+            $insertFields['additional_2_title'] = $addName2->title;
+            $insertFields['additional_2_forename'] = $addName2->forename;
+            $insertFields['additional_2_surname'] = $addName2->surname;
+        }
+
+
+
+
+
 
         foreach ($insertFields  as $key => $value) {
             if( strlen( trim( $value )   ) > 0 ){

@@ -133,6 +133,7 @@ function cqn_init(){
 
         require_once  CQN_PLUGIN_PATH . '/includes/classes/CQN_Calculator_Config.php' ;
         require_once  CQN_PLUGIN_PATH . '/includes/classes/CQN_Calculator_Submission.php' ;
+        require_once  CQN_PLUGIN_PATH . '/includes/classes/CQN_Name.php' ;
 
         //require_once CQN_PLUGIN_PATH . '/vendor/twig/twig/lib/Twig/Autoloader.php';
         Twig_Autoloader::register();
