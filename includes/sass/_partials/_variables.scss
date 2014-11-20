@@ -18,8 +18,6 @@ $large: 		 801;
 $fullWidth:  1168;
 
 
-
-
 $teal: 		#00c5b4;
 
 $cream: #f1eee9;
@@ -33,6 +31,15 @@ $grey1: #484845;
 $black: #030304;
 
 $blue: #1495DD;
+
+$blueHighlight:   tint( #1495DD, 30 );
+$blueHighlight2: shade( #1495DD, 30 );
+
+$calcButton:  #e05d22 ;
+$calcButtonHighlight:	#d94412 ;
+$calcButtonHighlight2:  shade( #b93207, 30 );
+
+
 $red: #e32828;
 
 $QS:  'Quicksand', Verdana , sans-serif;

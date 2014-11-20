@@ -1,20 +1,29 @@
 
-table{
+.calc-quote{
+
+  clear: both;
   
   .heading-row{
 
     background-color: $blue;
     color: $white ;
-    padding:  .5em 1em;
+    padding:  .5em 0;
+    display: block;
+    margin-top: .25em;
+
+    td{
+      color: $white ;
+      border: none;
+    }
 
   }
+
 
   td{
-  	// font-size: 16px;
-  	padding: .25em .5em;
+    // font-size: 16px;
+    padding:  .5em;
     border-top: 1px solid #ededed;
   }
-
   .amount{
   	text-align: right;
     font-family: monospace;
@@ -44,7 +53,6 @@ table{
       }
   }
   .total-row{
-      
 
       td{
         border-top   : 2px solid $blue ;
@@ -53,19 +61,35 @@ table{
 
       }
   }
-  .disb-optional{
+}
+
+.possible-disbursements{
+  table{
+
+
+
+    width: 100%;
+
+    @include bp(  $medium ){
+      width: 60%;
+      
+      margin: 0 1em;
+    }
+
+
     td{
       color: $red;
       font-style: italic;
-      padding-top:    0;
-      padding-bottom: 0;
+      padding:    .25em;
+
+
+    }
+    .amount{
+      text-align: right;
     }
   }
 }
 
-.instruct-buttons{
-  margin-bottom: 1em
-}
 form{
   display: inline;
 }

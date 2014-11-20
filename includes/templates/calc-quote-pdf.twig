@@ -24,10 +24,10 @@
     discounted total
 #}
 
-{{   sub.involves_sale                   ?  '<tr><td>Sale Legal Fees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;( on property value of £'  ~ sub.sale_price|number_format                             ~ ' )</td><td  class="amount">'           ~ sub.sale_legal_fees|number_format           ~ '</td></tr>' : '' }}
-{{   sub.involves_purchase               ?  '<tr><td>Purchase Legal Fees &nbsp; &nbsp; &nbsp; &nbsp;( on property value of £'                          ~ sub.purchase_price|number_format                         ~ ' )</td><td  class="amount">'       ~ sub.purchase_legal_fees|number_format       ~ '</td></tr>' : '' }}
-{{   sub.involves_remortgage             ?  '<tr><td>Remortgage Legal Fees &nbsp; &nbsp;( on remortgage value of £'                                      ~ sub.remortgage_price|number_format                       ~ ' )</td><td  class="amount">'     ~ sub.remortgage_legal_fees|number_format     ~ '</td></tr>' : '' }}
-{{   sub.involves_transfer               ?  '<tr><td>Transfer Legal Fees &nbsp; &nbsp; &nbsp; &nbsp;( on transfer value of £'                          ~ sub.transfer_price|number_format                         ~ ' )</td><td  class="amount">'       ~ sub.transfer_legal_fees|number_format       ~ '</td></tr>' : '' }}
+{{   sub.involves_sale                   ?  '<tr><td>Sale Legal Fees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;( on property value of &pound;'  ~ sub.sale_price|number_format                             ~ ' )</td><td  class="amount">'           ~ sub.sale_legal_fees|number_format           ~ '</td></tr>' : '' }}
+{{   sub.involves_purchase               ?  '<tr><td>Purchase Legal Fees &nbsp; &nbsp; &nbsp; &nbsp;( on property value of &pound;'                          ~ sub.purchase_price|number_format                         ~ ' )</td><td  class="amount">'       ~ sub.purchase_legal_fees|number_format       ~ '</td></tr>' : '' }}
+{{   sub.involves_remortgage             ?  '<tr><td>Remortgage Legal Fees &nbsp; &nbsp;( on remortgage value of &pound;'                                      ~ sub.remortgage_price|number_format                       ~ ' )</td><td  class="amount">'     ~ sub.remortgage_legal_fees|number_format     ~ '</td></tr>' : '' }}
+{{   sub.involves_transfer               ?  '<tr><td>Transfer Legal Fees &nbsp; &nbsp; &nbsp; &nbsp;( on transfer value of &pound;'                          ~ sub.transfer_price|number_format                         ~ ' )</td><td  class="amount">'       ~ sub.transfer_legal_fees|number_format       ~ '</td></tr>' : '' }}
 {{ ( sub.sale_leasehold_fees       > 0 ) ?  '<tr><td>Sale Leasehold Fees</td><td  class="amount">'       ~ sub.sale_leasehold_fees|number_format       ~ '</td></tr>' : '' }}
 {{ ( sub.purchase_leasehold_fees   > 0 ) ?  '<tr><td>Purchase Leasehold Fees</td><td  class="amount">'   ~ sub.purchase_leasehold_fees|number_format   ~ '</td></tr>' : '' }}
 {{ ( sub.remortgage_leasehold_fees > 0 ) ?  '<tr><td>Remortgage Leasehold Fees</td><td  class="amount">' ~ sub.remortgage_leasehold_fees|number_format ~ '</td></tr>' : '' }}
@@ -91,17 +91,17 @@
             </tr>
         {% endif %}
     {%  endfor %}
-    <tr class="total-row"><td>TransferDisbursements   Total</td><td  class="amount">£ {{   sub.transfer_disbursements_total   }}</td></tr>
+    <tr class="total-row"><td>TransferDisbursements   Total</td><td  class="amount">&pound; {{   sub.transfer_disbursements_total   }}</td></tr>
 {% endif %}
 
 {# ==== DISBURSEMENTS END ====  #}
 
-<tr  class="total-row major-total-row"><td>Disbursements Total</td><td  class="amount">£ {{             sub.disbursements_total           }}</td></tr>
-<tr  class="total-row major-total-row"><td>Total</td><td  class="amount">£ {{                           sub.quote_total           }}</td></tr>
+<tr  class="total-row major-total-row"><td>Disbursements Total</td><td  class="amount">&pound; {{             sub.disbursements_total           }}</td></tr>
+<tr  class="total-row major-total-row"><td>Total</td><td  class="amount">&pound; {{                           sub.quote_total           }}</td></tr>
 
 {%  if ( sub.discount_total > 0 ) %}
     <tr class="total-row discount-total"            ><td>Discount</td><td  class="amount">{{                     sub.discount_total           }}</td></tr>
-    <tr class="total-row major-total-row discounted-total"><td>Discounted Total</td><td  class="amount">£ {{       sub.discounted_total           }}</td></tr>
+    <tr class="total-row major-total-row discounted-total"><td>Discounted Total</td><td  class="amount">&pound; {{       sub.discounted_total           }}</td></tr>
 {%  endif %}
 
 {%  endautoescape %}

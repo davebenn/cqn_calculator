@@ -53,12 +53,12 @@ class CQN_Calculator_Submission
 
     // for storing json of disbursements at time of quoting , as they can change over time
 
-    public $purchase_disbursements_list = [];
-    public $sale_disbursements_list = [];
-    public $remortgage_disbursements_list = [];
-    public $transfer_disbursements_list = [];
+    public $purchase_disbursements_list = array();
+    public $sale_disbursements_list = array();
+    public $remortgage_disbursements_list = array();
+    public $transfer_disbursements_list = array();
 
-    public $optional_disbursements_list = [];
+    public $optional_disbursements_list = array();
 
     public $discount_code;
     public $discount_total;
@@ -201,12 +201,12 @@ class CQN_Calculator_Submission
 
             $stampDuty = $this->config->getStampDuty( $this->purchase_price, $this->purchase_1st_time_buyer );
             $this->purchase_disbursements_total += $stampDuty;
-            $this->purchase_disbursements_list[] = (object) [ 'code' => 'PURCHASE_SD'       , 'optional' => false      , 'price' => $stampDuty ,    'name' => 'Stamp Duty' ];
+            $this->purchase_disbursements_list[] = (object) array( 'code' => 'PURCHASE_SD'       , 'optional' => false      , 'price' => $stampDuty ,    'name' => 'Stamp Duty' );
 
 
             $landRegistryFee = $this->config->getSPLandRegistryFees( $this->purchase_price );
             $this->purchase_disbursements_total += $landRegistryFee;
-            $this->purchase_disbursements_list[] = (object) [ 'code' => 'PURCHASE_LRF'     , 'optional' => false        , 'price' => $landRegistryFee ,    'name' => 'Land Registry Fee' ];
+            $this->purchase_disbursements_list[] = (object) array( 'code' => 'PURCHASE_LRF'     , 'optional' => false        , 'price' => $landRegistryFee ,    'name' => 'Land Registry Fee' );
         }
 
         if ($this->involves_remortgage) {
@@ -237,7 +237,7 @@ class CQN_Calculator_Submission
 
             $landRegistryFee = $this->config->getRTLandRegistryFees( $this->remortgage_price );
             $this->remortgage_disbursements_total += $landRegistryFee;
-            $this->remortgage_disbursements_list[] = (object) [ 'code' => 'REMORTGAGE_LRF'     , 'optional' => false        , 'price' => $landRegistryFee ,    'name' => 'Land Registry Fee' ];
+            $this->remortgage_disbursements_list[] = (object) array( 'code' => 'REMORTGAGE_LRF'     , 'optional' => false        , 'price' => $landRegistryFee ,    'name' => 'Land Registry Fee' );
         }
 
         if ($this->involves_transfer) {
@@ -269,7 +269,7 @@ class CQN_Calculator_Submission
 
             $landRegistryFee = $this->config->getRTLandRegistryFees( $this->transfer_price );
             $this->transfer_disbursements_total += $landRegistryFee;
-            $this->transfer_disbursements_list[] = (object) [ 'code' => 'TRANSFER_LRF'     , 'optional' => false        , 'price' => $landRegistryFee ,    'name' => 'Land Registry Fee' ];
+            $this->transfer_disbursements_list[] = (object) array( 'code' => 'TRANSFER_LRF'     , 'optional' => false        , 'price' => $landRegistryFee ,    'name' => 'Land Registry Fee' );
         }
 
         $this->legal_fees_total = $this->sale_legal_fees + $this->purchase_legal_fees + $this->remortgage_legal_fees + $this->transfer_legal_fees +
@@ -398,27 +398,31 @@ class CQN_Calculator_Submission
 
 
 
-        $insertFields[ 'email' ]                     = $this->contact_email;
-        $insertFields[ 'telephone' ]                 = $this->contact_telephone;
-        $insertFields[ 'lead_type' ]                 = 'Conveyancing_Lead';
-        $insertFields[ 'source' ]                    = 'Calculator on ' . $this->site_name ;
+        $insertFields[ 'email' ]                      = $this->contact_email;
+        $insertFields[ 'telephone' ]                  = $this->contact_telephone;
+        $insertFields[ 'lead_type' ]                  = 'Conveyancing_Lead';
+        $insertFields[ 'source' ]                     = 'Calculator on ' . $this->site_name ;
 
-        $insertFields[ 'street_address' ]            = $this->contact_street_address ;
-        $insertFields[ 'locality' ]                  = $this->contact_locality ;
-        $insertFields[ 'town' ]                      = $this->contact_town ;
-        $insertFields[ 'postcode' ]                  = $this->contact_postcode ;
+        $insertFields[ 'street_address' ]             = $this->contact_street_address ;
+        $insertFields[ 'locality' ]                   = $this->contact_locality ;
+        $insertFields[ 'town' ]                       = $this->contact_town ;
+        $insertFields[ 'postcode' ]                   = $this->contact_postcode ;
 
-        $insertFields[ 'calculator_quote_amount']    = $this->quote_total;
-        $insertFields[ 'calculator_discount_amount'] = $this->discount_total;
-        $insertFields[ 'calculator_discount_code']   = $this->discount_code;
-        $insertFields[ 'discounted_total']   = $this->discounted_total;
+        $insertFields[ 'calculator_quote_amount']     = $this->quote_total;
+        $insertFields[ 'calculator_discount_code']    = $this->discount_code;
+        $insertFields[ 'calculator_discount_amount']   = $this->discount_total;
 
-        $insertFields[ 'calculator_reference']       = $this->calculator_ref;
+        if( $this->discounted_total > 0){
 
-        $insertFields[ 'conveyancing_type']          = $this->getQuoteType();;
+            $insertFields[ 'calculator_quote_amount'] = $this->discounted_total;
 
-        $insertFields[ 'instruct_now_clicked' ]      = ( int ) $this->instruct_clicked;
-        $insertFields[ 'quote_emailed_to_client' ]   = ( int ) $this->emailed_to_client;
+        }
+
+        $insertFields[ 'discounted_total']            = $this->discounted_total;
+        $insertFields[ 'calculator_reference']        = $this->calculator_ref;
+        $insertFields[ 'conveyancing_type']           = $this->getQuoteType();
+        $insertFields[ 'instruct_now_clicked' ]       = ( int ) $this->instruct_clicked;
+        $insertFields[ 'quote_emailed_to_client' ]    = ( int ) $this->emailed_to_client;
 
         if( $this->involves_sale ){
 
@@ -555,9 +559,9 @@ class CQN_Calculator_Submission
     public function loadFromPost($postArray)
     {
 
-        $fillable = [
+        $fillable = array(
             'sale_price', 'sale_leasehold', 'sale_mortgage', 'purchase_price', 'purchase_leasehold', 'purchase_mortgage', 'purchase_1st_time_buyer', 'purchase_no_of_buyers', 'remortgage_price', 'remortgage_leasehold', 'remortgage_no_of_people', 'remortgage_involves_transfer', 'transfer_price', 'transfer_leasehold', 'transfer_no_of_people', 'discount_code', 'contact_email', 'contact_telephone', 'contact_name', 'contact_street_address', 'contact_locality', 'contact_town', 'contact_postcode', 'additional_1_fullname', 'additional_2_fullname' , 'sale_street_address', 'sale_locality', 'sale_town', 'sale_postcode', 'purchase_street_address', 'purchase_locality', 'purchase_town', 'purchase_postcode', 'remortgage_street_address', 'remortgage_locality', 'remortgage_town', 'remortgage_postcode', 'transfer_street_address', 'transfer_locality', 'transfer_town', 'transfer_postcode'
-        ];
+        );
 
         foreach ($fillable as $field) {
 
@@ -701,7 +705,7 @@ class CQN_Calculator_Submission
 
     public function generateUniqueID()
     {
-        $calcRef = str_replace([' ', '.'], ['', ''], microtime(false));
+        $calcRef = str_replace( array( ' ', '.') , array( '', '' ), microtime(false));
         return $calcRef;
 
     }
@@ -819,7 +823,7 @@ class CQN_Calculator_Submission
         global $wpdb;
 
         if ($this->loadedFromDB) {
-            $wpdb->update(CQN_TABLE_NAME, $submission, ['id' => $this->id]);
+            $wpdb->update(CQN_TABLE_NAME, $submission, array( 'id' => $this->id ) );
         } else {
             $wpdb->insert(CQN_TABLE_NAME, $submission);
         }
@@ -934,7 +938,7 @@ class CQN_Calculator_Submission
 
             //$html .= $this->getTextQuote();
 //        $html .=  $template->render( [ 'sub' => $_SESSION['CQN_calculator_submission'] ] );
-        $html .=  $template->render( [ 'sub' => $this ] );
+        $html .=  $template->render( array( 'sub' => $this ) );
 
         $html .= '</body></html>';
 

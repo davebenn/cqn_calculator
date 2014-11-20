@@ -1,8 +1,12 @@
 <?php
 /*
 *   Plugin Name: CQN Calculator
-*   Description: Calculator For CQN
-*   Version: 0.001
+*   Description: Calculator For CQN -- add [cqn_calculator] to any page to use.display the calculator. Also test shortcodes  [cqn_test_sale], [cqn_test_purchase], [cqn_test_sale_purchase]  etc.  If you need to override the plugin css, you can do so by creating {{theme_dir}}/css/cqn_styles.css which will load instead of the plugin version.
+*
+*
+*
+*
+*   Version: 0.201
 *
 */
 global $wpdb;
@@ -154,6 +158,17 @@ function cqn_init(){
 
         $CQN_twig->getExtension('core')->setNumberFormat(2, '.', ',');
 
+
+        if( file_exists( get_template_directory() . '/css/cqn_styles.css' ) ){
+            error_log('file exists');
+            $stylesheetURL = get_template_directory_uri() . '/css/cqn_styles.css';
+        }else{
+            $stylesheetURL =  CQN_PLUGIN_URL . '/includes/css/cqn_styles.css';
+            error_log('file doesnt exist');
+        }
+
+        error_log( $stylesheetURL );
+
         if( isset( $_POST['cqn_calc_form'] ) ){
 
             require 'vendor/autoload.php';
@@ -180,7 +195,7 @@ function cqn_init(){
 
                     $html = '<style type="text/css">' . file_get_contents( CQN_PLUGIN_PATH . '/includes/css/cqn_emails.css' ) . '</style>';
                     $template = $CQN_twig->loadTemplate('calc-email-instruct-admin.twig');
-                    $html .= $template->render( [ 'sub' => $sub ] );
+                    $html .= $template->render( array( 'sub' => $sub ) );
 
                     wp_mail($config->instructEmailAddress, 'Calculator form instruction request', $html, '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf');
 
@@ -193,15 +208,25 @@ function cqn_init(){
 
                     $html = '<style type="text/css">' . file_get_contents( CQN_PLUGIN_PATH . '/includes/css/cqn_emails.css' ) . '</style>';
                     $template = $CQN_twig->loadTemplate('calc-email-instruct-client.twig');
-                    $html .= $template->render( [ 'sub' => $sub ] );
+                    $html .= $template->render( array(  'sub' => $sub  ) );
 
+
+                    error_log( 'file:' . CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf' );
+
+                    if( file_exists(  CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf' )  ){
+                        error_log( ' - exists' );
+                    }else{
+
+                        error_log( ' - doesnt exists' );
+                    }
                     wp_mail($config->instructEmailAddress, 'Instruction Requested', $html, '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf');
 
+//                    remove_filter( 'wp_mail_content_type', 'cqn_set_html_content_type' );
 
                     $leadsSubmissionBody = $sub->getWebleadsSubmissionBody();
                     wp_mail( $config->leadsSystemEmailAddress, $config->leadsSystemEmailSubject, $leadsSubmissionBody , '' );
 
-
+//                    add_filter( 'wp_mail_content_type', 'cqn_set_html_content_type' );
 
                 }elseif ( $_POST[ 'cqn_instructType' ] == 'downloadQuote' ){// downloload clicked
 
@@ -228,7 +253,7 @@ function cqn_init(){
 
                     $html = '<style type="text/css">' . file_get_contents( CQN_PLUGIN_PATH . '/includes/css/cqn_emails.css' ) . '</style>';
                     $template = $CQN_twig->loadTemplate('calc-email-instruct-client.twig');
-                    $html .= $template->render( [ 'sub' => $sub ] );
+                    $html .= $template->render( array(  'sub' => $sub ) );
 
                     wp_mail( $sub->contact_email,  $config->clientEmailSubject, $html, '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf'  );
 
@@ -282,21 +307,27 @@ function cqn_init(){
 
                     $leadsSubmissionBody = $sub->getWebleadsSubmissionBody();
 
-                    error_log( 'sending .."'.$config->leadsSystemEmailSubject.'" .... to ' . $config->leadsSystemEmailAddress );
+                    //error_log( 'sending .."'.$config->leadsSystemEmailSubject.'" .... to ' . $config->leadsSystemEmailAddress );
                     wp_mail( $config->leadsSystemEmailAddress, $config->leadsSystemEmailSubject, $leadsSubmissionBody , '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf'  );
 
 
 
-                    wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', [ 'jquery' ] );
-                    wp_enqueue_style(  'cqn_calculator_styles', CQN_PLUGIN_URL . '/includes/css/cqn_styles.css');
+                    wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', array(  'jquery' ) );
+
+
+
+                    wp_enqueue_style(  'cqn_calculator_styles', $stylesheetURL);
 
                     $sub->clearConfig();// to help prevent details of config leaking
                     add_shortcode('cqn_calculator', 'cqn_show_quote');
 
                 }else{
 
-                    wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', [ 'jquery' ] );
-                    wp_enqueue_style(  'cqn_calculator_styles', CQN_PLUGIN_URL . '/includes/css/cqn_styles.css');
+                    wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', array( 'jquery' ) );
+
+
+
+                    wp_enqueue_style(  'cqn_calculator_styles', $stylesheetURL);
 
                     $_SESSION['CQN_calculator_submission'] = $sub;
                     // there are errors ??
@@ -311,8 +342,9 @@ function cqn_init(){
 
             $_SESSION['CQN_calculator_submission'] = $sub;
 
-            wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', [ 'jquery' ] );
-            wp_enqueue_style(  'cqn_calculator_styles', CQN_PLUGIN_URL . '/includes/css/cqn_styles.css');
+            wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', array( 'jquery' ) );
+
+            wp_enqueue_style(  'cqn_calculator_styles', $stylesheetURL);
 
             add_shortcode(     'cqn_calculator', 'cqn_show_calculator' );
         }
@@ -322,20 +354,20 @@ function cqn_init(){
 function cqn_show_thanks(   ){
     global $CQN_twig;
     $template = $CQN_twig->loadTemplate('calc-thanks.twig');
-    return $template->render( [ 'sub' => $_SESSION['CQN_calculator_submission'] ] );
+    return $template->render( array(  'sub' => $_SESSION['CQN_calculator_submission']  ) );
 }
 
 function cqn_show_quote(   ){
     global $CQN_twig;
     $template = $CQN_twig->loadTemplate('calc-quote.twig');
-    return $template->render( [ 'sub' => $_SESSION['CQN_calculator_submission'] ] );
+    return $template->render( array(  'sub' => $_SESSION['CQN_calculator_submission']  ) );
 }
 
 function cqn_show_calculator(  $errors )
 {
     global $CQN_twig;
     $template = $CQN_twig->loadTemplate('calc-form.twig');
-    return $template->render( [ 'sub' => $_SESSION['CQN_calculator_submission'] ] );
+    return $template->render( array(  'sub' => $_SESSION['CQN_calculator_submission']  ) );
 
 }
 
@@ -356,25 +388,25 @@ function cqn_destroySession() {
 }
 
 function cqn_test_sale(   ){
-    return cqn_show_test ( [
+    return cqn_show_test ( array(
         'quote_type' => 'sale',
         'sale_no_of_people' => 2,
         'sale_leasehold' => 1,
         'sale_price'        => 250000,
-    ]);
+    ) );
 }
 
 function cqn_test_purchase(   ){
-    return cqn_show_test ( [
+    return cqn_show_test ( array(
         'quote_type' => 'purchase',
         'purchase_leasehold' => 1,
         'purchase_no_of_buyers' => 2,
         'purchase_price'        => 250000,
-    ]);
+    ) );
 }
 
 function cqn_test_sale_purchase(   ){
-    return cqn_show_test ( [
+    return cqn_show_test ( array(
         'quote_type' => 'sale_purchase',
         'purchase_leasehold' => 1,
         'purchase_no_of_buyers' => 2,
@@ -382,10 +414,10 @@ function cqn_test_sale_purchase(   ){
         'sale_no_of_people' => 2,
         'sale_leasehold' => 1,
         'sale_price'        => 250000,
-    ]);
+    ) );
 }
 function cqn_test_remortgage(   ){
-    return cqn_show_test ( [
+    return cqn_show_test ( array(
         'quote_type' => 'remortgage',
         'remortgage_involves_transfer' => 1,
         'remortgage_no_of_people' => 2,
@@ -393,18 +425,18 @@ function cqn_test_remortgage(   ){
         'transfer_leasehold' => 1,
         'transfer_price'        => 80000,
         'remortgage_price'        => 250000,
-    ]);
+    ) );
 }
 function cqn_test_transfer(   ){
-    return cqn_show_test ( [
+    return cqn_show_test ( array(
         'quote_type' => 'transfer',
         'transfer_no_of_people' => 2,
         'transfer_leasehold' => 1,
         'transfer_price'        => 80000,
-    ]);
+    ) );
 }
 function cqn_test_remortgage_transfer(   ){
-    return cqn_show_test ( [
+    return cqn_show_test ( array(
         'quote_type' => 'remortgage',
         'remortgage_involves_transfer' => 1,
         'remortgage_no_of_people' => 2,
@@ -412,11 +444,11 @@ function cqn_test_remortgage_transfer(   ){
         'transfer_leasehold' => 1,
         'transfer_price'        => 80000,
         'remortgage_price'        => 250000,
-    ]);
+    ) );
 }
 function cqn_show_test( $post ){
 
-    wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', [ 'jquery' ] );
+    wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', array(  'jquery' )  );
     wp_enqueue_style(  'cqn_calculator_styles', CQN_PLUGIN_URL . '/includes/css/cqn_styles.css');
 
     $post['contact_email'] = 'davebenn@gmail.com';
@@ -432,14 +464,14 @@ function cqn_show_test( $post ){
 
     $sub->calculate();
 
-    return $template->render( [ 'sub' => $sub ] );
+    return $template->render( array ( 'sub' => $sub ) );
 }
 
 function cqn_test_instruct_email(   ){
 
     global $CQN_twig;
 
-    $post =  [
+    $post =  array(
 
             'contact_email' =>  'davebenn@gmail.com',
             'contact_telephone' => '07875295076',
@@ -470,8 +502,8 @@ function cqn_test_instruct_email(   ){
             'transfer_locality' => 'Ssdfsf',
             'transfer_town' => 'Preston',
             'transfer_postcode' => 'LO3 5JJ',
-        ];
-    $post =  [
+        );
+    $post =  array(
 
             'contact_email' =>  'davebenn@gmail.com',
             'contact_telephone' => '07875295076',
@@ -506,7 +538,7 @@ function cqn_test_instruct_email(   ){
             'purchase_locality' => 'Ssdfsf',
             'purchase_town' => 'Preston',
             'purchase_postcode' => 'LO3 5JJ',
-        ];
+        );
 
     $post['discount_code'] = 'CSUK25';
 
@@ -522,7 +554,7 @@ function cqn_test_instruct_email(   ){
     $template = $CQN_twig->loadTemplate('calc-email-instruct-admin.twig');
     //$template = $CQN_twig->loadTemplate('calc-email-instruct-client.twig');
 //    $template = $CQN_twig->loadTemplate('calc-email-client.twig');
-    $html .= $template->render( [ 'sub' => $sub ] );
+    $html .= $template->render( array(  'sub' => $sub ) );
 
     return $html;
 }
@@ -562,10 +594,8 @@ add_action( 'wp_login',  'cqn_destroySession' );
 add_action( 'init', 'cqn_add_test_shortcodes' );
 
 //add_filter( 'wp_mail_content_type', 'cqn_set_html_content_type' );
-
-function cqn_set_html_content_type() {
-
-    return 'text/html';
-}
+//function cqn_set_html_content_type() {
+//    return 'text/html';
+//}
 
 

@@ -94,7 +94,68 @@
 			box-shadow: 0 0 12px  tint( $red , 50) ;
 		}
 	}
+
 }
+
+	/* Buttons */
+	.instruct-buttons .instruct-input ,
+	.form-row .instruct-input {
+
+		margin-bottom: .5em;	
+
+		display: block;
+		width: 100%;
+		margin-bottom: .2em;
+
+		@include bp(  $medium ){
+			margin-left:  1%;
+			float: right;
+			width: auto;
+		}
+
+		&.last{
+			margin-right: 0;
+		}
+
+
+		background: $calcButton; /* Old browsers */
+		background: -webkit-linear-gradient(top, $calcButton 0%, $calcButtonHighlight 100%); /* Chrome 10+, Safari 5.1+ */
+		background:   linear-gradient(to bottom, $calcButton 0%, $calcButtonHighlight 100%); /* W3C */
+		border: none;
+		border-bottom: 3px solid $calcButtonHighlight2;
+		border-radius: 2px;
+		color: #fff;
+		display: inline-block;
+		padding: 11px 24px 10px;
+		text-decoration: none;
+
+		cursor: pointer;
+
+		&:hover, &:focus{
+
+			background: $calcButtonHighlight; /* Old browsers */
+			background: -webkit-linear-gradient(top, $calcButtonHighlight 0%, $calcButton 100%); /* Chrome 10+, Safari 5.1+ */
+			background:   linear-gradient(to bottom, $calcButtonHighlight 0%, $calcButton 100%); /* W3C */
+			outline: none;	
+		}
+
+		&:active{
+			background: $calcButtonHighlight; /* Old browsers */
+			background: -webkit-linear-gradient(top, $calcButtonHighlight 0%, $calcButton 100%); /* Chrome 10+, Safari 5.1+ */
+			background:   linear-gradient(to bottom, $calcButtonHighlight 0%, $calcButton 100%); /* W3C */
+			border: none;
+			border-top: 3px solid $calcButtonHighlight2;
+			padding: 10px 24px 11px;	
+		}
+	}
+
+	.instruct-buttons{
+
+
+		margin: 1em 0;
+
+		@extend .cf;
+	}
 
 .entry-content{
 	max-width: 620px !important;
