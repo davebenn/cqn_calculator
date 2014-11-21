@@ -197,7 +197,7 @@ function cqn_init(){
                     $template = $CQN_twig->loadTemplate('calc-email-instruct-admin.twig');
                     $html .= $template->render( array( 'sub' => $sub ) );
 
-                    wp_mail($config->instructEmailAddress, 'Calculator form instruction request', $html, '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf');
+                    wp_mail($config->instructEmailAddress, 'Calculator form instruction request', $html, array( 'Content-type: text/html' ) , CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf');
 
 
 
@@ -219,14 +219,12 @@ function cqn_init(){
 
                         error_log( ' - doesnt exists' );
                     }
-                    wp_mail($config->instructEmailAddress, 'Instruction Requested', $html, '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf');
+                    wp_mail($config->instructEmailAddress, 'Instruction Requested', $html, array( 'Content-type: text/html' ), CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf');
 
-//                    remove_filter( 'wp_mail_content_type', 'cqn_set_html_content_type' );
 
                     $leadsSubmissionBody = $sub->getWebleadsSubmissionBody();
-                    wp_mail( $config->leadsSystemEmailAddress, $config->leadsSystemEmailSubject, $leadsSubmissionBody , '' );
 
-//                    add_filter( 'wp_mail_content_type', 'cqn_set_html_content_type' );
+                    wp_mail( $config->leadsSystemEmailAddress, $config->leadsSystemEmailSubject, $leadsSubmissionBody  );
 
                 }elseif ( $_POST[ 'cqn_instructType' ] == 'downloadQuote' ){// downloload clicked
 
@@ -252,10 +250,10 @@ function cqn_init(){
                 }else{// email me quote clicked
 
                     $html = '<style type="text/css">' . file_get_contents( CQN_PLUGIN_PATH . '/includes/css/cqn_emails.css' ) . '</style>';
-                    $template = $CQN_twig->loadTemplate('calc-email-instruct-client.twig');
+                    $template = $CQN_twig->loadTemplate('calc-email-client.twig');
                     $html .= $template->render( array(  'sub' => $sub ) );
 
-                    wp_mail( $sub->contact_email,  $config->clientEmailSubject, $html, '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf'  );
+                    wp_mail( $sub->contact_email,  $config->clientEmailSubject, $html, array( 'Content-type: text/html' ), CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf'  );
 
                     $sub->emailed_to_client = 1;
                     $sub->instruct_clicked = 0;
@@ -592,10 +590,5 @@ add_action( 'wp_login',  'cqn_destroySession' );
 
 /* shortcode to display the test quotes */
 add_action( 'init', 'cqn_add_test_shortcodes' );
-
-//add_filter( 'wp_mail_content_type', 'cqn_set_html_content_type' );
-//function cqn_set_html_content_type() {
-//    return 'text/html';
-//}
-
+//
 
