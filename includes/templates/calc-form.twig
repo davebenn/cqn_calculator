@@ -58,7 +58,7 @@
         <div class="form-row {{ sub.errors.contact_telephone            ? ' error' }}"                     ><label for="contact_telephone">Telephone Number*</label><input value="{{ sub.contact_telephone }}" name="contact_telephone" id="contact_telephone" size="40" type="tel"></div>
         <div class="form-row {{ sub.errors.contact_name                 ? ' error' }}"                     ><label for="contact_name">Full Name</label><input value="{{ sub.contact_name }}" name="contact_name" id="contact_name" size="40" type="text"></div>
         
-        <div class="form-row"                     ><input class="instruct-input" type="submit" id="cqn-form-submit" value="Calculate"></div>
+        <div class="form-row"                     ><input class="instruct-input" type="submit" id="cqn-form-submit" value="Calculate" onclick="_gaq.push(['_trackEvent', 'calculator', 'submit']);"  ></div>
         <div class="form-row"><div class="privacy"><span>*</span>We fully respect your privacy. We will not share your email or other information with any third party.</div></div>
     </div>
 </form>
