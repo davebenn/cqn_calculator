@@ -10,6 +10,19 @@ echo "\n";
 $config = new CQN_Calculator_Config;
 
 
+
+
+$prices = [ 50000, 120000, 185000, 275000, 510000, 937500, 2100000];
+
+
+echo "\nStamp Duty ";
+echo "\n=============";
+
+foreach ($prices as $price){
+    echo "\n"  . number_format( $price ) . '  -  ' . number_format( $config->getStampDuty($price, false));
+}
+
+
 //
 //
 //$sub = new CQN_Calculator_Submission( $config );
@@ -36,30 +49,30 @@ $config = new CQN_Calculator_Config;
 //}
 //
 //
-
-
-
-$sub = new CQN_Calculator_Submission( $config );
-
-$sub->loadFromPost( [   'quote_type' => 'remortgage',
-                        'remortgage_involves_transfer' => 1,
-                        'remortgage_no_of_people' => 2,
-                        'transfer_no_of_people' => 2,
-                        'transfer_leasehold' => 1,
-                        'transfer_price'        => 80000,
-                        'remortgage_price'        => 250000,
-
-] );
-
-$sub->calculate();
-
-echo $sub->getTextQuote();
-echo "\n";
-
-foreach( $sub->getDisbursements() as $db ){
-    echo "\n ". $db->code . " : ". $db->name . " - " . number_format( $db->price );
-}
-
+//
+//
+//
+//$sub = new CQN_Calculator_Submission( $config );
+//
+//$sub->loadFromPost( [   'quote_type' => 'remortgage',
+//                        'remortgage_involves_transfer' => 1,
+//                        'remortgage_no_of_people' => 2,
+//                        'transfer_no_of_people' => 2,
+//                        'transfer_leasehold' => 1,
+//                        'transfer_price'        => 80000,
+//                        'remortgage_price'        => 250000,
+//
+//] );
+//
+//$sub->calculate();
+//
+//echo $sub->getTextQuote();
+//echo "\n";
+//
+//foreach( $sub->getDisbursements() as $db ){
+//    echo "\n ". $db->code . " : ". $db->name . " - " . number_format( $db->price );
+//}
+//
 
 
 //

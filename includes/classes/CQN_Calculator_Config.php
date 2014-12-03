@@ -135,22 +135,53 @@ class CQN_Calculator_Config {
         $this->stampDutyFees  =                array( 0.00 , 0.01 , 0.03 , 0.04 , 0.05 , 0.07 );
         $this->stampDutyFeesFirstTimeBuyers  = array( 0.00 , 0.01 , 0.03 , 0.04 , 0.05 , 0.07 );
     }
+
+//    public function OLD__getStampDuty__OLD( $propertyPrice, $firstTimeBuyer = false ){
+//
+//        $bandIndex = $this->getBandIndex( $this->stampDutyBands, $propertyPrice );
+//
+//        if( $firstTimeBuyer ){
+//            $theFees = $this->stampDutyFeesFirstTimeBuyers;
+//        }else{
+//            $theFees = $this->stampDutyFees;
+//        }
+//
+//        if( isset( $theFees[ $bandIndex ] ) ){
+//            return  $theFees[ $bandIndex ] * $propertyPrice;
+//        }else{
+//            return false;
+//        }
+//        return 1;
+//    }
+
     public function getStampDuty( $propertyPrice, $firstTimeBuyer = false ){
 
-        $bandIndex = $this->getBandIndex( $this->stampDutyBands, $propertyPrice );
+        $total = 0;
 
-        if( $firstTimeBuyer ){
-            $theFees = $this->stampDutyFeesFirstTimeBuyers;
-        }else{
-            $theFees = $this->stampDutyFees;
+        if( $propertyPrice > 125000 ) {
+            $total = ( $propertyPrice - 125000) * 0.02;
+        }
+        if( $propertyPrice > 250000 ){
+
+            $total = ( $propertyPrice - 250000) * 0.05;
+            $total +=  ( 250000 - 125000 ) * 0.02;
+
+        }
+        if( $propertyPrice > 925000 ){
+            $total = ( $propertyPrice - 925000) * 0.10;
+            $total +=  (925000 - 250000 ) * 0.05;
+            $total +=  ( 250000 - 125000 ) * 0.02;
+        }
+        if( $propertyPrice > 1500000 ){
+
+            $total = ( $propertyPrice - 1500000) * 0.12;
+            $total +=  (1500000 - 925000) * 0.10;
+            $total +=  (925000 - 250000 ) * 0.05;
+            $total +=  ( 250000 - 125000 ) * 0.02;
         }
 
-        if( isset( $theFees[ $bandIndex ] ) ){
-            return  $theFees[ $bandIndex ] * $propertyPrice;
-        }else{
-            return false;
-        }
-        return 1;
+        return $total;
+
     }
     public function checkDiscountCode( $code ){
 
