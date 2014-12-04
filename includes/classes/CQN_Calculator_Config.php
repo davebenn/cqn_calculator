@@ -108,17 +108,17 @@ class CQN_Calculator_Config {
     );
 
         $this->purchaseDisbursements =  array(
-                 (object)  array( 'code' => 'PURCHASE_LS'              , 'optional' => true , 'price' => 100 ,  'name' => 'Local Search' ),
-                 (object)  array( 'code' => 'PURCHASE_ES'              , 'optional' => true , 'price' => 50 ,   'name' => 'Environmental Search' ),
-                 (object)  array( 'code' => 'PURCHASE_WS'              , 'optional' => true , 'price' => 45 ,   'name' => 'Water Search' ),
-                 (object)  array( 'code' => 'PURCHASE_CS'              , 'optional' => true , 'price' => 42 ,   'name' => 'Coal Search' ),
-                 (object)  array( 'code' => 'PURCHASE_CHS'             , 'optional' => true , 'price' => 20 ,   'name' => 'Chancel Search' ),
-                 (object)  array( 'code' => 'PURCHASE_HS2S'            , 'optional' => true , 'price' => 25 ,   'name' => 'High Speed 2 Search' ),
-                 (object)  array( 'code' => 'PURCHASE_HMLRS'           , 'optional' => false , 'price' => 8 ,    'name' => 'HMLR Search' ),
-                 (object)  array( 'code' => 'PURCHASE_BS'              , 'optional' => false , 'price' => 2 ,    'name' => 'Bankruptcy Search' ),
+             (object)  array( 'code' => 'PURCHASE_LS'              , 'optional' => true , 'price' => 100 ,  'name' => 'Local Search' ),
+             (object)  array( 'code' => 'PURCHASE_ES'              , 'optional' => true , 'price' => 50 ,   'name' => 'Environmental Search' ),
+             (object)  array( 'code' => 'PURCHASE_WS'              , 'optional' => true , 'price' => 45 ,   'name' => 'Water Search' ),
+             (object)  array( 'code' => 'PURCHASE_CS'              , 'optional' => true , 'price' => 42 ,   'name' => 'Coal Search' ),
+             (object)  array( 'code' => 'PURCHASE_CHS'             , 'optional' => true , 'price' => 20 ,   'name' => 'Chancel Search' ),
+             (object)  array( 'code' => 'PURCHASE_HS2S'            , 'optional' => true , 'price' => 25 ,   'name' => 'High Speed 2 Search' ),
+             (object)  array( 'code' => 'PURCHASE_HMLRS'           , 'optional' => false , 'price' => 8 ,    'name' => 'HMLR Search' ),
+             (object)  array( 'code' => 'PURCHASE_BS'              , 'optional' => false , 'price' => 2 ,    'name' => 'Bankruptcy Search' ),
 //               (object)  array( 'code' => 'PURCHASE_DOCUMENT_RETURN' , 'optional' => true , 'price' => 10 ,   'name' => 'Document Return' ),
-                 (object)  array( 'code' => 'PURCHASE_BANK_TRANSFER'   , 'optional' => false , 'price' => 36.80, 'name' => 'Bank Transfer')
-            );
+             (object)  array( 'code' => 'PURCHASE_BANK_TRANSFER'   , 'optional' => false , 'price' => 36.80, 'name' => 'Bank Transfer')
+        );
 
         $this->salePurchaseLRBands =        array(  50000, 80000, 100000, 200000, 500000, 1000000);
         $this->salePurchaseLRFees  =        array(     20,    20,     40,     95,    135,     270 );
@@ -156,33 +156,37 @@ class CQN_Calculator_Config {
 
     public function getStampDuty( $propertyPrice, $firstTimeBuyer = false ){
 
-        $total = 0;
-
-        if( $propertyPrice > 125000 ) {
-            $total = ( $propertyPrice - 125000) * 0.02;
-        }
-        if( $propertyPrice > 250000 ){
-
-            $total = ( $propertyPrice - 250000) * 0.05;
-            $total +=  ( 250000 - 125000 ) * 0.02;
-
-        }
-        if( $propertyPrice > 925000 ){
-            $total = ( $propertyPrice - 925000) * 0.10;
-            $total +=  (925000 - 250000 ) * 0.05;
-            $total +=  ( 250000 - 125000 ) * 0.02;
-        }
         if( $propertyPrice > 1500000 ){
 
             $total = ( $propertyPrice - 1500000) * 0.12;
             $total +=  (1500000 - 925000) * 0.10;
             $total +=  (925000 - 250000 ) * 0.05;
             $total +=  ( 250000 - 125000 ) * 0.02;
+
+        }elseif( $propertyPrice > 925000 ){
+
+            $total = ( $propertyPrice - 925000) * 0.10;
+            $total +=  (925000 - 250000 ) * 0.05;
+            $total +=  ( 250000 - 125000 ) * 0.02;
+
+        }elseif( $propertyPrice > 250000 ){
+
+            $total = ( $propertyPrice - 250000) * 0.05;
+            $total +=  ( 250000 - 125000 ) * 0.02;
+
+        }elseif( $propertyPrice > 125000 ) {
+
+            $total = ( $propertyPrice - 125000) * 0.02;
+
+        }else{
+
+            $total = 0;
+
         }
 
         return $total;
-
     }
+
     public function checkDiscountCode( $code ){
 
         $code = strtoupper( $code );
