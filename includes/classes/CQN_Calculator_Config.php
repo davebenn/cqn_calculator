@@ -62,9 +62,12 @@ class CQN_Calculator_Config {
         $this->VATRate = 0.2;
 //      $this->quote_types = [ 'sale', 'purchase', 'sale_purchase', 'remortgage', 'transfer' ];
 
-//        $this->leadsSystemEmailAddress = 'callback-inbox@wantfound.com';
+//          $this->leadsSystemEmailAddress = 'callback-inbox@wantfound.com';
+
+//        $this->leadsSystemEmailAddress = 'davebenn@gmail.com';
         $this->leadsSystemEmailAddress = 'callback-inbox@webleads.latimerlee.com';
-        //$this->instructEmailAddress    = 'davebenn+calc-instruct@gmail.com';
+
+//        $this->instructEmailAddress    = 'davebenn+calc-instruct@gmail.com';
         $this->instructEmailAddress    = 'conveyancing@latimerlee.com, davebenn+conveyancingcalc@gmail.com';
         $this->leadsSystemEmailSubject = 'callback - calculator submission ';
         $this->clientEmailSubject      = 'Your conveyancing quote';

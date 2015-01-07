@@ -145,6 +145,12 @@
 </tbody>
 </table>
 
+{% if sub.involves_purchase %}
+    <p class="disbursements-footnote" style="font-style: italic; color: #772222; clear: both; text-align: right; font-size: 0.75em ">* Please note that all disbursement details may not be available at the date of this estimate. More precise figures will be supplied when these are known.</p>
+{% else %}
+    <p class="disbursements-footnote" style="font-style: italic; color: #772222; clear: both; text-align: right; font-size: 0.75em ">* Details of disbursements are an estimate of likely expenses to be paid. More precise figures will be supplied when the full information is to hand.</p>
+{% endif %}
+
 
 
 <div class="instruct-form cqn-quote-form" id="instruct-form" style="display: none;">

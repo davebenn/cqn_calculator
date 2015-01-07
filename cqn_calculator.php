@@ -133,6 +133,7 @@ function cqn_init(){
 
     if( !is_admin() ){
 
+
         require 'vendor/autoload.php';
 
         require_once  CQN_PLUGIN_PATH . '/includes/classes/CQN_Calculator_Config.php' ;
@@ -164,7 +165,7 @@ function cqn_init(){
             $stylesheetURL = get_template_directory_uri() . '/css/cqn_styles.css';
         }else{
             $stylesheetURL =  CQN_PLUGIN_URL . '/includes/css/cqn_styles.css';
-            error_log('file doesnt exist');
+            error_log('template css file doesnt exist - using plugin styles');
         }
 
         error_log( $stylesheetURL );
@@ -172,6 +173,8 @@ function cqn_init(){
         if( isset( $_POST['cqn_calc_form'] ) ){
 
             require 'vendor/autoload.php';
+
+
 
             if( isset(  $_POST[ 'cqn_instructType' ] ) ) {
                 /*

@@ -109,10 +109,18 @@
 </tbody>
 </table>
 
+{% if sub.involves_purchase %}
+    <p style="font-style: italic; color: #772222; clear: both; text-align: right; padding-left: 23%;">* Please note that all disbursement details may not be available at the date of this estimate. More precise figures will be supplied when these are known.</p>
+{% else %}
+    <p style="font-style: italic; color: #772222; clear: both; text-align: right; padding-left: 23%;">* Details of disbursements are an estimate of likely expenses to be paid. More precise figures will be supplied when the full information is to hand.</p>
+{% endif %}
+
+
 <p class="quote-generated">
     This email was sent to '{{ sub.contact_email }}' after the quote was requested from the '{{ sub.site_name }}' website
     <span class="quote date">at {{ "now"|date('H:i') }} on {{ "now"|date('dS M Y') }}</span>
 </p>
+
 
 {% if ( sub.optional_disbursements_list ) %}
     <div class="possible-disbursements">
@@ -135,5 +143,9 @@
         </table>
     </div>
 {% endif %}
+
+
+
+
 
 {% include "calc-quote-pdf-footer.twig" %}
