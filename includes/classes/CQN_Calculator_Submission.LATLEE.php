@@ -50,6 +50,7 @@ class CQN_Calculator_Submission
 
     public $disbursements_total;
 
+
     // for storing json of disbursements at time of quoting , as they can change over time
 
     public $purchase_disbursements_list = array();
@@ -524,8 +525,6 @@ class CQN_Calculator_Submission
 
 
         if( $this->involves_sale ){
-
-            //if sale price is over max saleprice return error
 
             if( !( is_numeric( $this->sale_price ) && $this->sale_price > 1000 )  )
                 $this->errors[ 'sale_price' ] = 'please enter a valid sale price';

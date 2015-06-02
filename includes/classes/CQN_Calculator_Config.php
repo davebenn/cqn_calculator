@@ -10,10 +10,10 @@ class CQN_Calculator_Config {
 
     public $VATRate;
 
-    private $maxSalePrice;
-    private $maxPurchasePrice;
-    private $maxRemortgagePrice;
-    private $maxTransferPrice;
+    public $maxSalePrice;
+    public $maxPurchasePrice;
+    public $maxRemortgagePrice;
+    public $maxTransferPrice;
 
     private $saleFees;
     private $saleBands;
@@ -65,22 +65,38 @@ class CQN_Calculator_Config {
 //          $this->leadsSystemEmailAddress = 'callback-inbox@wantfound.com';
 
 //        $this->leadsSystemEmailAddress = 'davebenn@gmail.com';
-        $this->leadsSystemEmailAddress = 'callback-inbox@webleads.latimerlee.com';
 
-//        $this->instructEmailAddress    = 'davebenn+calc-instruct@gmail.com';
-        $this->instructEmailAddress    = 'conveyancing@latimerlee.com, davebenn+conveyancingcalc@gmail.com';
-        $this->leadsSystemEmailSubject = 'callback - calculator submission ';
-        $this->clientEmailSubject      = 'Your conveyancing quote';
+        if( gethostname() == 'dave-office' ){
 
-        $this->maxSalePrice = 500000;
-        $this->maxPurchasePrice = 500000;
+            $this->leadsSystemEmailAddress = 'davebenn+leadsImport@gmail.com';
+            $this->instructEmailAddress    = 'davebenn+conveyancingcalcDEV@gmail.com';
+            $this->leadsSystemEmailSubject = 'DEV callback - calculator submission ';
+            $this->clientEmailSubject      = 'DEV Your conveyancing quote';
+
+        }else{
+
+            $this->leadsSystemEmailAddress = 'callback-inbox@webleads.latimerlee.com';
+            $this->instructEmailAddress    = 'conveyancing@latimerlee.com, davebenn+conveyancingcalc@gmail.com';
+            $this->leadsSystemEmailSubject = 'callback - calculator submission ';
+            $this->clientEmailSubject      = 'Your conveyancing quote';
+        }
+
+        $this->maxSalePrice       = 599999;
+        $this->maxPurchasePrice   = 599999;
         $this->maxRemortgagePrice = 500000;
-        $this->maxTransferPrice = 500000;
+        $this->maxTransferPrice   = 500000;
 
-        $this->saleBands       = array( 125000, 250000, 500000, 1000000, 9999999   );
-        $this->saleFees        = array(    300,    300,    350,     624,     624   );
-        $this->purchaseBands   = array( 125000, 250000, 500000, 1000000, 9999999  );
-        $this->purchaseFees    = array(    300,    324,    340,     624,     624  );
+        // $this->saleBands       = array( 125000, 250000, 500000, 1000000, 9999999   );
+        // $this->saleFees        = array(    300,    300,    350,     624,     624   );
+        // $this->purchaseBands   = array( 125000, 250000, 500000, 1000000, 9999999  );
+        // $this->purchaseFees    = array(    300,    324,    340,     624,     624  );
+
+        $this->saleBands       = array( 100000, 120000, 160000, 250000, 300000, 350000, 400000, 599999,  9999999   );
+        $this->saleFees        = array(    325,    350,    375,    400,    425,    450,    475,    500,      500   );
+        $this->purchaseBands   = array( 100000, 120000, 160000, 250000, 300000, 350000, 400000, 599999,  9999999   );
+        $this->purchaseFees    = array(    350,    375,    400,    425,    450,    475,    500,    525,      525  );
+
+
         $this->remortgageBands = array( 99999999  );
         $this->remortgageFees  = array( 250  );
         $this->transferBands   = array( 99999999  );

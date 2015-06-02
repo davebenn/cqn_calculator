@@ -296,6 +296,16 @@ function cqn_init(){
                      *
                     */
 
+
+                    /*
+                     * IF saleprice > max sale price
+                     *
+                     *
+                     * or $purchase price > maxpurchase price
+                     *  make the shortcode display the please contact us on 09999xxxxxx
+                     * */
+
+
                     $sub->calculate();
                     $sub->save();
 
@@ -313,14 +323,28 @@ function cqn_init(){
 
 
 
-                    wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', array(  'jquery' ) );
+                    if(
+                            ( $sub->involves_purchase   && ( $sub->purchase_price   > $config->maxPurchasePrice   ) ) ||
+                            ( $sub->involves_sale       && ( $sub->sale_price       > $config->maxSalePrice       ) ) ||
+                            ( $sub->involves_remortgage && ( $sub->remortgage_price > $config->maxRemortgagePrice ) ) ||
+                            ( $sub->involves_transfer   && ( $sub->transfer_price   > $config->maxTransferPrice   ) )
+                        ){
 
+                        wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', array(  'jquery' ) );
+                        wp_enqueue_style(  'cqn_calculator_styles', $stylesheetURL);
+                        add_shortcode('cqn_calculator', 'cqn_show_unable_to_quote');
 
+                    }else{
 
-                    wp_enqueue_style(  'cqn_calculator_styles', $stylesheetURL);
+                        wp_enqueue_script( 'cqn_calculator_script', CQN_PLUGIN_URL . '/includes/js/min/cqn_calc.min.js', array(  'jquery' ) );
+                        wp_enqueue_style(  'cqn_calculator_styles', $stylesheetURL);
+                        add_shortcode('cqn_calculator', 'cqn_show_quote');
+                    }
 
                     $sub->clearConfig();// to help prevent details of config leaking
-                    add_shortcode('cqn_calculator', 'cqn_show_quote');
+
+
+
 
                 }else{
 
@@ -352,11 +376,31 @@ function cqn_init(){
     }
 }
 
+/*
+
+    function cqn_show_property_price_too_high_email_us(   ){
+
+
+    }
+
+
+*/
+
+
+function cqn_show_unable_to_quote(   ){
+    global $CQN_twig;
+    $template = $CQN_twig->loadTemplate('calc-quote-unable-to-quote.twig');
+    return $template->render( array(  'sub' => $_SESSION['CQN_calculator_submission']  ) );
+}
+
+
 function cqn_show_thanks(   ){
     global $CQN_twig;
     $template = $CQN_twig->loadTemplate('calc-thanks.twig');
     return $template->render( array(  'sub' => $_SESSION['CQN_calculator_submission']  ) );
 }
+
+
 
 function cqn_show_quote(   ){
     global $CQN_twig;
