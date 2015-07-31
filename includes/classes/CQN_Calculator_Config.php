@@ -81,8 +81,8 @@ class CQN_Calculator_Config {
             $this->clientEmailSubject      = 'Your conveyancing quote';
         }
 
-        $this->maxSalePrice       = 599999;
-        $this->maxPurchasePrice   = 599999;
+        $this->maxSalePrice       = 500000;
+        $this->maxPurchasePrice   = 500000;
         $this->maxRemortgagePrice = 500000;
         $this->maxTransferPrice   = 500000;
 
@@ -91,10 +91,10 @@ class CQN_Calculator_Config {
         // $this->purchaseBands   = array( 125000, 250000, 500000, 1000000, 9999999  );
         // $this->purchaseFees    = array(    300,    324,    340,     624,     624  );
 
-        $this->saleBands       = array( 100000, 120000, 160000, 250000, 300000, 350000, 400000, 599999,  9999999   );
-        $this->saleFees        = array(    325,    350,    375,    400,    425,    450,    475,    500,      500   );
-        $this->purchaseBands   = array( 100000, 120000, 160000, 250000, 300000, 350000, 400000, 599999,  9999999   );
-        $this->purchaseFees    = array(    350,    375,    400,    425,    450,    475,    500,    525,      525  );
+        $this->saleBands       = array( 100000, 120000, 160000, 250000, 300000, 350000, 400000, 500000,  9999999   );
+        $this->saleFees        = array(    299,    325,    350,    375,    400,    425,    450,    475,      500   );
+        $this->purchaseBands   = array( 100000, 120000, 160000, 250000, 300000, 350000, 400000, 500000,  9999999   );
+        $this->purchaseFees    = array(    325,    350,    375,    400,    425,    450,    475,    500,      525  );
 
 
         $this->remortgageBands = array( 99999999  );
@@ -124,7 +124,7 @@ class CQN_Calculator_Config {
             (object)  array( 'code' => 'TRANSFER_LREP'             , 'optional' => false , 'price' => 6 ,    'name' => 'Land Registry Entry and Plan' ),
             (object)  array( 'code' => 'TRANSFER_LRS'              , 'optional' => false , 'price' => 4 ,    'name' => 'Land Registry Search' ),
             (object)  array( 'code' => 'TRANSFER_BS'               , 'optional' => false , 'price' => 2 ,    'name' => 'Bankruptcy Search' )
-    );
+        );
 
         $this->purchaseDisbursements =  array(
              (object)  array( 'code' => 'PURCHASE_LS'              , 'optional' => true , 'price' => 100 ,  'name' => 'Local Search' ),
