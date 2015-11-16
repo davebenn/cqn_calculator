@@ -28,9 +28,13 @@ class CQN_Calculator_Submission
     public $transfer_legal_fees;
 
     public $purchase_leasehold_fees;
+    public $purchase_shared_ownership_fees;
+
     public $sale_leasehold_fees;
     public $remortgage_leasehold_fees;
     public $transfer_leasehold_fees;
+
+
 
     public $no_move_no_fee;
 
@@ -74,6 +78,7 @@ class CQN_Calculator_Submission
     public $purchase_mortgage;
     public $purchase_1st_time_buyer;
     public $purchase_no_of_buyers;
+    public $purchase_shared_ownership;
 
     public $remortgage_leasehold;
     public $remortgage_no_of_people;
@@ -132,6 +137,8 @@ class CQN_Calculator_Submission
         $this->remortgage_legal_fees = 0;
 
         $this->purchase_leasehold_fees = 0;
+        $this->purchase_shared_ownership_fees = 0;
+
         $this->sale_leasehold_fees = 0;
         $this->remortgage_leasehold_fees = 0;
         $this->transfer_leasehold_fees = 0;
@@ -157,6 +164,9 @@ class CQN_Calculator_Submission
                 $this->sale_leasehold_fees = $this->config->sale_leasehold_fee;
             }
 
+
+
+
             $saleDisbursements = $this->config->getSaleDisbursements();
 
 
@@ -178,6 +188,12 @@ class CQN_Calculator_Submission
             if ($this->purchase_leasehold) {
                 $this->purchase_leasehold_fees = $this->config->purchase_leasehold_fee;
             }
+
+
+            if ($this->purchase_shared_ownership) {
+                $this->purchase_shared_ownership_fees = $this->config->purchase_shared_ownership_fee;
+            }
+
             $purchaseDisbursements = $this->config->getPurchaseDisbursements();
 
             foreach ($purchaseDisbursements as $disbursement) {
@@ -273,6 +289,7 @@ class CQN_Calculator_Submission
 
         $this->legal_fees_total = $this->sale_legal_fees + $this->purchase_legal_fees + $this->remortgage_legal_fees + $this->transfer_legal_fees +
             $this->sale_leasehold_fees + $this->purchase_leasehold_fees + $this->remortgage_leasehold_fees + $this->transfer_leasehold_fees +
+            $this->purchase_shared_ownership_fees +
             $this->no_move_no_fee;
 
         $this->disbursements_total = $this->sale_disbursements_total +
@@ -446,6 +463,9 @@ class CQN_Calculator_Submission
             $insertFields[ 'purchase_postcode' ]        = $this->purchase_postcode ;
 
             $insertFields[ 'purchase_is_leasehold' ]    = $this->purchase_leasehold;
+
+            $insertFields[ 'purchase_is_shared_ownership' ]    = $this->purchase_shared_ownership;
+
             $insertFields[ 'purchase_has_mortgage' ]    = $this->purchase_mortgage;
             $insertFields[ 'purchase_first_time_buyer'] = $this->purchase_1st_time_buyer;
             $insertFields[ 'purchase_num_people' ]      = $this->purchase_no_of_buyers;
@@ -561,7 +581,7 @@ class CQN_Calculator_Submission
     {
 
         $fillable = array(
-            'sale_price', 'sale_leasehold', 'sale_mortgage', 'purchase_price', 'purchase_leasehold', 'purchase_mortgage', 'purchase_1st_time_buyer', 'purchase_no_of_buyers', 'remortgage_price', 'remortgage_leasehold', 'remortgage_no_of_people', 'remortgage_involves_transfer', 'transfer_price', 'transfer_leasehold', 'transfer_no_of_people', 'discount_code', 'contact_email', 'contact_telephone', 'contact_name', 'contact_street_address', 'contact_locality', 'contact_town', 'contact_postcode', 'additional_1_fullname', 'additional_2_fullname' , 'sale_street_address', 'sale_locality', 'sale_town', 'sale_postcode', 'purchase_street_address', 'purchase_locality', 'purchase_town', 'purchase_postcode', 'remortgage_street_address', 'remortgage_locality', 'remortgage_town', 'remortgage_postcode', 'transfer_street_address', 'transfer_locality', 'transfer_town', 'transfer_postcode'
+            'sale_price', 'sale_leasehold', 'sale_mortgage', 'purchase_price', 'purchase_leasehold', 'purchase_shared_ownership', 'purchase_mortgage', 'purchase_1st_time_buyer', 'purchase_no_of_buyers', 'remortgage_price', 'remortgage_leasehold', 'remortgage_no_of_people', 'remortgage_involves_transfer', 'transfer_price', 'transfer_leasehold', 'transfer_no_of_people', 'discount_code', 'contact_email', 'contact_telephone', 'contact_name', 'contact_street_address', 'contact_locality', 'contact_town', 'contact_postcode', 'additional_1_fullname', 'additional_2_fullname' , 'sale_street_address', 'sale_locality', 'sale_town', 'sale_postcode', 'purchase_street_address', 'purchase_locality', 'purchase_town', 'purchase_postcode', 'remortgage_street_address', 'remortgage_locality', 'remortgage_town', 'remortgage_postcode', 'transfer_street_address', 'transfer_locality', 'transfer_town', 'transfer_postcode'
         );
 
         foreach ($fillable as $field) {
@@ -638,6 +658,8 @@ class CQN_Calculator_Submission
 
             $this->purchase_price = $submission->purchase_price;
             $this->purchase_leasehold = $submission->purchase_leasehold;
+            $this->purchase_shared_ownership = $submission->purchase_shared_ownership;
+
             $this->purchase_mortgage = $submission->purchase_mortgage;
             $this->purchase_1st_time_buyer = $submission->purchase_1st_time_buyer;
             $this->purchase_no_of_buyers = $submission->purchase_no_of_buyers;
@@ -670,6 +692,8 @@ class CQN_Calculator_Submission
             $this->transfer_legal_fees  = $submission->transfer_legal_fees;
 
             $this->purchase_leasehold_fees  = $submission->purchase_leasehold_fees;
+            $this->purchase_shared_ownership_fees  = $submission->purchase_shared_ownership_fees;
+
             $this->sale_leasehold_fees  = $submission->sale_leasehold_fees;
             $this->remortgage_leasehold_fees  = $submission->remortgage_leasehold_fees;
             $this->transfer_leasehold_fees  = $submission->transfer_leasehold_fees;
@@ -726,6 +750,8 @@ class CQN_Calculator_Submission
 
             'purchase_price'               => mysql_real_escape_string($this->purchase_price),
             'purchase_leasehold'           => mysql_real_escape_string($this->purchase_leasehold),
+            'purchase_shared_ownership'           => mysql_real_escape_string($this->purchase_shared_ownership),
+
             'purchase_mortgage'            => mysql_real_escape_string($this->purchase_mortgage),
             'purchase_1st_time_buyer'      => mysql_real_escape_string($this->purchase_1st_time_buyer),
             'purchase_no_of_buyers'        => mysql_real_escape_string($this->purchase_no_of_buyers),
@@ -786,6 +812,8 @@ class CQN_Calculator_Submission
             'transfer_legal_fees'		     => $this->transfer_legal_fees,
 
             'purchase_leasehold_fees'	     => $this->purchase_leasehold_fees,
+            'purchase_shared_ownership_fees' => $this->purchase_shared_ownership_fees,
+
             'sale_leasehold_fees'		     => $this->sale_leasehold_fees,
             'remortgage_leasehold_fees'	     => $this->remortgage_leasehold_fees,
             'transfer_leasehold_fees'	     => $this->transfer_leasehold_fees,
@@ -864,6 +892,8 @@ class CQN_Calculator_Submission
 
         $ret  .= "\nSale LH Fee           =  " . number_format( (int) $this->sale_leasehold_fees , 2);
         $ret  .= "\nPurchase LH Fee       =  " . number_format( (int) $this->purchase_leasehold_fees , 2);
+
+        $ret  .= "\nPurchase S/O Fee       =  " . number_format( (int) $this->purchase_shared_ownership_fees , 2);
         $ret  .= "\nRemortgage LH Fee     =  " . number_format( (int) $this->remortgage_leasehold_fees , 2);
         $ret  .= "\nTransfer LH Fee       =  " . number_format( (int) $this->transfer_leasehold_fees , 2);
 

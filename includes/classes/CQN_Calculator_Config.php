@@ -109,6 +109,8 @@ class CQN_Calculator_Config {
         $this->remortgage_leasehold_fee =  0;
         $this->transfer_leasehold_fee   =  0;
 
+        $this->purchase_shared_ownership_fee   =  100;
+
         $this->saleDisbursements = array(
             (object)  array( 'code' => 'SALE_LREP'                 , 'optional' => false , 'price' => 8 ,    'name' => 'Land Registry Entry and Plan' ),
             (object)  array( 'code' => 'SALE_BANK_TRANSFER'        , 'optional' => false , 'price' => 36.80, 'name' => 'Bank Transfer' ),

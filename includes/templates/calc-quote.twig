@@ -61,6 +61,7 @@
 
         {{ sub.sale_leasehold_fees        ?  '<tr ><td>Sale Leasehold Fees</td><td  class="amount">'       ~ sub.sale_leasehold_fees|number_format        ~ '</td></tr>' : '' }}
         {{ sub.purchase_leasehold_fees    ?  '<tr ><td>Purchase Leasehold Fees</td><td  class="amount">'   ~ sub.purchase_leasehold_fees|number_format    ~ '</td></tr>' : '' }}
+        {{ sub.purchase_shared_ownership_fees    ?  '<tr ><td>Purchase Shared Ownership Fees</td><td  class="amount">'   ~ sub.purchase_shared_ownership_fees|number_format    ~ '</td></tr>' : '' }}
         {{ sub.remortgage_leasehold_fees  ?  '<tr ><td>Remortgage Leasehold Fees</td><td  class="amount">' ~ sub.remortgage_leasehold_fees|number_format  ~ '</td></tr>' : '' }}
         {{ sub.transfer_leasehold_fees    ?  '<tr ><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.transfer_leasehold_fees|number_format    ~ '</td></tr>' : '' }}
         {{ sub.no_move_no_fee             ?  '<tr ><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.no_move_no_fee|number_format             ~ '</td></tr>' : '' }}

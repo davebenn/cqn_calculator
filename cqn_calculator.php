@@ -35,6 +35,8 @@ function cqn_activation(){
 
                 `purchase_price` int( 11 ) unsigned ,
                 `purchase_leasehold` int( 1 ) unsigned ,
+                `purchase_shared_ownership` int( 1 ) unsigned ,
+
                 `purchase_mortgage` int( 1 ) unsigned ,
                 `purchase_1st_time_buyer` int( 1 ) unsigned ,
                 `purchase_no_of_buyers` int( 2 ) unsigned ,
@@ -96,6 +98,8 @@ function cqn_activation(){
                 `transfer_legal_fees` decimal ( 10, 2) ,
 
                 `purchase_leasehold_fees` decimal ( 10, 2) ,
+                `purchase_shared_ownership_fees` decimal ( 10, 2) ,
+
                 `sale_leasehold_fees` decimal ( 10, 2) ,
                 `remortgage_leasehold_fees` decimal ( 10, 2) ,
                 `transfer_leasehold_fees` decimal ( 10, 2) ,
