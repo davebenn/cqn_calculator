@@ -97,8 +97,8 @@ class CQN_Calculator_Config {
         $this->purchaseFees    = array(    325,    350,    375,    400,    425,    450,    475,    500,      525  );
 
 
-        $this->remortgageBands = array( 99999999  );
-        $this->remortgageFees  = array( 250  );
+        $this->remortgageBands = array( 400000, 99999999  );
+        $this->remortgageFees  = array( 250, 350  );
         $this->transferBands   = array( 99999999  );
         $this->transferFees    = array( 250  );
 

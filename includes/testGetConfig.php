@@ -9,15 +9,23 @@ echo "\n";
 
 $config = new CQN_Calculator_Config;
 
-$prices = [ 50000, 120000, 185000, 275000, 510000, 937500, 1600000, 2100000];
+$prices = [ 50000, 400001, 185000, 275000, 510000, 937500, 1600000, 2100000];
 
 
 echo "\nStamp Duty ";
 echo "\n=============";
 
 foreach ($prices as $price){
-    echo "\n"  . number_format( $price ) . '  -  ' . number_format( $config->getStampDuty($price, false));
+    echo "\n"  . number_format( $price ) . '  -  ' . number_format( $config->getRemortgageFees($price));
 }
+
+
+
+
+//foreach ($prices as $price){
+//    echo "\n"  . number_format( $price ) . '  -  ' . number_format( $config->getStampDuty($price, false));
+//}
+
 
 
 //
