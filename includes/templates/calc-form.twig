@@ -60,10 +60,18 @@
         <div class="form-row {{ sub.errors.contact_name                 ? ' error' }}"                     ><label for="contact_name">Full Name</label><input value="{{ sub.contact_name }}" name="contact_name" id="contact_name" size="40" type="text"></div>
         
         <div class="form-row"                     ><input class="instruct-input" type="submit" id="cqn-form-submit" value="Calculate" onclick="_gaq.push(['_trackEvent', 'calculator', 'submit']);"  ></div>
-        <div class="form-row"><div class="privacy"><span>*</span>We fully respect your privacy. We will not share your email or other information with any third party.</div></div>
+        {#<div class="form-row"><div class="privacy"><span>*</span>We fully respect your privacy. We will not share your email or other information with any third party.</div></div>#}
+        <div class="form-row">
+            <div class="privacy">
+                <p class="disclaimer"><span>*</span>Any information provided is subject to our privacy policy. Your details are not shared with anyone other than the firms who are providing the quotes and we operate a strict no spam policy.</p>
+                <p>Our Solicitors are required to comply with Chapter 9 of the Solicitors Regulation Authority (“SRA”) Handbook ‘Fee Sharing and Referrals’ and our Licensed Conveyancers with the CLC’s Note 6 Disclosure of Profits and Advantages, Issue 2, (March 2009). We only work with professional and experienced conveyancers, who may contact you directly. We only quote the conveyancers' fees, please ask each conveyancer for a breakdown of disbursements, stamp duty and expense.</p>
+
+            </div>
+        </div>
+
+
     </div>
 </form>
-
 
 
 {%  endautoescape %}

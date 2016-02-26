@@ -66,7 +66,12 @@ class CQN_Calculator_Config {
 
 //        $this->leadsSystemEmailAddress = 'davebenn@gmail.com';
 
-        if( gethostname() == 'dave-office' ){
+        if(
+            (gethostname() == 'dave-office')
+            ||
+            (gethostname() == 'dave-home-desktop')
+
+        ){
 
             $this->leadsSystemEmailAddress = 'davebenn+leadsImport@gmail.com';
             $this->instructEmailAddress    = 'davebenn+conveyancingcalcDEV@gmail.com';

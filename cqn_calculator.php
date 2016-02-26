@@ -6,10 +6,11 @@
 *
 *
 *
-*   Version: 0.201
+*   Version: 1.0
 *
 */
 global $wpdb;
+
 
 define( 'CQN_PLUGIN_PATH' , dirname( __FILE__ ) );
 define( 'CQN_PLUGIN_URL'  , plugins_url( '', __FILE__ ) );
