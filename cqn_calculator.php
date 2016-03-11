@@ -232,7 +232,7 @@ function cqn_init(){
 
                     $leadsSubmissionBody = $sub->getWebleadsSubmissionBody();
 
-                    wp_mail( $config->leadsSystemEmailAddress, $config->leadsSystemEmailSubject, $leadsSubmissionBody  );
+                    wp_mail( $config->leadsSystemEmailAddress, $config->leadsSystemEmailSubject, $leadsSubmissionBody );
 
                 }elseif ( $_POST[ 'cqn_instructType' ] == 'downloadQuote' ){// downloload clicked
 
