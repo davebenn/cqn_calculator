@@ -23,10 +23,10 @@
 
     discounted total
 #}
+{{   sub.involves_sale                          ?  '<tr><td>Sale Legal Fees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; on property value of &pound;'  ~ sub.sale_price|number_format                             ~ ' </td><td  class="amount">'           ~ sub.sale_legal_fees|number_format           ~ '</td></tr>' : '' }}
+{{   sub.involves_purchase                      ?  '<tr><td>Purchase Legal Fees &nbsp; &nbsp; &nbsp; &nbsp; on property value of &pound;'                          ~ sub.purchase_price|number_format                         ~ '  '~ ((sub.purchase_buy_to_let ) ? ', buy-to-let' : '') ~'</td><td  class="amount">'       ~ sub.purchase_legal_fees|number_format       ~ '</td></tr>' : '' }}
 
-{{   sub.involves_sale                          ?  '<tr><td>Sale Legal Fees &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;( on property value of &pound;'  ~ sub.sale_price|number_format                             ~ ' )</td><td  class="amount">'           ~ sub.sale_legal_fees|number_format           ~ '</td></tr>' : '' }}
-{{   sub.involves_purchase                      ?  '<tr><td>Purchase Legal Fees &nbsp; &nbsp; &nbsp; &nbsp;( on property value of &pound;'                          ~ sub.purchase_price|number_format                         ~ ' )</td><td  class="amount">'       ~ sub.purchase_legal_fees|number_format       ~ '</td></tr>' : '' }}
-{{   sub.involves_remortgage                    ?  '<tr><td>Remortgage Legal Fees &nbsp; &nbsp;( on remortgage value of &pound;'                                      ~ sub.remortgage_price|number_format                       ~ ' )</td><td  class="amount">'     ~ sub.remortgage_legal_fees|number_format     ~ '</td></tr>' : '' }}
+{{   sub.involves_remortgage                    ?  '<tr><td>Remortgage Legal Fees &nbsp; &nbsp;( on remortgage value of &pound;'                                    ~ sub.remortgage_price|number_format                       ~ ' )</td><td  class="amount">'     ~ sub.remortgage_legal_fees|number_format     ~ '</td></tr>' : '' }}
 {{   sub.involves_transfer                      ?  '<tr><td>Transfer Legal Fees &nbsp; &nbsp; &nbsp; &nbsp;( on transfer value of &pound;'                          ~ sub.transfer_price|number_format                         ~ ' )</td><td  class="amount">'       ~ sub.transfer_legal_fees|number_format       ~ '</td></tr>' : '' }}
 {{ ( sub.sale_leasehold_fees       > 0 )        ?  '<tr><td>Sale Leasehold Fees</td><td  class="amount">'       ~ sub.sale_leasehold_fees|number_format       ~ '</td></tr>' : '' }}
 {{ ( sub.purchase_leasehold_fees   > 0 )        ?  '<tr><td>Purchase Leasehold Fees</td><td  class="amount">'   ~ sub.purchase_leasehold_fees|number_format   ~ '</td></tr>' : '' }}
@@ -34,6 +34,9 @@
 {{ ( sub.remortgage_leasehold_fees > 0 )        ?  '<tr><td>Remortgage Leasehold Fees</td><td  class="amount">' ~ sub.remortgage_leasehold_fees|number_format ~ '</td></tr>' : '' }}
 {{ ( sub.transfer_leasehold_fees   > 0 )        ?  '<tr><td>Transfer Leasehold Fees</td><td  class="amount">'   ~ sub.transfer_leasehold_fees|number_format   ~ '</td></tr>' : '' }}
 {{ ( sub.no_move_no_fee            > 0 )        ?  '<tr><td>No Move No Fee</td><td  class="amount">'            ~ sub.no_move_no_fee|number_format            ~ '</td></tr>' : '' }}
+
+
+
 
 {# no move no fee ???? #}
 

@@ -77,6 +77,7 @@ class CQN_Calculator_Submission
     public $purchase_leasehold;
     public $purchase_mortgage;
     public $purchase_1st_time_buyer;
+    public $purchase_buy_to_let;
     public $purchase_no_of_buyers;
     public $purchase_shared_ownership;
 
@@ -214,7 +215,7 @@ class CQN_Calculator_Submission
                 }
             }
 
-            $stampDuty = $this->config->getStampDuty( $this->purchase_price, $this->purchase_1st_time_buyer );
+            $stampDuty = $this->config->getStampDuty( $this->purchase_price, $this->purchase_1st_time_buyer, $this->purchase_buy_to_let );
             $this->purchase_disbursements_total += $stampDuty;
             $this->purchase_disbursements_list[] = (object) array( 'code' => 'PURCHASE_SD'       , 'optional' => false      , 'price' => $stampDuty ,    'name' => 'Stamp Duty' );
 
@@ -468,6 +469,7 @@ class CQN_Calculator_Submission
 
             $insertFields[ 'purchase_has_mortgage' ]    = $this->purchase_mortgage;
             $insertFields[ 'purchase_first_time_buyer'] = $this->purchase_1st_time_buyer;
+            $insertFields[ 'purchase_buy_to_let']       = $this->purchase_buy_to_let;
             $insertFields[ 'purchase_num_people' ]      = $this->purchase_no_of_buyers;
 
 
@@ -581,7 +583,7 @@ class CQN_Calculator_Submission
     {
 
         $fillable = array(
-            'sale_price', 'sale_leasehold', 'sale_mortgage', 'purchase_price', 'purchase_leasehold', 'purchase_shared_ownership', 'purchase_mortgage', 'purchase_1st_time_buyer', 'purchase_no_of_buyers', 'remortgage_price', 'remortgage_leasehold', 'remortgage_no_of_people', 'remortgage_involves_transfer', 'transfer_price', 'transfer_leasehold', 'transfer_no_of_people', 'discount_code', 'contact_email', 'contact_telephone', 'contact_name', 'contact_street_address', 'contact_locality', 'contact_town', 'contact_postcode', 'additional_1_fullname', 'additional_2_fullname' , 'sale_street_address', 'sale_locality', 'sale_town', 'sale_postcode', 'purchase_street_address', 'purchase_locality', 'purchase_town', 'purchase_postcode', 'remortgage_street_address', 'remortgage_locality', 'remortgage_town', 'remortgage_postcode', 'transfer_street_address', 'transfer_locality', 'transfer_town', 'transfer_postcode'
+            'sale_price', 'sale_leasehold', 'sale_mortgage', 'purchase_price', 'purchase_leasehold', 'purchase_shared_ownership', 'purchase_mortgage', 'purchase_1st_time_buyer', 'purchase_buy_to_let', 'purchase_no_of_buyers', 'remortgage_price', 'remortgage_leasehold', 'remortgage_no_of_people', 'remortgage_involves_transfer', 'transfer_price', 'transfer_leasehold', 'transfer_no_of_people', 'discount_code', 'contact_email', 'contact_telephone', 'contact_name', 'contact_street_address', 'contact_locality', 'contact_town', 'contact_postcode', 'additional_1_fullname', 'additional_2_fullname' , 'sale_street_address', 'sale_locality', 'sale_town', 'sale_postcode', 'purchase_street_address', 'purchase_locality', 'purchase_town', 'purchase_postcode', 'remortgage_street_address', 'remortgage_locality', 'remortgage_town', 'remortgage_postcode', 'transfer_street_address', 'transfer_locality', 'transfer_town', 'transfer_postcode'
         );
 
         foreach ($fillable as $field) {
@@ -662,6 +664,7 @@ class CQN_Calculator_Submission
 
             $this->purchase_mortgage = $submission->purchase_mortgage;
             $this->purchase_1st_time_buyer = $submission->purchase_1st_time_buyer;
+            $this->purchase_buy_to_let = $submission->purchase_buy_to_let;
             $this->purchase_no_of_buyers = $submission->purchase_no_of_buyers;
 
             $this->remortgage_price = $submission->remortgage_price;
@@ -754,6 +757,7 @@ class CQN_Calculator_Submission
 
             'purchase_mortgage'            => wpdb::_real_escape($this->purchase_mortgage),
             'purchase_1st_time_buyer'      => wpdb::_real_escape($this->purchase_1st_time_buyer),
+            'purchase_buy_to_let'          => wpdb::_real_escape($this->purchase_buy_to_let),
             'purchase_no_of_buyers'        => wpdb::_real_escape($this->purchase_no_of_buyers),
 
             'remortgage_price'             => wpdb::_real_escape($this->remortgage_price),

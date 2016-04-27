@@ -43,7 +43,7 @@
             <tr class="property-price-row"><td>Sale Price</td>  <td class="amount">£{{ sub.sale_price|number_format }}                </td></tr>
         {% endif %}
         {% if sub.involves_purchase %}
-            <tr class="property-price-row"><td>Purchase Price</td>  <td class="amount">£{{ sub.purchase_price|number_format }}                </td></tr>
+            <tr class="property-price-row"><td>Purchase Price{{ sub.purchase_buy_to_let ? ' <small><em>(buy-to-let)</em></small>' : '' }}  </td><td class="amount">£{{ sub.purchase_price|number_format }}                </td></tr>
         {% endif %}
         {% if sub.involves_remortgage %}
             <tr class="property-price-row"><td>Remortgage Price</td>  <td class="amount">£{{ sub.remortgage_price|number_format }}                </td></tr>

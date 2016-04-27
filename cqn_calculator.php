@@ -37,6 +37,7 @@ function cqn_activation(){
                 `purchase_price` int( 11 ) unsigned ,
                 `purchase_leasehold` int( 1 ) unsigned ,
                 `purchase_shared_ownership` int( 1 ) unsigned ,
+                `purchase_buy_to_let` int( 1 ) unsigned ,
 
                 `purchase_mortgage` int( 1 ) unsigned ,
                 `purchase_1st_time_buyer` int( 1 ) unsigned ,

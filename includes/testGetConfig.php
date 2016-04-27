@@ -16,7 +16,8 @@ echo "\nStamp Duty ";
 echo "\n=============";
 
 foreach ($prices as $price){
-    echo "\n"  . number_format( $price ) . '  -  ' . number_format( $config->getRemortgageFees($price));
+//    echo "\n"  . number_format( $price ) . '  -  ' . number_format( $config->getRemortgageFees($price));
+    echo "\n"  . number_format( $price ) . '  -  ' . number_format( $config->getStampDuty($price, true, true));
 }
 
 

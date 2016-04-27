@@ -179,33 +179,45 @@ class CQN_Calculator_Config {
 //        return 1;
 //    }
 
-    public function getStampDuty( $propertyPrice, $firstTimeBuyer = false ){
+    public function getStampDuty( $propertyPrice, $firstTimeBuyer = false, $buyToLet = false ){
+
+
+        $buyToLetRate = 0;
+
+        if( $buyToLet == 1){
+            $buyToLetRate = 0.03;
+        }
 
         if( $propertyPrice > 1500000 ){
 
-            $total = ( $propertyPrice - 1500000) * 0.12;
-            $total +=  (1500000 - 925000) * 0.10;
-            $total +=  (925000 - 250000 ) * 0.05;
-            $total +=  ( 250000 - 125000 ) * 0.02;
+            $total = ( $propertyPrice - 1500000) * ( 0.12 + $buyToLetRate);
+            $total +=  (1500000 - 925000)        * ( 0.10 + $buyToLetRate);
+            $total +=  (925000 - 250000 )        * ( 0.05 + $buyToLetRate);
+            $total +=  ( 250000 - 125000 )       * ( 0.02 + $buyToLetRate);
+            $total +=   125000      * ( 0.00+ $buyToLetRate);
 
         }elseif( $propertyPrice > 925000 ){
 
-            $total = ( $propertyPrice - 925000) * 0.10;
-            $total +=  (925000 - 250000 ) * 0.05;
-            $total +=  ( 250000 - 125000 ) * 0.02;
+            $total = ( $propertyPrice - 925000)  * ( 0.10 + $buyToLetRate);
+            $total +=  (925000 - 250000 )        * ( 0.05 + $buyToLetRate);
+            $total +=  ( 250000 - 125000 )       * ( 0.02 + $buyToLetRate);
+            $total +=   125000      * ( 0.00+ $buyToLetRate);
 
         }elseif( $propertyPrice > 250000 ){
 
-            $total = ( $propertyPrice - 250000) * 0.05;
-            $total +=  ( 250000 - 125000 ) * 0.02;
+            $total = ( $propertyPrice - 250000) * ( 0.05 + $buyToLetRate);
+            $total +=  ( 250000 - 125000 )      * ( 0.02 + $buyToLetRate);
+            $total +=   125000      * ( 0.00+ $buyToLetRate);
 
         }elseif( $propertyPrice > 125000 ) {
 
-            $total = ( $propertyPrice - 125000) * 0.02;
+            $total = ( $propertyPrice - 125000) * ( 0.02 + $buyToLetRate);
+            $total +=   125000      * ( 0.00+ $buyToLetRate);
 
         }else{
 
             $total = 0;
+            $total = ( $propertyPrice ) * (0 + $buyToLetRate);
 
         }
 
