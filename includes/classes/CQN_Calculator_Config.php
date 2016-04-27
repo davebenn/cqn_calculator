@@ -65,7 +65,6 @@ class CQN_Calculator_Config {
 //          $this->leadsSystemEmailAddress = 'callback-inbox@wantfound.com';
 
 //        $this->leadsSystemEmailAddress = 'davebenn@gmail.com';
-
         if(
             (gethostname() == 'dave-office')
             ||
