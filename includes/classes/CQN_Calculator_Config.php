@@ -134,7 +134,7 @@ class CQN_Calculator_Config {
 
         $this->purchaseDisbursements =  array(
              (object)  array( 'code' => 'PURCHASE_LS'              , 'optional' => true , 'price' => 100 ,  'name' => 'Local Search' ),
-             (object)  array( 'code' => 'PURCHASE_ES'              , 'optional' => true , 'price' => 50 ,   'name' => 'Environmental Search' ),
+             (object)  array( 'code' => 'PURCHASE_ES'              , 'optional' => true , 'price' => 58  ,   'name' => 'Environmental Search' ),
              (object)  array( 'code' => 'PURCHASE_WS'              , 'optional' => true , 'price' => 45 ,   'name' => 'Water Search' ),
              (object)  array( 'code' => 'PURCHASE_CS'              , 'optional' => true , 'price' => 42 ,   'name' => 'Coal Search' ),
              (object)  array( 'code' => 'PURCHASE_CHS'             , 'optional' => true , 'price' => 20 ,   'name' => 'Chancel Search' ),
