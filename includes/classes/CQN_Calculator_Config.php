@@ -85,10 +85,10 @@ class CQN_Calculator_Config {
             $this->clientEmailSubject      = 'Your conveyancing quote';
         }
 
-        $this->maxSalePrice       = 500000;
-        $this->maxPurchasePrice   = 500000;
-        $this->maxRemortgagePrice = 500000;
-        $this->maxTransferPrice   = 500000;
+        $this->maxSalePrice       = 450000;
+        $this->maxPurchasePrice   = 450000;
+        $this->maxRemortgagePrice = 450000;
+        $this->maxTransferPrice   = 450000;
 
         // $this->saleBands       = array( 125000, 250000, 500000, 1000000, 9999999   );
         // $this->saleFees        = array(    300,    300,    350,     624,     624   );
