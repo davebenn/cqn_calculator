@@ -541,6 +541,9 @@ class CQN_Calculator_Submission
         $validator = new \Hampel\Validate\Validator();
         $this->errors = false;
 
+        if( $this->quote_type  ){}
+            $this->errors[ 'quote_type' ] = 'Please choose a quote type';
+
         if( !$validator->isEmail( $this->contact_email ) )
             $this->errors[ 'contact_email' ] = 'please enter a valid email';
 
