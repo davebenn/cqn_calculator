@@ -1,9 +1,13 @@
 {% autoescape false %}
     {% if sub.errors %}
-    <h3>Errors In the form</h3>
-        {% for error in  sub.errors %}
-            <li>{{ error }}</li>
-        {% endfor %}
+        <div class="calc-errors">
+            <h3>Errors In the form</h3>
+            <ul>
+                {% for error in  sub.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
     {% endif %}
 <form action="" method="post" class="cqn-quote-form">
     <input type="hidden" value="yes" name="cqn_calc_form"/>
@@ -11,7 +15,7 @@
 
     <div class="section_holder" id="quote_type_section">
         <h2 class="form_title">Conveyancing Type</h2>
-        <div class="form-row">
+        <div class="form-row  {{ sub.errors.quote_type                    ? ' error' }}">
             <select name="quote_type" id="quote_type" style="width: 100%" required>
                 <option value="" style="background-color: #cccccc;" disabled selected>Please Select</option>
                 <option value="sale">Sale</option>

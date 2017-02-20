@@ -89,7 +89,8 @@
 	}
 
 	.error{
-		input{
+		input,
+		select{
 			border: 1px solid $red;
 			box-shadow: 0 0 12px  tint( $red , 50) ;
 		}
@@ -162,4 +163,26 @@
 	max-width: 620px !important;
 	padding-left:  0 !important;
 	padding-right: 0 !important;
+}
+
+.calc-errors{
+	h3{
+		background-color: #e32828;
+		color: #fff;
+		padding: 0.25em;
+
+	}
+	ul{
+		padding: 0.25em 1em;
+	}
+	li{
+		margin-left: 1em;
+		list-style-type: none;
+
+		&:before{
+			content: 'x';
+			color: #e32828;
+			padding-right: 0.5em;
+		}
+	}
 }

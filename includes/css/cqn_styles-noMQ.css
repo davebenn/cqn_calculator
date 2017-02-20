@@ -1,1 +1,263 @@
-.cf:before,.cqn-quote-form .small-text-input:before,.cqn-quote-form .section_holder:before,.instruct-buttons:before,.cf:after,.cqn-quote-form .small-text-input:after,.cqn-quote-form .section_holder:after,.instruct-buttons:after{content:"";display:table}.cf:after,.cqn-quote-form .small-text-input:after,.cqn-quote-form .section_holder:after,.instruct-buttons:after{clear:both}.cf,.cqn-quote-form .small-text-input,.cqn-quote-form .section_holder,.instruct-buttons{*zoom:1}.cqn-quote-form *{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}.cqn-quote-form select{line-height:2;font-size:1.25em}.cqn-quote-form label{padding:.4em 0 .2em 0;display:block;clear:both;clear:left;float:left}.cqn-quote-form input{width:100%;padding:.5em;float:right;width:auto}.cqn-quote-form .form-row{clear:both;padding:.25em .5em}.cqn-quote-form .checkbox-row{text-align:right}.cqn-quote-form .checkbox-row label{float:none;vertical-align:middle;display:inline;padding-right:1em}.cqn-quote-form .checkbox-row input{width:auto;vertical-align:middle;float:none}.cqn-quote-form .small-text-input label{float:left}.cqn-quote-form .small-text-input input{float:right;max-width:30%}.cqn-quote-form .form_title{font-size:20px;background-color:#1495dd;color:#fff;font-weight:normal;padding:.25em .5em;margin:0 0 1em 0}.cqn-quote-form .section_holder{background-color:#efefef;padding-bottom:1em}.cqn-quote-form .privacy{font-style:italic;color:#52524d;font-size:0.875em}.cqn-quote-form .error input{border:1px solid #e32828;-webkit-box-shadow:0 0 12px #f19393;box-shadow:0 0 12px #f19393}.instruct-form .instruct-input,.instruct-buttons .instruct-input,.form-row .instruct-input{margin-bottom:.5em;display:block;width:100%;margin-bottom:.2em;margin-left:1%;float:right;width:auto;background:#e05d22;background:-webkit-linear-gradient(top, #e05d22 0%, #d94412 100%);background:-webkit-gradient(linear, left top, left bottom, from(#e05d22), to(#d94412));background:linear-gradient(to bottom, #e05d22 0%, #d94412 100%);border:none;border-bottom:3px solid #812304;border-radius:2px;color:#fff;display:inline-block;padding:11px 24px 10px;text-decoration:none;cursor:pointer}.instruct-form .instruct-input.last,.instruct-buttons .instruct-input.last,.form-row .instruct-input.last{margin-right:0}.instruct-form .instruct-input:hover,.instruct-form .instruct-input:focus,.instruct-buttons .instruct-input:hover,.instruct-buttons .instruct-input:focus,.form-row .instruct-input:hover,.form-row .instruct-input:focus{background:#d94412;background:-webkit-linear-gradient(top, #d94412 0%, #e05d22 100%);background:-webkit-gradient(linear, left top, left bottom, from(#d94412), to(#e05d22));background:linear-gradient(to bottom, #d94412 0%, #e05d22 100%);outline:none}.instruct-form .instruct-input:active,.instruct-buttons .instruct-input:active,.form-row .instruct-input:active{background:#d94412;background:-webkit-linear-gradient(top, #d94412 0%, #e05d22 100%);background:-webkit-gradient(linear, left top, left bottom, from(#d94412), to(#e05d22));background:linear-gradient(to bottom, #d94412 0%, #e05d22 100%);border:none;border-top:3px solid #812304;padding:10px 24px 11px}.instruct-buttons{margin:1em 0}.entry-content{max-width:620px !important;padding-left:0 !important;padding-right:0 !important}.calc-quote{clear:both}.calc-quote .heading-row{background-color:#1495dd;color:#fff;padding:.5em 0;display:block;margin-top:.25em}.calc-quote .heading-row td{color:#fff;border:none}.calc-quote td{padding:.5em;border-top:1px solid #ededed}.calc-quote .amount{text-align:right;font-family:monospace;border-left:1px solid #ededed;width:6em}.calc-quote .property-price-row td{font-weight:bold;color:#1495dd;border:none}.calc-quote .discount-total td{color:#e32828}.calc-quote .major-total-row td{font-weight:bold}.calc-quote .total-row td{border-top:2px solid #1495dd;border-bottom:2px solid #1495dd;text-align:right}.possible-disbursements table{width:100%;width:60%;margin:0 1em}.possible-disbursements table td{color:#e32828;font-style:italic;padding:.25em}.possible-disbursements table .amount{text-align:right}form{display:inline}.possible-disbursements{margin:1em 0}
+/* _util.scss */
+.cf:before,
+.cqn-quote-form .small-text-input:before,
+.cqn-quote-form .section_holder:before,
+.instruct-buttons:before,
+.cf:after, .cqn-quote-form .small-text-input:after, .cqn-quote-form .section_holder:after, .instruct-buttons:after {
+  content: "";
+  display: table;
+}
+
+.cf:after, .cqn-quote-form .small-text-input:after, .cqn-quote-form .section_holder:after, .instruct-buttons:after {
+  clear: both;
+}
+
+.cf, .cqn-quote-form .small-text-input, .cqn-quote-form .section_holder, .instruct-buttons {
+  *zoom: 1;
+}
+
+.cqn-quote-form * {
+  box-sizing: border-box;
+}
+
+.cqn-quote-form select {
+  line-height: 2;
+  font-size: 1.25em;
+}
+
+.cqn-quote-form label {
+  padding: 0.4em 0 0.2em 0;
+  display: block;
+  clear: both;
+  clear: left;
+  float: left;
+}
+
+.cqn-quote-form input {
+  width: 100%;
+  padding: .5em;
+  float: right;
+  width: auto;
+}
+
+.cqn-quote-form .form-row {
+  clear: both;
+  padding: 0.25em 0.5em;
+}
+
+.cqn-quote-form .checkbox-row {
+  text-align: right;
+}
+
+.cqn-quote-form .checkbox-row label {
+  float: none;
+  vertical-align: middle;
+  display: inline;
+  padding-right: 1em;
+}
+
+.cqn-quote-form .checkbox-row input {
+  width: auto;
+  vertical-align: middle;
+  float: none;
+}
+
+.cqn-quote-form .small-text-input label {
+  float: left;
+}
+
+.cqn-quote-form .small-text-input input {
+  float: right;
+  max-width: 30%;
+}
+
+.cqn-quote-form .form_title {
+  font-size: 20px;
+  background-color: #1495DD;
+  color: #ffffff;
+  font-weight: normal;
+  padding: 0.25em 0.5em;
+  margin: 0 0 1em 0;
+}
+
+.cqn-quote-form .section_holder {
+  background-color: #efefef;
+  padding-bottom: 1em;
+}
+
+.cqn-quote-form .privacy {
+  font-style: italic;
+  color: #52524d;
+  font-size: 0.875em;
+}
+
+.cqn-quote-form .error input,
+.cqn-quote-form .error select {
+  border: 1px solid #e32828;
+  box-shadow: 0 0 12px tint(#e32828, 50);
+}
+
+/* Buttons */
+.instruct-form .instruct-input,
+.instruct-buttons .instruct-input,
+.form-row .instruct-input {
+  margin-bottom: .5em;
+  display: block;
+  width: 100%;
+  margin-bottom: .2em;
+  margin-left: 1%;
+  float: right;
+  width: auto;
+  background: #e05d22;
+  /* Old browsers */
+  background: -webkit-linear-gradient(top, #e05d22 0%, #d94412 100%);
+  /* Chrome 10+, Safari 5.1+ */
+  background: linear-gradient(to bottom, #e05d22 0%, #d94412 100%);
+  /* W3C */
+  border: none;
+  border-bottom: 3px solid shade(#b93207, 30);
+  border-radius: 2px;
+  color: #fff;
+  display: inline-block;
+  padding: 11px 24px 10px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.instruct-form .instruct-input.last,
+.instruct-buttons .instruct-input.last,
+.form-row .instruct-input.last {
+  margin-right: 0;
+}
+
+.instruct-form .instruct-input:hover,
+.instruct-form .instruct-input:focus,
+.instruct-buttons .instruct-input:hover,
+.instruct-buttons .instruct-input:focus,
+.form-row .instruct-input:hover, .form-row .instruct-input:focus {
+  background: #d94412;
+  /* Old browsers */
+  background: -webkit-linear-gradient(top, #d94412 0%, #e05d22 100%);
+  /* Chrome 10+, Safari 5.1+ */
+  background: linear-gradient(to bottom, #d94412 0%, #e05d22 100%);
+  /* W3C */
+  outline: none;
+}
+
+.instruct-form .instruct-input:active,
+.instruct-buttons .instruct-input:active,
+.form-row .instruct-input:active {
+  background: #d94412;
+  /* Old browsers */
+  background: -webkit-linear-gradient(top, #d94412 0%, #e05d22 100%);
+  /* Chrome 10+, Safari 5.1+ */
+  background: linear-gradient(to bottom, #d94412 0%, #e05d22 100%);
+  /* W3C */
+  border: none;
+  border-top: 3px solid shade(#b93207, 30);
+  padding: 10px 24px 11px;
+}
+
+.instruct-buttons {
+  margin: 1em 0;
+}
+
+.entry-content {
+  max-width: 620px !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.calc-errors h3 {
+  background-color: #e32828;
+  color: #fff;
+  padding: 0.25em;
+}
+
+.calc-errors ul {
+  padding: 0.25em 1em;
+}
+
+.calc-errors li {
+  margin-left: 1em;
+  list-style-type: none;
+}
+
+.calc-errors li:before {
+  content: 'x';
+  color: #e32828;
+  padding-right: 0.5em;
+}
+
+.calc-quote {
+  clear: both;
+}
+
+.calc-quote .heading-row {
+  background-color: #1495DD;
+  color: #ffffff;
+  padding: .5em 0;
+  display: block;
+  margin-top: .25em;
+}
+
+.calc-quote .heading-row td {
+  color: #ffffff;
+  border: none;
+}
+
+.calc-quote td {
+  padding: .5em;
+  border-top: 1px solid #ededed;
+}
+
+.calc-quote .amount {
+  text-align: right;
+  font-family: monospace;
+  border-left: 1px solid #ededed;
+  width: 6em;
+}
+
+.calc-quote .property-price-row td {
+  font-weight: bold;
+  color: #1495DD;
+  border: none;
+}
+
+.calc-quote .discount-total td {
+  color: #e32828;
+}
+
+.calc-quote .major-total-row td {
+  font-weight: bold;
+}
+
+.calc-quote .total-row td {
+  border-top: 2px solid #1495DD;
+  border-bottom: 2px solid #1495DD;
+  text-align: right;
+}
+
+.possible-disbursements table {
+  width: 100%;
+  width: 60%;
+  margin: 0 1em;
+}
+
+.possible-disbursements table td {
+  color: #e32828;
+  font-style: italic;
+  padding: .25em;
+}
+
+.possible-disbursements table .amount {
+  text-align: right;
+}
+
+form {
+  display: inline;
+}
+
+.possible-disbursements {
+  margin: 1em 0;
+}
