@@ -163,26 +163,27 @@
 	max-width: 620px !important;
 	padding-left:  0 !important;
 	padding-right: 0 !important;
-}
 
-.calc-errors{
-	h3{
-		background-color: #e32828;
-		color: #fff;
-		padding: 0.25em;
+	.calc-errors{
+		h3{
+			background-color: #e32828;
+			color: #fff;
+			padding: 0.25em;
+			margin-top: 0;
 
-	}
-	ul{
-		padding: 0.25em 1em;
-	}
-	li{
-		margin-left: 1em;
-		list-style-type: none;
+		}
+		ul{
+			padding: 0.25em 1em;
+		}
+		li{
+			margin-left: 1em;
+			list-style-type: none;
 
-		&:before{
-			content: 'x';
-			color: #e32828;
-			padding-right: 0.5em;
+			&:before{
+				content: 'x';
+				color: #e32828;
+				padding-right: 0.5em;
+			}
 		}
 	}
 }

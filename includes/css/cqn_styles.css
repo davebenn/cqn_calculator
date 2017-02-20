@@ -165,20 +165,20 @@
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
-
-.calc-errors h3 {
+.entry-content .calc-errors h3 {
   background-color: #e32828;
   color: #fff;
   padding: 0.25em;
+  margin-top: 0;
 }
-.calc-errors ul {
+.entry-content .calc-errors ul {
   padding: 0.25em 1em;
 }
-.calc-errors li {
+.entry-content .calc-errors li {
   margin-left: 1em;
   list-style-type: none;
 }
-.calc-errors li:before {
+.entry-content .calc-errors li:before {
   content: 'x';
   color: #e32828;
   padding-right: 0.5em;
