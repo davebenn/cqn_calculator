@@ -179,49 +179,61 @@ class CQN_Calculator_Config {
 //        return 1;
 //    }
 
-    public function getStampDuty( $propertyPrice, $firstTimeBuyer = false, $buyToLet = false ){
+    public function getStampDuty( $propertyPrice, $firstTimeBuyer = false, $buyToLet = false )
+	{
 
+		$buyToLetRate = 0;
 
-        $buyToLetRate = 0;
+		if ($buyToLet == true) {
+			$buyToLetRate = 0.03;
+		}
 
-        if( $buyToLet == 1){
-            $buyToLetRate = 0.03;
-        }
+		if ( !$firstTimeBuyer || $buyToLet == true ) {
+			if ($propertyPrice > 1500000) {
+				$total = ($propertyPrice - 1500000) * (0.12 + $buyToLetRate);
+				$total += (1500000 - 925000) * (0.10 + $buyToLetRate);
+				$total += (925000 - 250000) * (0.05 + $buyToLetRate);
+				$total += (250000 - 125000) * (0.02 + $buyToLetRate);
+				$total += (125000) * (0.0 + $buyToLetRate);
+			} elseif ($propertyPrice > 925000) {
+				$total = ($propertyPrice - 925000) * (0.10 + $buyToLetRate);
+				$total += (925000 - 250000) * (0.05 + $buyToLetRate);
+				$total += (250000 - 125000) * (0.02 + $buyToLetRate);
+				$total += (125000) * (0.0 + $buyToLetRate);
+			} elseif ($propertyPrice > 250000) {
+				$total = ($propertyPrice - 250000) * (0.05 + $buyToLetRate);
+				$total += (250000 - 125000) * (0.02 + $buyToLetRate);
+				$total += (125000) * (0.0 + $buyToLetRate);
+			} elseif ($propertyPrice > 125000) {
+				$total = ($propertyPrice - 125000) * (0.02 + $buyToLetRate);
+				$total += (125000) * (0.0 + $buyToLetRate);
+			} else {
+				$total = 0;
+			}
+		} else {
+			if ($propertyPrice > 1500000) {
+				$total = ($propertyPrice - 1500000) * 0.12 ;
+				$total += (1500000 - 925000) * 0.10 ;
+				$total += (925000 - 250000) * 0.05 ;
+				$total += (250000 - 125000) * 0.02 ;
+				$total += (125000) * 0.0 ;
+			} elseif ($propertyPrice > 925000) {
+				$total = ($propertyPrice - 925000) * 0.10 ;
+				$total += (925000 - 250000) * 0.05 ;
+				$total += (250000 - 125000) * 0.02 ;
+				$total += 0;//(125000) * 0.0 ;
+			} elseif ($propertyPrice > 500000) {
+				$total = ($propertyPrice - 250000) * 0.05 ;
+				$total += (250000 - 125000) * 0.02 ;
+			} elseif ($propertyPrice > 300000) {
+// amount over 300 * 0.5
+				$total = ($propertyPrice - 300000) * 0.05 ;
+			} else {
+				$total = 0;
+			}
+		}
 
-        if( $propertyPrice > 1500000 ){
-
-            $total = ( $propertyPrice - 1500000) * ( 0.12 + $buyToLetRate);
-            $total +=  (1500000 - 925000)        * ( 0.10 + $buyToLetRate);
-            $total +=  (925000 - 250000 )        * ( 0.05 + $buyToLetRate);
-            $total +=  ( 250000 - 125000 )       * ( 0.02 + $buyToLetRate);
-            $total +=   125000      * ( 0.00+ $buyToLetRate);
-
-        }elseif( $propertyPrice > 925000 ){
-
-            $total = ( $propertyPrice - 925000)  * ( 0.10 + $buyToLetRate);
-            $total +=  (925000 - 250000 )        * ( 0.05 + $buyToLetRate);
-            $total +=  ( 250000 - 125000 )       * ( 0.02 + $buyToLetRate);
-            $total +=   125000      * ( 0.00+ $buyToLetRate);
-
-        }elseif( $propertyPrice > 250000 ){
-
-            $total = ( $propertyPrice - 250000) * ( 0.05 + $buyToLetRate);
-            $total +=  ( 250000 - 125000 )      * ( 0.02 + $buyToLetRate);
-            $total +=   125000      * ( 0.00+ $buyToLetRate);
-
-        }elseif( $propertyPrice > 125000 ) {
-
-            $total = ( $propertyPrice - 125000) * ( 0.02 + $buyToLetRate);
-            $total +=   125000      * ( 0.00+ $buyToLetRate);
-
-        }else{
-
-            $total = 0;
-            $total = ( $propertyPrice ) * (0 + $buyToLetRate);
-
-        }
-
-        return $total;
+		return $total;
     }
 
     public function checkDiscountCode( $code ){

@@ -541,8 +541,9 @@ class CQN_Calculator_Submission
         $validator = new \Hampel\Validate\Validator();
         $this->errors = false;
 
-        if( $this->quote_type  ){}
+        if( !$this->quoteType  ){
             $this->errors[ 'quote_type' ] = 'Please choose a quote type';
+        }
 
         if( !$validator->isEmail( $this->contact_email ) )
             $this->errors[ 'contact_email' ] = 'please enter a valid email';
@@ -585,6 +586,8 @@ class CQN_Calculator_Submission
     public function loadFromPost($postArray)
     {
 
+		global $wpdb;
+
         $fillable = array(
             'sale_price', 'sale_leasehold', 'sale_mortgage', 'purchase_price', 'purchase_leasehold', 'purchase_shared_ownership', 'purchase_mortgage', 'purchase_1st_time_buyer', 'purchase_buy_to_let', 'purchase_no_of_buyers', 'remortgage_price', 'remortgage_leasehold', 'remortgage_no_of_people', 'remortgage_involves_transfer', 'transfer_price', 'transfer_leasehold', 'transfer_no_of_people', 'discount_code', 'contact_email', 'contact_telephone', 'contact_name', 'contact_street_address', 'contact_locality', 'contact_town', 'contact_postcode', 'additional_1_fullname', 'additional_2_fullname' , 'sale_street_address', 'sale_locality', 'sale_town', 'sale_postcode', 'purchase_street_address', 'purchase_locality', 'purchase_town', 'purchase_postcode', 'remortgage_street_address', 'remortgage_locality', 'remortgage_town', 'remortgage_postcode', 'transfer_street_address', 'transfer_locality', 'transfer_town', 'transfer_postcode'
         );
@@ -593,7 +596,7 @@ class CQN_Calculator_Submission
 
 
             if (isset($postArray[$field])) {
-                $this->$field = wpdb::_real_escape($postArray[$field]);
+                $this->$field = $wpdb->_real_escape($postArray[$field]);
             }
 
         }
@@ -745,60 +748,61 @@ class CQN_Calculator_Submission
     {
 
         //save to the database using the $wpdb global
+		global $wpdb;
 
 
         $submission = array(
-            'calculator_ref'               => wpdb::_real_escape($this->calculator_ref),
+            'calculator_ref'               => $wpdb->_real_escape($this->calculator_ref),
 
-            'sale_price'                   => wpdb::_real_escape($this->sale_price),
-            'sale_leasehold'               => wpdb::_real_escape($this->sale_leasehold),
-            'sale_mortgage'                => wpdb::_real_escape($this->sale_mortgage),
+            'sale_price'                   => $wpdb->_real_escape($this->sale_price),
+            'sale_leasehold'               => $wpdb->_real_escape($this->sale_leasehold),
+            'sale_mortgage'                => $wpdb->_real_escape($this->sale_mortgage),
 
-            'purchase_price'               => wpdb::_real_escape($this->purchase_price),
-            'purchase_leasehold'           => wpdb::_real_escape($this->purchase_leasehold),
-            'purchase_shared_ownership'           => wpdb::_real_escape($this->purchase_shared_ownership),
+            'purchase_price'               => $wpdb->_real_escape($this->purchase_price),
+            'purchase_leasehold'           => $wpdb->_real_escape($this->purchase_leasehold),
+            'purchase_shared_ownership'           => $wpdb->_real_escape($this->purchase_shared_ownership),
 
-            'purchase_mortgage'            => wpdb::_real_escape($this->purchase_mortgage),
-            'purchase_1st_time_buyer'      => wpdb::_real_escape($this->purchase_1st_time_buyer),
-            'purchase_buy_to_let'          => wpdb::_real_escape($this->purchase_buy_to_let),
-            'purchase_no_of_buyers'        => wpdb::_real_escape($this->purchase_no_of_buyers),
+            'purchase_mortgage'            => $wpdb->_real_escape($this->purchase_mortgage),
+            'purchase_1st_time_buyer'      => $wpdb->_real_escape($this->purchase_1st_time_buyer),
+            'purchase_buy_to_let'          => $wpdb->_real_escape($this->purchase_buy_to_let),
+            'purchase_no_of_buyers'        => $wpdb->_real_escape($this->purchase_no_of_buyers),
 
-            'remortgage_price'             => wpdb::_real_escape($this->remortgage_price),
-            'remortgage_leasehold'         => wpdb::_real_escape($this->remortgage_leasehold),
-            'remortgage_no_of_people'      => wpdb::_real_escape($this->remortgage_no_of_people),
-            'remortgage_involves_transfer' => wpdb::_real_escape($this->remortgage_involves_transfer),
+            'remortgage_price'             => $wpdb->_real_escape($this->remortgage_price),
+            'remortgage_leasehold'         => $wpdb->_real_escape($this->remortgage_leasehold),
+            'remortgage_no_of_people'      => $wpdb->_real_escape($this->remortgage_no_of_people),
+            'remortgage_involves_transfer' => $wpdb->_real_escape($this->remortgage_involves_transfer),
 
-            'transfer_price'               => wpdb::_real_escape($this->transfer_price),
-            'transfer_leasehold'           => wpdb::_real_escape($this->transfer_leasehold),
-            'transfer_no_of_people'        => wpdb::_real_escape($this->transfer_no_of_people),
+            'transfer_price'               => $wpdb->_real_escape($this->transfer_price),
+            'transfer_leasehold'           => $wpdb->_real_escape($this->transfer_leasehold),
+            'transfer_no_of_people'        => $wpdb->_real_escape($this->transfer_no_of_people),
 
-            'discount_code'                => wpdb::_real_escape($this->discount_code),
+            'discount_code'                => $wpdb->_real_escape($this->discount_code),
 
-            'contact_email'                => wpdb::_real_escape($this->contact_email),
-            'contact_telephone'            => wpdb::_real_escape($this->contact_telephone),
-            'contact_name'                 => wpdb::_real_escape($this->contact_name),
+            'contact_email'                => $wpdb->_real_escape($this->contact_email),
+            'contact_telephone'            => $wpdb->_real_escape($this->contact_telephone),
+            'contact_name'                 => $wpdb->_real_escape($this->contact_name),
 
-            'contact_street_address'       => wpdb::_real_escape($this->contact_street_address),
-            'contact_locality'             => wpdb::_real_escape($this->contact_locality),
-            'contact_town'                 => wpdb::_real_escape($this->contact_town),
-            'contact_postcode'             => wpdb::_real_escape($this->contact_postcode),
-            'additional_1_fullname'        => wpdb::_real_escape($this->additional_1_fullname),
-            'additional_2_fullname'        => wpdb::_real_escape($this->additional_2_fullname),
-            'sale_locality'                => wpdb::_real_escape($this->sale_locality),
-            'sale_town'                    => wpdb::_real_escape($this->sale_town),
-            'sale_postcode'                => wpdb::_real_escape($this->sale_postcode),
-            'purchase_street_address'      => wpdb::_real_escape($this->purchase_street_address),
-            'purchase_locality'            => wpdb::_real_escape($this->purchase_locality),
-            'purchase_town'                => wpdb::_real_escape($this->purchase_town),
-            'purchase_postcode'            => wpdb::_real_escape($this->purchase_postcode),
-            'remortgage_street_address'    => wpdb::_real_escape($this->remortgage_street_address),
-            'remortgage_locality'          => wpdb::_real_escape($this->remortgage_locality),
-            'remortgage_town'              => wpdb::_real_escape($this->remortgage_town),
-            'remortgage_postcode'          => wpdb::_real_escape($this->remortgage_postcode),
-            'transfer_street_address'      => wpdb::_real_escape($this->transfer_street_address),
-            'transfer_locality'            => wpdb::_real_escape($this->transfer_locality),
-            'transfer_town'                => wpdb::_real_escape($this->transfer_town),
-            'transfer_postcode'            => wpdb::_real_escape($this->transfer_postcode),
+            'contact_street_address'       => $wpdb->_real_escape($this->contact_street_address),
+            'contact_locality'             => $wpdb->_real_escape($this->contact_locality),
+            'contact_town'                 => $wpdb->_real_escape($this->contact_town),
+            'contact_postcode'             => $wpdb->_real_escape($this->contact_postcode),
+            'additional_1_fullname'        => $wpdb->_real_escape($this->additional_1_fullname),
+            'additional_2_fullname'        => $wpdb->_real_escape($this->additional_2_fullname),
+            'sale_locality'                => $wpdb->_real_escape($this->sale_locality),
+            'sale_town'                    => $wpdb->_real_escape($this->sale_town),
+            'sale_postcode'                => $wpdb->_real_escape($this->sale_postcode),
+            'purchase_street_address'      => $wpdb->_real_escape($this->purchase_street_address),
+            'purchase_locality'            => $wpdb->_real_escape($this->purchase_locality),
+            'purchase_town'                => $wpdb->_real_escape($this->purchase_town),
+            'purchase_postcode'            => $wpdb->_real_escape($this->purchase_postcode),
+            'remortgage_street_address'    => $wpdb->_real_escape($this->remortgage_street_address),
+            'remortgage_locality'          => $wpdb->_real_escape($this->remortgage_locality),
+            'remortgage_town'              => $wpdb->_real_escape($this->remortgage_town),
+            'remortgage_postcode'          => $wpdb->_real_escape($this->remortgage_postcode),
+            'transfer_street_address'      => $wpdb->_real_escape($this->transfer_street_address),
+            'transfer_locality'            => $wpdb->_real_escape($this->transfer_locality),
+            'transfer_town'                => $wpdb->_real_escape($this->transfer_town),
+            'transfer_postcode'            => $wpdb->_real_escape($this->transfer_postcode),
 
             'purchase_disbursements_total'   => $this->purchase_disbursements_total,
             'sale_disbursements_total'       => $this->sale_disbursements_total,
