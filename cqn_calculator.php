@@ -131,9 +131,11 @@ function cqn_activation(){
                 PRIMARY KEY (`id`)
             )';
     dbDelta( $sql );
+
 }
 
 register_activation_hook( __FILE__ , 'cqn_activation' );
+
 
 function cqn_init(){
 
@@ -635,6 +637,73 @@ function cqn_add_test_shortcodes(){
 }
 
 add_action( 'init', 'cqn_init' );
+
+function CQNGetOptionFields(  ){
+
+	return [
+                'cqn_calculator_leads_system_email_address' => [ 'value' => 'davebenn+leadsImport@gmail.com', 'label' => 'leads_system_email_address'],
+                'cqn_calculator_instruct_email_address'     => [ 'value' => 'davebenn+conveyancingcalcDEV@gmail.com', 'label' => 'instruct_email_address'],
+                'cqn_calculator_leads_system_email_subject' => [ 'value' => 'DEV callback - calculator submission ', 'label' => 'leads_system_email_subject'],
+                'cqn_calculator_client_email_subject'       => [ 'value' => 'DEV Your conveyancing quote', 'label' => 'client_email_subject'],
+                'cqn_calculator_poc_agent_id'               => [ 'value' => '', 'label' => 'poc_agent_id'],
+                'cqn_calculator_poc_api_key'                => [ 'value' => '', 'label' => 'poc_api_key'],
+                'cqn_calculator_poc_protocol'               => [ 'value' => 'https', 'label' => 'poc_api_key'],
+                'cqn_calculator_max_sale_price'             => [ 'value' => 450000 , 'label' => 'max_sale_price'],
+                'cqn_calculator_max_purchase_price'         => [ 'value' => 450000 , 'label' => 'max_purchase_price'],
+                'cqn_calculator_max_remortgage_price'       => [ 'value' => 450000 , 'label' => 'max_remortgage_price'],
+                'cqn_calculator_max_transfer_price'         => [ 'value' => 450000, 'label' => 'max_transfer_price'],
+                'cqn_calculator_poc_fees_server_url'        => [ 'value' => 'poc.dbennett.demo', 'label' => 'poc_fees_server_url'],
+                'cqn_calculator_stored_fees_cache'        => [ 'value' =>  10, 'label' => 'Fees Cache Lifetime'],
+		    ];
+}
+
+
+function cqn_calculator_register_settings() {
+
+	$cqnOptions = CQNGetOptionFields();
+
+	foreach ($cqnOptions as $name => $value) {
+		add_option( $name, $value['value']);
+		register_setting( 'cqn_calculator_options_group', $name);
+	}
+
+}
+
+function cqn_calculator_register_options_page() {
+	add_options_page('Page Title', 'Calculator Settings', 'manage_options', 'myplugin', 'cqn_calculator_options_page');
+}
+
+function cqn_calculator_options_page()
+{
+?>
+  <div>
+  <?php screen_icon(); ?>
+  <h2>My Plugin Page Title</h2>
+  <form method="post" action="options.php">
+  <?php settings_fields( 'cqn_calculator_options_group' ); ?>
+  <h3>This is my option</h3>
+  <p>Some text here.</p>
+  <table>
+  <tr valign="top">
+
+<?php
+	foreach (CQNGetOptionFields() as $name => $value){
+
+		echo '<th scope="row"><label for="'.$name.'">'.$value['label'].'</label></th>
+					<td><input type="text" id="'.$name.'" name="'.$name.'" value="'.  get_option($name) .  '" /></td></tr>';
+
+	}
+?>
+  </table>
+  <?php  submit_button(); ?>
+  </form>
+  </div>
+<?php
+}
+
+add_action( 'admin_init', 'cqn_calculator_register_settings' );
+add_action('admin_menu', 'cqn_calculator_register_options_page');
+
 
 /* session initialising and killing actions */
 add_action( 'init',      'cqn_startSession', 1 );
