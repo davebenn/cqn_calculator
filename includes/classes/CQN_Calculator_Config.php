@@ -63,10 +63,10 @@ class CQN_Calculator_Config {
 
         $this->VATRate = 0.2;
 
-//            $this->leadsSystemEmailAddress = 'callback-inbox@webleads.latimerlee.com';
-//            $this->instructEmailAddress    = 'conveyancing@latimerlee.com, davebenn+conveyancingcalc@gmail.com';
-//            $this->leadsSystemEmailSubject = 'callback - calculator submission ';
-//            $this->clientEmailSubject      = 'Your conveyancing quote';
+		// $this->leadsSystemEmailAddress = 'callback-inbox@webleads.latimerlee.com';
+		// $this->instructEmailAddress    = 'conveyancing@latimerlee.com, davebenn+conveyancingcalc@gmail.com';
+		// $this->leadsSystemEmailSubject = 'callback - calculator submission ';
+		// $this->clientEmailSubject      = 'Your conveyancing quote';
 
         $this->leadsSystemEmailAddress = get_option('cqn_calculator_leads_system_email_address');
         $this->instructEmailAddress    = get_option('cqn_calculator_instruct_email_address');
@@ -82,7 +82,13 @@ class CQN_Calculator_Config {
 
 		$this->introducerFees = $this->loadIntroducerFees();
 
+//		$this->introducerFees = false;
+		if( $this->introducerFees == false){
 
+			throw new Exception("could not load config");
+			return false;
+
+		}
 
 		$this->disbursements = $this->introducerFees->disbursements;
 
@@ -165,7 +171,9 @@ class CQN_Calculator_Config {
 		$feesData       = json_decode( get_option('cqn_calculator_stored_fees_data') );
 		$feesCacheHours = json_decode( get_option('cqn_calculator_stored_fees_cache') );
 
-		if( !empty ($feesData ) && $feesUpdated > ( time() - $feesCacheHours * 60 * 60 )  ){
+		$cacheInvalidationTime = time() - $feesCacheHours * 60 * 60;
+
+		if( !empty ($feesData ) && $feesUpdated > ($cacheInvalidationTime)  ){
 			return $feesData;
 		}else{
 
@@ -175,24 +183,37 @@ class CQN_Calculator_Config {
 
 			try{
 				$feeDataURL = $pocURL . '?introducer=' . $pocAgent . '&apikey=' . $pocAPIKey;
-				$rawJson = file_get_contents($feeDataURL);
 
-				$fees = json_decode($rawJson);
+				$opts = array(
+					'http'=>array(
+						'method'=>"GET",
+						'header'=>"Accept-language: en\r\n" .
+							"Cookie: XDEBUG_SESSION=PHPSTORM\r\n"
+					)
+				);
 
-				if( !$fees ){
-					// rawJson wasnt json
-					return $feesData;
-				}
+				$context = stream_context_create($opts);
 
-				update_option( 'cqn_calculator_stored_fees_time', time() );
-				update_option( 'cqn_calculator_stored_fees_data', json_encode($fees) );
-
-				return $fees;
+				$rawJson = file_get_contents($feeDataURL, false, $context);
 
 			}catch ( Exception $e){
 				error_log( 'cqn_calculator::' . 'error loading fees data from "'.$pocURL.'"' );
-				return $feesData;
+				return false;
 			}
+
+			$fees = json_decode($rawJson);
+
+			if( ! $this->validateFees($fees) ){
+				// rawJson wasnt json
+				error_log( 'cqn_calculator::' . 'Fee data invalid' );
+				return false;
+			}
+
+			update_option( 'cqn_calculator_stored_fees_time', time() );
+			update_option( 'cqn_calculator_stored_fees_data', json_encode($fees) );
+
+			return $fees;
+
 		}
 	}
 
@@ -350,4 +371,35 @@ class CQN_Calculator_Config {
     public function getTransferDisbursements(  ){
         return $this->transferDisbursements;
     }
+
+	private function validateFees( $fees)
+	{
+		// do some checking of fees data structure
+
+		if( ! $fees instanceof stdClass ) return false;
+		if( ! $fees->disbursements instanceof stdClass ) return false;
+
+		if( !is_array( $fees->purchaseFees ) || count( $fees->purchaseFees )   < 2 ) return false;
+		if( !is_array( $fees->purchaseBands ) || count( $fees->purchaseBands ) < 2 ) return false;
+		if( count( $fees->purchaseBands ) !== count( $fees->purchaseFees)  ) return false;
+
+		if( !is_array( $fees->saleFees ) || count( $fees->saleFees )   < 2 ) return false;
+		if( !is_array( $fees->saleBands ) || count( $fees->saleBands ) < 2 ) return false;
+		if( count( $fees->saleBands ) !== count( $fees->saleFees)  ) return false;
+
+		if( !is_array( $fees->remortgageFees ) || count( $fees->remortgageFees )   < 1 ) return false;
+		if( !is_array( $fees->remortgageBands ) || count( $fees->remortgageBands ) < 1 ) return false;
+		if( count( $fees->remortgageBands ) !== count( $fees->remortgageFees)  ) return false;
+
+		if( !is_array( $fees->transferFees ) || count( $fees->transferFees )   < 1 ) return false;
+		if( !is_array( $fees->transferBands ) || count( $fees->transferBands ) < 1 ) return false;
+		if( count( $fees->transferBands ) !== count( $fees->transferFees)  ) return false;
+
+		// check all the disbursements are valid numbers
+		foreach ($fees->disbursements as $key => $value){
+			if( ! is_numeric($value) ) return false;
+		}
+
+		return true;
+	}
 }

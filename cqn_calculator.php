@@ -178,9 +178,23 @@ function cqn_init(){
 
         error_log( $stylesheetURL );
 
+        require 'vendor/autoload.php';
+
+        try{
+
+            $config = new CQN_Calculator_Config;
+
+        }catch ( Exception $e ){
+
+			add_shortcode('cqn_calculator', 'cqn_show_unable_to_quote_error');
+
+			echo "exception  --" . $e->getMessage();
+            return;
+        }
+
+
         if( isset( $_POST['cqn_calc_form'] ) ){
 
-            require 'vendor/autoload.php';
 
 
 
@@ -193,7 +207,6 @@ function cqn_init(){
                  *
                 */
 
-                $config = new CQN_Calculator_Config;
                 $sub    = new CQN_Calculator_Submission( $config );
 
                 $ref = $_POST['CQN_calculator_ref'];
@@ -396,9 +409,16 @@ function cqn_init(){
 
 
 function cqn_show_unable_to_quote(   ){
-    global $CQN_twig;
-    $template = $CQN_twig->loadTemplate('calc-quote-unable-to-quote.twig');
-    return $template->render( array(  'sub' => $_SESSION['CQN_calculator_submission']  ) );
+	global $CQN_twig;
+	$template = $CQN_twig->loadTemplate('calc-quote-unable-to-quote.twig');
+	return $template->render( array(  'sub' => $_SESSION['CQN_calculator_submission']  ) );
+}
+
+
+function cqn_show_unable_to_quote_error(   ){
+	global $CQN_twig;
+	$template = $CQN_twig->loadTemplate('calc-quote-unable-to-quote-error.twig');
+	return $template->render( array(  'sub' => $_SESSION['CQN_calculator_submission']  ) );
 }
 
 
