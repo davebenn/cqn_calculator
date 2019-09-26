@@ -80,78 +80,76 @@ class CQN_Calculator_Config {
 		$this->maxRemortgagePrice = get_option('cqn_calculator_max_remortgage_price');
 		$this->maxTransferPrice   = get_option('cqn_calculator_max_transfer_price');
 
-		$this->introducerFees = $this->loadIntroducerFees();
 
-//		$this->introducerFees = false;
-		if( $this->introducerFees == false){
+		// $this->saleBands       = array( 125000, 250000, 500000, 1000000, 9999999   );
+		// $this->saleFees        = array(    300,    300,    350,     624,     624   );
+		// $this->purchaseBands   = array( 125000, 250000, 500000, 1000000, 9999999  );
+		// $this->purchaseFees    = array(    300,    324,    340,     624,     624  );
 
-			throw new Exception("could not load config");
-			return false;
+		$this->saleBands       = array( 100000, 120000, 160000, 250000, 300000, 350000, 400000, 500000,  9999999   );
+		$this->saleFees        = array(    299,    325,    350,    375,    400,    425,    450,    475,      500   );
+		$this->purchaseBands   = array( 100000, 120000, 160000, 250000, 300000, 350000, 400000, 500000,  9999999   );
+		$this->purchaseFees    = array(    325,    350,    375,    400,    425,    450,    475,    500,      525  );
 
-		}
 
-		$this->disbursements = $this->introducerFees->disbursements;
+		$this->remortgageBands = array( 400000, 99999999  );
+		$this->remortgageFees  = array( 250, 350  );
+		$this->transferBands   = array( 99999999  );
+		$this->transferFees    = array( 250  );
 
-		$this->saleBands = $this->introducerFees->saleBands;
-		$this->saleFees = $this->introducerFees->saleFees;
-		$this->purchaseBands = $this->introducerFees->purchaseBands;
-		$this->purchaseFees = $this->introducerFees->purchaseFees;
-		$this->remortgageBands = $this->introducerFees->remortgageBands;
-		$this->remortgageFees = $this->introducerFees->remortgageFees;
-		$this->transferBands = $this->introducerFees->transferBands;
-		$this->transferFees = $this->introducerFees->transferFees;
-		$this->noWinNoFee = $this->introducerFees->noWinNoFee;
-		$this->sale_leasehold_fee = $this->introducerFees->sale_leasehold_fee;
-		$this->purchase_leasehold_fee = $this->introducerFees->purchase_leasehold_fee;
-		$this->remortgage_leasehold_fee = $this->introducerFees->remortgage_leasehold_fee;
-		$this->transfer_leasehold_fee = $this->introducerFees->transfer_leasehold_fee;
-		$this->purchase_shared_ownership_fee = $this->introducerFees->purchase_shared_ownership_fee;
+		$this->noWinNoFee   = 100;
 
-        $this->saleDisbursements = array(
-            (object)  array( 'code' => 'SALE_LREP'                 , 'optional' => false , 'price' => $this->getDisbursementPrice( 'DBS_LREP' ), 'name' => 'Land Registry Entry and Plan' ),
-            (object)  array( 'code' => 'SALE_BANK_TRANSFER'        , 'optional' => false , 'price' => $this->getDisbursementPrice( 'DBS_BT' ),   'name' => 'Bank Transfer' ),
-        );
+		$this->sale_leasehold_fee       = 95;
+		$this->purchase_leasehold_fee   = 95;
+		$this->remortgage_leasehold_fee =  0;
+		$this->transfer_leasehold_fee   =  0;
 
-        $this->remortgageDisbursements =  array(
-            (object)  array( 'code' => 'REMORTGAGE_LREP'           , 'optional' => false , 'price' => $this->getDisbursementPrice( 'DBR_LREP' )  ,    'name' => 'Land Registry Entry and Plan' ),
-            (object)  array( 'code' => 'REMORTGAGE_LRS'            , 'optional' => false , 'price' => $this->getDisbursementPrice( 'DBR_LRS' ) ,    'name' => 'Land Registry Search' ),
-            (object)  array( 'code' => 'REMORTGAGE_BS'             , 'optional' => false , 'price' => $this->getDisbursementPrice( 'DBR_BS' ) ,    'name' => 'Bankruptcy Search' )
-        );
+		$this->purchase_shared_ownership_fee   =  100;
 
-        $this->transferDisbursements =  array(
-            (object)  array( 'code' => 'TRANSFER_LREP'             , 'optional' => false , 'price' => $this->getDisbursementPrice( 'DBT_LREP' ) ,    'name' => 'Land Registry Entry and Plan' ),
-            (object)  array( 'code' => 'TRANSFER_LRS'              , 'optional' => false , 'price' => $this->getDisbursementPrice( 'DBT_LRS' )  ,    'name' => 'Land Registry Search' ),
-            (object)  array( 'code' => 'TRANSFER_BS'               , 'optional' => false , 'price' => $this->getDisbursementPrice( 'DBT_BS' )  ,    'name' => 'Bankruptcy Search' )
-        );
+		$this->saleDisbursements = array(
+			(object)  array( 'code' => 'SALE_LREP'                 , 'optional' => false , 'price' => 8 ,    'name' => 'Land Registry Entry and Plan' ),
+			(object)  array( 'code' => 'SALE_BANK_TRANSFER'        , 'optional' => false , 'price' => 36.80, 'name' => 'Bank Transfer' ),
+		);
 
-        $this->purchaseDisbursements =  array(
-             (object)  array( 'code' => 'PURCHASE_LS'              , 'optional' => true , 'price' => $this->getDisbursementPrice( 'DBP_LS' ),    'name' => 'Local Search' ),
-             (object)  array( 'code' => 'PURCHASE_ES'              , 'optional' => true , 'price' => $this->getDisbursementPrice( 'DBP_ES' ) ,   'name' => 'Environmental Search' ),
-             (object)  array( 'code' => 'PURCHASE_WS'              , 'optional' => true , 'price' => $this->getDisbursementPrice( 'DBP_WS' ),    'name' => 'Water Search' ),
-             (object)  array( 'code' => 'PURCHASE_CS'              , 'optional' => true , 'price' => $this->getDisbursementPrice( 'DBP_CS' ),    'name' => 'Coal Search' ),
-             (object)  array( 'code' => 'PURCHASE_CHS'             , 'optional' => true , 'price' => $this->getDisbursementPrice( 'DBP_Ch' ),    'name' => 'Chancel Search' ),
-             (object)  array( 'code' => 'PURCHASE_HS2S'            , 'optional' => true , 'price' => $this->getDisbursementPrice( 'DBP_HS2S' ),   'name' => 'High Speed 2 Search' ),
-             (object)  array( 'code' => 'PURCHASE_HMLRS'           , 'optional' => false , 'price' =>$this->getDisbursementPrice( 'DBP_HMLRS' ), 'name' => 'HMLR Search' ),
-             (object)  array( 'code' => 'PURCHASE_BS'              , 'optional' => false , 'price' =>$this->getDisbursementPrice( 'DBP_BC' ),    'name' => 'Bankruptcy Search' ),
+		$this->remortgageDisbursements =  array(
+			(object)  array( 'code' => 'REMORTGAGE_LREP'           , 'optional' => false , 'price' => 8 ,    'name' => 'Land Registry Entry and Plan' ),
+			(object)  array( 'code' => 'REMORTGAGE_LRS'            , 'optional' => false , 'price' => 4 ,    'name' => 'Land Registry Search' ),
+			(object)  array( 'code' => 'REMORTGAGE_BS'             , 'optional' => false , 'price' => 2 ,    'name' => 'Bankruptcy Search' )
+		);
+
+		$this->transferDisbursements =  array(
+			(object)  array( 'code' => 'TRANSFER_LREP'             , 'optional' => false , 'price' => 6 ,    'name' => 'Land Registry Entry and Plan' ),
+			(object)  array( 'code' => 'TRANSFER_LRS'              , 'optional' => false , 'price' => 4 ,    'name' => 'Land Registry Search' ),
+			(object)  array( 'code' => 'TRANSFER_BS'               , 'optional' => false , 'price' => 2 ,    'name' => 'Bankruptcy Search' )
+		);
+
+		$this->purchaseDisbursements =  array(
+			(object)  array( 'code' => 'PURCHASE_LS'              , 'optional' => true , 'price' => 100 ,  'name' => 'Local Search' ),
+			(object)  array( 'code' => 'PURCHASE_ES'              , 'optional' => true , 'price' => 58  ,   'name' => 'Environmental Search' ),
+			(object)  array( 'code' => 'PURCHASE_WS'              , 'optional' => true , 'price' => 45 ,   'name' => 'Water Search' ),
+			(object)  array( 'code' => 'PURCHASE_CS'              , 'optional' => true , 'price' => 42 ,   'name' => 'Coal Search' ),
+			(object)  array( 'code' => 'PURCHASE_CHS'             , 'optional' => true , 'price' => 20 ,   'name' => 'Chancel Search' ),
+			(object)  array( 'code' => 'PURCHASE_HS2S'            , 'optional' => true , 'price' => 25 ,   'name' => 'High Speed 2 Search' ),
+			(object)  array( 'code' => 'PURCHASE_HMLRS'           , 'optional' => false , 'price' => 8 ,    'name' => 'HMLR Search' ),
+			(object)  array( 'code' => 'PURCHASE_BS'              , 'optional' => false , 'price' => 2 ,    'name' => 'Bankruptcy Search' ),
 //               (object)  array( 'code' => 'PURCHASE_DOCUMENT_RETURN' , 'optional' => true , 'price' => 10 ,   'name' => 'Document Return' ),
-             (object)  array( 'code' => 'PURCHASE_BANK_TRANSFER'   , 'optional' => false , 'price' => $this->getDisbursementPrice( 'DBP_TT' ), 'name' => 'Bank Transfer')
-        );
+			(object)  array( 'code' => 'PURCHASE_BANK_TRANSFER'   , 'optional' => false , 'price' => 36.80, 'name' => 'Bank Transfer')
+		);
 
-        $this->salePurchaseLRBands =        array(  50000, 80000, 100000, 200000, 500000, 1000000);
-        $this->salePurchaseLRFees  =        array(     20,    20,     40,     95,    135,     270 );
-        $this->remortgageTransferLRBands =  array(  100000, 200000, 500000, 1000000 );
-        $this->remortgageTransferLRFees  =  array(      20,     30,     40,      60 );
+		$this->salePurchaseLRBands =        array(  50000, 80000, 100000, 200000, 500000, 1000000);
+		$this->salePurchaseLRFees  =        array(     20,    20,     40,     95,    135,     270 );
+		$this->remortgageTransferLRBands =  array(  100000, 200000, 500000, 1000000 );
+		$this->remortgageTransferLRFees  =  array(      20,     30,     40,      60 );
 
-
-        $this->discountCodes = array(
+		$this->discountCodes = array(
 //            'TEST-CODE-912'          => (object) [ 'type' => 'F', 'amount' => 50,     'name' => '£50 off' ],
 //            'dbhalved12'             => (object) [ 'type' => 'P', 'amount' => 0.50 ,  'name' => '50% off' ],
-            'CSUK25'                 => (object) array( 'type' => 'F', 'amount' => 25 ,    'name' => '£25 off' )
-        );
+			'CSUK25'                 => (object) array( 'type' => 'F', 'amount' => 25 ,    'name' => '£25 off' )
+		);
 
-        $this->stampDutyBands =                array( 125000, 250000, 500000, 1000000, 2000000 );
-        $this->stampDutyFees  =                array( 0.00 , 0.01 , 0.03 , 0.04 , 0.05 , 0.07 );
-        $this->stampDutyFeesFirstTimeBuyers  = array( 0.00 , 0.01 , 0.03 , 0.04 , 0.05 , 0.07 );
+		$this->stampDutyBands =                array( 125000, 250000, 500000, 1000000, 2000000 );
+		$this->stampDutyFees  =                array( 0.00 , 0.01 , 0.03 , 0.04 , 0.05 , 0.07 );
+		$this->stampDutyFeesFirstTimeBuyers  = array( 0.00 , 0.01 , 0.03 , 0.04 , 0.05 , 0.07 );
     }
 
 	protected function getDisbursementPrice($code){
@@ -165,6 +163,9 @@ class CQN_Calculator_Config {
 
 	}
 
+	/***  NOT CURRENTLY USED -- code to use is in previous commit (ref: 48f8c5a) ***/
+	/***  NOT CURRENTLY USED -- code to use is in previous commit (ref: 48f8c5a) ***/
+	/***  NOT CURRENTLY USED -- code to use is in previous commit (ref: 48f8c5a) ***/
 	protected function loadIntroducerFees(){
 
 		$feesUpdated    = get_option( 'cqn_calculator_stored_fees_time' );
