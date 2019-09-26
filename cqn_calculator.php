@@ -410,22 +410,25 @@ function cqn_init(){
 
 function cqn_show_unable_to_quote(   ){
 	global $CQN_twig;
+	$message = get_option('cqn_calculator_unable_to_quote_message');
 	$template = $CQN_twig->loadTemplate('calc-quote-unable-to-quote.twig');
-	return $template->render( array(  'sub' => $_SESSION['CQN_calculator_submission']  ) );
+	return $template->render( array(  'sub' => $_SESSION['CQN_calculator_submission'] , 'message' =>  $message  ) );
 }
 
 
 function cqn_show_unable_to_quote_error(   ){
 	global $CQN_twig;
+	$message = get_option('cqn_calculator_unable_to_quote_message');
 	$template = $CQN_twig->loadTemplate('calc-quote-unable-to-quote-error.twig');
-	return $template->render( array(  'sub' => $_SESSION['CQN_calculator_submission']  ) );
+	return $template->render( array(  'sub' => $_SESSION['CQN_calculator_submission'] , 'message' =>  $message ) );
 }
 
 
 function cqn_show_thanks(   ){
     global $CQN_twig;
+	$message = get_option('cqn_calculator_thanks_message');
     $template = $CQN_twig->loadTemplate('calc-thanks.twig');
-    return $template->render( array(  'sub' => $_SESSION['CQN_calculator_submission']  ) );
+    return $template->render( array(  'sub' => $_SESSION['CQN_calculator_submission'], 'message' => $message  ) );
 }
 
 
@@ -674,6 +677,13 @@ function CQNGetOptionFields(  ){
                 'cqn_calculator_max_transfer_price'         => [ 'value' => 450000, 'label' => 'max_transfer_price'],
                 'cqn_calculator_poc_fees_server_url'        => [ 'value' => 'poc.dbennett.demo', 'label' => 'poc_fees_server_url'],
                 'cqn_calculator_stored_fees_cache'        => [ 'value' =>  10, 'label' => 'Fees Cache Lifetime'],
+                'cqn_calculator_thanks_message'        => [ 'value' =>  '<h2>Thank you for your enquiry</h2>
+<p>Should you have any enquiries regarding your quote please call 0161 765 2465.</p>
+<p>We will beat any other quote.</p>', 'label' => 'Thank you message'],
+                'cqn_calculator_unable_to_quote_message'        => [ 'value' =>  '<p><strong>Please contact us on 0161 765 2465 to speak to on of our team about your case.</strong></p>
+<p>Thank you for using our instant conveyancing quote system. Unfortunately we are currently unable to give instant quotes for properties in excess of £450,000.</p>
+<p>One of our team will give you a call to give you a quote should you not contact us in the meantime.</p>
+<p>Thanks for your patience.</p>', 'label' => 'Unable To Quote message'],
 		    ];
 }
 
