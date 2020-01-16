@@ -173,6 +173,12 @@ class CQN_Calculator_Submission
 
             foreach ($saleDisbursements as $disbursement) {
 
+            	//if this is the sale_id_check - and there is a purchase involved - skip it
+                if( $disbursement->code == 'SALE_ID_CHECK' && $this->involves_purchase ) {
+					continue;
+				}
+
+
                 if( !$disbursement->optional ) {// if mandatory disbursement += total
                     $this->sale_disbursements_total += $disbursement->price;
                 }else{//add to optional disbursements array
@@ -203,6 +209,11 @@ class CQN_Calculator_Submission
                         $this->purchase_disbursements_total += $disbursement->price;
                         $this->purchase_disbursements_list[] = $disbursement;
                     }
+                }elseif( $disbursement->code == 'PURCHASE_ID_CHECK' ) {
+					for( $i = 1; $i <= $this->purchase_no_of_buyers; $i++ ){
+						$this->purchase_disbursements_total += $disbursement->price;
+						$this->purchase_disbursements_list[] = $disbursement;
+					}
                 }else {
 
 
@@ -237,10 +248,16 @@ class CQN_Calculator_Submission
             foreach ($remortgageDisbursements as $disbursement) {
 
                 if( $disbursement->code == 'REMORTGAGE_BS' ) {
-                    for( $i = 1; $i <= $this->remortgage_no_of_people; $i++ ){
-                        $this->remortgage_disbursements_total += $disbursement->price;
-                        $this->remortgage_disbursements_list[] = $disbursement;
-                    }
+					for ($i = 1; $i <= $this->remortgage_no_of_people; $i++) {
+						$this->remortgage_disbursements_total += $disbursement->price;
+						$this->remortgage_disbursements_list[] = $disbursement;
+					}
+				}elseif( $disbursement->code == 'REMORTGAGE_ID_CHECK' ) {
+					for( $i = 1; $i <= $this->remortgage_no_of_people; $i++ ){
+						$this->remortgage_disbursements_total += $disbursement->price;
+						$this->remortgage_disbursements_list[] = $disbursement;
+					}
+
                 }else {
                     if( !$disbursement->optional ) {// if mandatory disbursement += total
                         $this->remortgage_disbursements_total += $disbursement->price;
@@ -273,7 +290,12 @@ class CQN_Calculator_Submission
 
                         $this->transfer_disbursements_list[] = $disbursement;
                     }
-                }else {
+				}elseif( $disbursement->code == 'TRANSFER_ID_CHECK' ) {
+					for( $i = 1; $i <= $this->transfer_no_of_people; $i++ ){
+						$this->transfer_disbursements_total += $disbursement->price;
+						$this->transfer_disbursements_list[] = $disbursement;
+					}
+				}else {
                     if( !$disbursement->optional ) {// if mandatory disbursement += total
                         $this->transfer_disbursements_total += $disbursement->price;
                     }else{//add to optional disbursements array

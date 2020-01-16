@@ -57,8 +57,8 @@
         <div class="form-row {{ sub.errors.transfer_leasehold           ? ' error' }} checkbox-row"        ><label for="transfer_leasehold">Is the transfer property Leasehold?</label><input name="transfer_leasehold" id="transfer_leasehold" value="1" type="checkbox"></div>
         <div class="form-row {{ sub.errors.transfer_no_of_people        ? ' error' }} small-text-input"    ><label for="transfer_no_of_people">No. Of People?</label><input name="transfer_no_of_people" id="transfer_no_of_people" value="1" type="number" step="1" max="10"  min="1" class="required digits ignore"></div>
     </div>
-    <div class="section_holder" id="save_quote_holder">
-        <div class="form-row {{ sub.errors.discount_code                ? ' error' }}"                     ><label for="discount_code">Discount Code</label><input value="" name="discount_code" id="discount_code" size="40" type="text" class=""></div>
+    <div class="section_holder" id="save_quote_holder" style="display:none">
+        <div class="form-row {{ sub.errors.discount_code                ? ' error' }}"                     ><label for="discount_code">Discount Code</label><input value="" name="discount_code" id="discount_code" size="40" type="hidden" class=""></div>
     </div>
     <div class="section_holder" id="save_quote_holder">
         <div class="form-row {{ sub.errors.contact_email                ? ' error' }}"                     ><label for="contact_email">Email address*</label><input name="contact_email" id="contact_email" size="40" type="email" class="required email" value="{{ sub.contact_email }}"></div>
