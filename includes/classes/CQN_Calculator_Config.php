@@ -152,8 +152,12 @@ class CQN_Calculator_Config {
 		);
 
 		$this->stampDutyBands =                array( 125000, 250000, 500000, 1000000, 2000000 );
-		$this->stampDutyFees  =                array( 0.00 , 0.01 , 0.03 , 0.04 , 0.05 , 0.07 );
-		$this->stampDutyFeesFirstTimeBuyers  = array( 0.00 , 0.01 , 0.03 , 0.04 , 0.05 , 0.07 );
+
+		//		$this->stampDutyFees  =                array( 0.00 , 0.01 , 0.03 , 0.04 , 0.05 , 0.07 );
+		//		$this->stampDutyFeesFirstTimeBuyers  = array( 0.00 , 0.01 , 0.03 , 0.04 , 0.05 , 0.07 );
+
+		$this->stampDutyFees  =                array( 0.00 , 0.00 , 0.00 , 0.00 , 0.00 , 0.00 );
+		$this->stampDutyFeesFirstTimeBuyers  = array( 0.00 , 0.00 , 0.00 , 0.00 , 0.00 , 0.00 );
     }
 
 	protected function getDisbursementPrice($code){
