@@ -9,7 +9,7 @@
             </ul>
         </div>
     {% endif %}
-<form action="" method="post" class="cqn-quote-form">
+<form action="" method="post" class="cqn-quote-form" id="cqn-quote-form">
     <input type="hidden" value="yes" name="cqn_calc_form"/>
     <input type="hidden" name="CQN_calculator_ref" value="{{ sub.getCalculatorRef() }}">
 
@@ -65,7 +65,13 @@
         <div class="form-row {{ sub.errors.contact_telephone            ? ' error' }}"                     ><label for="contact_telephone">Telephone Number*</label><input value="{{ sub.contact_telephone }}" name="contact_telephone" id="contact_telephone" size="40" type="tel"></div>
         <div class="form-row {{ sub.errors.contact_name                 ? ' error' }}"                     ><label for="contact_name">Full Name</label><input value="{{ sub.contact_name }}" name="contact_name" id="contact_name" size="40" type="text"></div>
         
-        <div class="form-row"                     ><input class="instruct-input" type="submit" id="cqn-form-submit" value="Calculate" onclick="_gaq.push(['_trackEvent', 'calculator', 'submit']);"  ></div>
+        <div class="form-row"                     >
+            <input class="instruct-input g-recaptcha" type="submit" id="cqn-form-submit" value="Calculate" XXonclick="_gaq.push(['_trackEvent', 'calculator', 'submit']);"
+                    data-sitekey="6Ld4McQZAAAAAAWGsH_6dlH_kPrpBmakQJ8X-B-0"
+                    data-callback='onSubmit'
+                    data-action='submit'
+            >
+        </div>
         {#<div class="form-row"><div class="privacy"><span>*</span>We fully respect your privacy. We will not share your email or other information with any third party.</div></div>#}
         <div class="form-row">
             <div class="privacy">
