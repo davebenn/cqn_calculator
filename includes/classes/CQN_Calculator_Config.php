@@ -127,10 +127,10 @@ class CQN_Calculator_Config {
 		);
 
 		$this->purchaseDisbursements =  array(
-			(object)  array( 'code' => 'PURCHASE_LS'              , 'optional' => true , 'price' => 100 ,  'name' => 'Local Search' ),
+			(object)  array( 'code' => 'PURCHASE_LS'              , 'optional' => true , 'price' => 110 ,  'name' => 'Local Search' ),
 			(object)  array( 'code' => 'PURCHASE_ES'              , 'optional' => true , 'price' => 58  ,   'name' => 'Environmental Search' ),
-			(object)  array( 'code' => 'PURCHASE_WS'              , 'optional' => true , 'price' => 45 ,   'name' => 'Water Search' ),
-			(object)  array( 'code' => 'PURCHASE_CS'              , 'optional' => true , 'price' => 42 ,   'name' => 'Coal Search' ),
+			(object)  array( 'code' => 'PURCHASE_WS'              , 'optional' => true , 'price' => 47 ,   'name' => 'Water Search' ),
+			(object)  array( 'code' => 'PURCHASE_CS'              , 'optional' => true , 'price' => 49 ,   'name' => 'Coal Search' ),
 			(object)  array( 'code' => 'PURCHASE_CHS'             , 'optional' => true , 'price' => 20 ,   'name' => 'Chancel Search' ),
 			(object)  array( 'code' => 'PURCHASE_HS2S'            , 'optional' => true , 'price' => 25 ,   'name' => 'High Speed 2 Search' ),
 			(object)  array( 'code' => 'PURCHASE_HMLRS'           , 'optional' => false , 'price' => 8 ,    'name' => 'HMLR Search' ),

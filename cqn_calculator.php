@@ -339,9 +339,11 @@ function cqn_init(){
 
                     $leadsSubmissionBody = $sub->getWebleadsSubmissionBody();
 
-                    //error_log( 'sending .."'.$config->leadsSystemEmailSubject.'" .... to ' . $config->leadsSystemEmailAddress );
-                    wp_mail( $config->leadsSystemEmailAddress, $config->leadsSystemEmailSubject, $leadsSubmissionBody , '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf'  );
+                    error_log( 'sending .."'.$config->leadsSystemEmailSubject.'" .... to ' . $config->leadsSystemEmailAddress );
+                    error_log( '  -- wth aattachment  "' . CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf' );
+                    $return = wp_mail( $config->leadsSystemEmailAddress, $config->leadsSystemEmailSubject, $leadsSubmissionBody , '', CQN_PDF_STORAGE_DIR . $sub->getCalculatorRef() . '.pdf'  );
 
+                    error_log( '  -- retval = _"' . $return . '_'  );
 
 
                     if(
