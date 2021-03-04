@@ -81,15 +81,16 @@ class CQN_Calculator_Config {
 		$this->maxTransferPrice   = get_option('cqn_calculator_max_transfer_price');
 
 
-		// $this->saleBands       = array( 125000, 250000, 500000, 1000000, 9999999   );
-		// $this->saleFees        = array(    300,    300,    350,     624,     624   );
-		// $this->purchaseBands   = array( 125000, 250000, 500000, 1000000, 9999999  );
-		// $this->purchaseFees    = array(    300,    324,    340,     624,     624  );
+		// $this->saleBands       = array( 100000, 120000, 160000, 250000, 300000, 350000, 400000, 500000,  9999999   );
+		// $this->saleFees        = array(    299,    325,    350,    375,    400,    425,    450,    475,      500   );
+		// $this->purchaseBands   = array( 100000, 120000, 160000, 250000, 300000, 350000, 400000, 500000,  9999999   );
+		// $this->purchaseFees    = array(    325,    350,    375,    400,    425,    450,    475,    500,      525  );
 
-		$this->saleBands       = array( 100000, 120000, 160000, 250000, 300000, 350000, 400000, 500000,  9999999   );
-		$this->saleFees        = array(    299,    325,    350,    375,    400,    425,    450,    475,      500   );
-		$this->purchaseBands   = array( 100000, 120000, 160000, 250000, 300000, 350000, 400000, 500000,  9999999   );
-		$this->purchaseFees    = array(    325,    350,    375,    400,    425,    450,    475,    500,      525  );
+		$this->saleBands       = array( 125000, 250000, 500000,  9999999   );
+		$this->saleFees        = array(    350,    400,    450,      500   );
+		$this->purchaseBands   = array( 125000, 250000, 500000,  9999999  );
+		$this->purchaseFees    = array(    390,    450,    570,      600  );
+
 
 
 		$this->remortgageBands = array( 400000, 99999999  );
