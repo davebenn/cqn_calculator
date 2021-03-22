@@ -110,21 +110,21 @@ class CQN_Calculator_Config {
 		$this->saleDisbursements = array(
 			(object)  array( 'code' => 'SALE_LREP'                 , 'optional' => false , 'price' => 8 ,    'name' => 'Land Registry Entry and Plan' ),
 			(object)  array( 'code' => 'SALE_BANK_TRANSFER'        , 'optional' => false , 'price' => 36.80, 'name' => 'Bank Transfer' ),
-			(object)  array( 'code' => 'SALE_ID_CHECK'             , 'optional' => false , 'price' => 12, 'name' => 'ID Check' ),
+			(object)  array( 'code' => 'SALE_ID_CHECK'             , 'optional' => false , 'price' => 24, 'name' => 'ID Check' ),
 		);
 
 		$this->remortgageDisbursements =  array(
 			(object)  array( 'code' => 'REMORTGAGE_LREP'           , 'optional' => false , 'price' => 8 ,    'name' => 'Land Registry Entry and Plan' ),
 			(object)  array( 'code' => 'REMORTGAGE_LRS'            , 'optional' => false , 'price' => 4 ,    'name' => 'Land Registry Search' ),
 			(object)  array( 'code' => 'REMORTGAGE_BS'             , 'optional' => false , 'price' => 2 ,    'name' => 'Bankruptcy Search' ),
-			(object)  array( 'code' => 'REMORTGAGE_ID_CHECK'       , 'optional' => false , 'price' => 12, 'name' => 'ID Check' ),
+			(object)  array( 'code' => 'REMORTGAGE_ID_CHECK'       , 'optional' => false , 'price' => 24, 'name' => 'ID Check' ),
 		);
 
 		$this->transferDisbursements =  array(
 			(object)  array( 'code' => 'TRANSFER_LREP'             , 'optional' => false , 'price' => 6 ,    'name' => 'Land Registry Entry and Plan' ),
 			(object)  array( 'code' => 'TRANSFER_LRS'              , 'optional' => false , 'price' => 4 ,    'name' => 'Land Registry Search' ),
 			(object)  array( 'code' => 'TRANSFER_BS'               , 'optional' => false , 'price' => 2 ,    'name' => 'Bankruptcy Search' ),
-			(object)  array( 'code' => 'TRANSFER_ID_CHECK'         , 'optional' => false , 'price' => 12, 'name' => 'ID Check' ),
+			(object)  array( 'code' => 'TRANSFER_ID_CHECK'         , 'optional' => false , 'price' => 24, 'name' => 'ID Check' ),
 		);
 
 		$this->purchaseDisbursements =  array(
@@ -138,7 +138,7 @@ class CQN_Calculator_Config {
 			(object)  array( 'code' => 'PURCHASE_BS'              , 'optional' => false , 'price' => 2 ,    'name' => 'Bankruptcy Search' ),
 //               (object)  array( 'code' => 'PURCHASE_DOCUMENT_RETURN' , 'optional' => true , 'price' => 10 ,   'name' => 'Document Return' ),
 			(object)  array( 'code' => 'PURCHASE_BANK_TRANSFER'   , 'optional' => false , 'price' => 36.80, 'name' => 'Bank Transfer'),
-			(object)  array( 'code' => 'PURCHASE_ID_CHECK'             , 'optional' => false , 'price' => 12, 'name' => 'ID Check' ),
+			(object)  array( 'code' => 'PURCHASE_ID_CHECK'             , 'optional' => false , 'price' => 24, 'name' => 'ID Check' ),
 		);
 
 		$this->salePurchaseLRBands =        array(  50000, 80000, 100000, 200000, 500000, 1000000);
