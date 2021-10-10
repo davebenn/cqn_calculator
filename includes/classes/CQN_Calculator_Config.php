@@ -279,52 +279,6 @@ class CQN_Calculator_Config {
 	}
 
 
-    public function _COVID_getStampDuty( $propertyPrice, $firstTimeBuyer = false, $buyToLet = false )
-	{
-
-		$buyToLetRate = 0;
-
-		if ($buyToLet == true) {
-			$buyToLetRate = 0.03;
-		}
-
-		if ( $buyToLet == true ) {
-			if ($propertyPrice > 1500000) {
-				$total = ($propertyPrice - 1500000) * (0.12 + $buyToLetRate);
-				$total += (1500000 - 925000) * (0.10 + $buyToLetRate);
-				$total += (925000 - 500000) * (0.05 + $buyToLetRate);
-				$total += (500000) * (0.0 + $buyToLetRate);
-			} elseif ($propertyPrice > 925000) {
-				$total = ($propertyPrice - 925000) * (0.10 + $buyToLetRate);
-				$total += (925000 - 500000) * (0.05 + $buyToLetRate);
-				$total += (500000) * (0.0 + $buyToLetRate);
-			} elseif ($propertyPrice > 500000) {
-				$total = ($propertyPrice - 500000) * (0.05 + $buyToLetRate);
-				$total += (500000) * (0.0 + $buyToLetRate);
-			} else {
-				$total = $propertyPrice * (0.0 + $buyToLetRate);
-			}
-		} else {
-			if ($propertyPrice > 1500000) {
-				$total = ($propertyPrice - 1500000) * 0.12 ;
-				$total += (1500000 - 925000) * 0.10 ;
-				$total += (925000 - 500000) * 0.05 ;
-				$total += (500000) * 0.0 ;
-			} elseif ($propertyPrice > 925000) {
-				$total = ($propertyPrice - 925000) * 0.10 ;
-				$total += (925000 - 500000) * 0.05 ;
-				$total += (500000) * 0.0 ;
-			} elseif ($propertyPrice > 500000) {
-				$total = ($propertyPrice - 500000) * 0.05 ;
-				$total += (500000) * 0.0 ;
-			} else {
-				$total = 0;
-			}
-		}
-
-		return $total;
-    }
-
     public function checkDiscountCode( $code ){
 
         $code = strtoupper( $code );
