@@ -86,17 +86,18 @@ class CQN_Calculator_Config {
 		// $this->purchaseBands   = array( 100000, 120000, 160000, 250000, 300000, 350000, 400000, 500000,  9999999   );
 		// $this->purchaseFees    = array(    325,    350,    375,    400,    425,    450,    475,    500,      525  );
 
+
 		$this->saleBands       = array( 125000, 250000, 500000,  9999999   );
-		$this->saleFees        = array(    350,    400,    450,      500   );
+		$this->saleFees        = array(    425,    475,    550,      550   );
 		$this->purchaseBands   = array( 125000, 250000, 500000,  9999999  );
-		$this->purchaseFees    = array(    390,    450,    570,      600  );
+		$this->purchaseFees    = array(    460,    500,    600,      600  );
 
 
 
 		$this->remortgageBands = array( 400000, 99999999  );
-		$this->remortgageFees  = array( 250, 350  );
+		$this->remortgageFees  = array( 320, 350  );
 		$this->transferBands   = array( 99999999  );
-		$this->transferFees    = array( 250  );
+		$this->transferFees    = array( 320  );
 
 		$this->noWinNoFee   = 100;
 
@@ -142,9 +143,9 @@ class CQN_Calculator_Config {
 		);
 
 		$this->salePurchaseLRBands =        array(  50000, 80000, 100000, 200000, 500000, 1000000);
-		$this->salePurchaseLRFees  =        array(     20,    20,     40,     95,    135,     270 );
+		$this->salePurchaseLRFees  =        array(     20,    20,     40,     100,    150,     270 );
 		$this->remortgageTransferLRBands =  array(  100000, 200000, 500000, 1000000 );
-		$this->remortgageTransferLRFees  =  array(      20,     30,     40,      60 );
+		$this->remortgageTransferLRFees  =  array(      20,     30,     45,      60 );
 
 		$this->discountCodes = array(
 //            'TEST-CODE-912'          => (object) [ 'type' => 'F', 'amount' => 50,     'name' => '£50 off' ],
