@@ -2,16 +2,16 @@
 
 $tests = [];
 
-//$tests[] = [ 'price' => 100000, 'ftb' => true,    'b2l' => false];
-//$tests[] = [ 'price' => 200000, 'ftb' => true,    'b2l' => false];
-//$tests[] = [ 'price' => 290000, 'ftb' => true,    'b2l' => false];
-//$tests[] = [ 'price' => 300000, 'ftb' => true,    'b2l' => false];
-//$tests[] = [ 'price' => 350000, 'ftb' => true,    'b2l' => false];
-//$tests[] = [ 'price' => 400000, 'ftb' => true,    'b2l' => false];
-//$tests[] = [ 'price' => 600000, 'ftb' => true,    'b2l' => false];
-//$tests[] = [ 'price' => 1010000, 'ftb' => true,   'b2l' => false];
-//$tests[] = [ 'price' => 1610000, 'ftb' => true,   'b2l' => false];
-//
+$tests[] = [ 'price' => 100000, 'ftb' => true,    'b2l' => false];
+$tests[] = [ 'price' => 200000, 'ftb' => true,    'b2l' => false];
+$tests[] = [ 'price' => 290000, 'ftb' => true,    'b2l' => false];
+$tests[] = [ 'price' => 300000, 'ftb' => true,    'b2l' => false];
+$tests[] = [ 'price' => 350000, 'ftb' => true,    'b2l' => false];
+$tests[] = [ 'price' => 400000, 'ftb' => true,    'b2l' => false];
+$tests[] = [ 'price' => 550000, 'ftb' => true,    'b2l' => false];
+$tests[] = [ 'price' => 1010000, 'ftb' => true,   'b2l' => false];
+$tests[] = [ 'price' => 1610000, 'ftb' => true,   'b2l' => false];
+
 //$tests[] = [ 'price' => 100000, 'ftb' => true,    'b2l' => true];
 //$tests[] = [ 'price' => 200000, 'ftb' => true,    'b2l' => true];
 //$tests[] = [ 'price' => 290000, 'ftb' => true,    'b2l' => true];
@@ -21,17 +21,17 @@ $tests = [];
 //$tests[] = [ 'price' => 600000, 'ftb' => true,    'b2l' => true];
 //$tests[] = [ 'price' => 1010000, 'ftb' => true,   'b2l' => true];
 //$tests[] = [ 'price' => 1610000, 'ftb' => true,   'b2l' => true];
-
-$tests[] = [ 'price' => 100000, 'ftb' => false,   'b2l' => false];
-$tests[] = [ 'price' => 200000, 'ftb' => false,   'b2l' => false];
-$tests[] = [ 'price' => 290000, 'ftb' => false,   'b2l' => false];
-$tests[] = [ 'price' => 300000, 'ftb' => false,   'b2l' => false];
-$tests[] = [ 'price' => 350000, 'ftb' => false,   'b2l' => false];
-$tests[] = [ 'price' => 400000, 'ftb' => false,   'b2l' => false];
-$tests[] = [ 'price' => 600000, 'ftb' => false,   'b2l' => false];
-$tests[] = [ 'price' => 1010000, 'ftb' => false,  'b2l' => false];
-$tests[] = [ 'price' => 1610000, 'ftb' => false,  'b2l' => false];
-
+////
+//$tests[] = [ 'price' => 100000, 'ftb' => false,   'b2l' => false];
+//$tests[] = [ 'price' => 200000, 'ftb' => false,   'b2l' => false];
+//$tests[] = [ 'price' => 295000, 'ftb' => false,   'b2l' => false];
+//$tests[] = [ 'price' => 300000, 'ftb' => false,   'b2l' => false];
+//$tests[] = [ 'price' => 350000, 'ftb' => false,   'b2l' => false];
+//$tests[] = [ 'price' => 400000, 'ftb' => false,   'b2l' => false];
+//$tests[] = [ 'price' => 600000, 'ftb' => false,   'b2l' => false];
+//$tests[] = [ 'price' => 1010000, 'ftb' => false,  'b2l' => false];
+//$tests[] = [ 'price' => 1610000, 'ftb' => false,  'b2l' => false];
+//
 $tests[] = [ 'price' => 100000, 'ftb' => false,  'b2l' => true];
 $tests[] = [ 'price' => 200000, 'ftb' => false,  'b2l' => true];
 $tests[] = [ 'price' => 290000, 'ftb' => false,  'b2l' => true];

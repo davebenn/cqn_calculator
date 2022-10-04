@@ -238,39 +238,25 @@ class CQN_Calculator_Config {
 			$buyToLetRate = 0.03;
 		}
 
-		if ( !$firstTimeBuyer ) {
+		if ( !$firstTimeBuyer || ($propertyPrice > 625000) ) {
 			if ($propertyPrice > 1500000) {
 				$total = ($propertyPrice - 1500000) * (0.12 + $buyToLetRate);
 				$total += (1500000 - 925000) * (0.10 + $buyToLetRate);
 				$total += (925000 - 250000) * (0.05 + $buyToLetRate);
-				$total += (250000 - 125000) * (0.02 + $buyToLetRate);
-				$total += (125000) * (0.0 + $buyToLetRate);
+				$total += (250000) * (0.0 + $buyToLetRate);
 			} elseif ($propertyPrice > 925000) {
 				$total = ($propertyPrice - 925000) * (0.10 + $buyToLetRate);
 				$total += (925000 - 250000) * (0.05 + $buyToLetRate);
-				$total += (250000 - 125000) * (0.02 + $buyToLetRate);
-				$total += (125000) * (0.0 + $buyToLetRate);
+				$total += (250000) * (0.0 + $buyToLetRate);
 			} elseif ($propertyPrice > 250000) {
 				$total = ($propertyPrice - 250000) * (0.05 + $buyToLetRate);
-				$total += (250000 - 125000) * (0.02 + $buyToLetRate);
-				$total += (125000) * (0.0 + $buyToLetRate);
-			} elseif ($propertyPrice > 125000) {
-				$total = ($propertyPrice - 125000) * (0.02 + $buyToLetRate);
-				$total += (125000) * (0.0 + $buyToLetRate);
+				$total += (250000) * (0.0 + $buyToLetRate);
 			} else {
 				$total = $propertyPrice * (0.0  + $buyToLetRate );
 			}
 		} else {
-			if ($propertyPrice > 1500000) {
-				$total = ($propertyPrice - 1500000) * (0.12  + $buyToLetRate ) ;
-				$total += (1500000 - 925000) * (0.10  + $buyToLetRate ) ;
-				$total += (925000 - 300000) * (0.05  + $buyToLetRate ) ;
-			} elseif ($propertyPrice > 925000) {
-				$total = ($propertyPrice - 925000) * (0.10  + $buyToLetRate ) ;
-				$total += (925000 - 300000) * (0.05  + $buyToLetRate ) ;
-				$total += 0;//(125000) * (0.0  + $buyToLetRate ) ;
-			} elseif ($propertyPrice > 300000) {
-				$total = ($propertyPrice - 300000) * (0.05  + $buyToLetRate ) ;
+			if ($propertyPrice > 425000) {
+				$total = ($propertyPrice - 425000) * (0.05  + $buyToLetRate ) ;
 			} else {
 				$total = $propertyPrice * (0.0  + $buyToLetRate );
 			}
