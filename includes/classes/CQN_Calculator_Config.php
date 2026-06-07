@@ -87,17 +87,17 @@ class CQN_Calculator_Config {
 		// $this->purchaseFees    = array(    325,    350,    375,    400,    425,    450,    475,    500,      525  );
 
 
-		$this->saleBands       = array( 125000, 250000, 500000,  9999999   );
-		$this->saleFees        = array(    425,    475,    550,      550   );
-		$this->purchaseBands   = array( 125000, 250000, 500000,  9999999  );
-		$this->purchaseFees    = array(    460,    500,    600,      600  );
+		$this->saleBands       = array( 125000, 250000, 400000, 600000, 9999999 );
+		$this->saleFees        = array(    450,    490,    580, 895,      1095   );
+		$this->purchaseBands   = array( 125000, 250000, 400000, 550000,  9999999  );
+		$this->purchaseFees    = array(    490,    580,    690,    995, 1095  );
 
 
 
-		$this->remortgageBands = array( 400000, 99999999  );
-		$this->remortgageFees  = array( 320, 350  );
+		$this->remortgageBands = array( 99999999  );
+		$this->remortgageFees  = array( 600  );
 		$this->transferBands   = array( 99999999  );
-		$this->transferFees    = array( 320  );
+		$this->transferFees    = array( 650  );
 
 		$this->noWinNoFee   = 100;
 
@@ -129,7 +129,7 @@ class CQN_Calculator_Config {
 		);
 
 		$this->purchaseDisbursements =  array(
-			(object)  array( 'code' => 'PURCHASE_LS'              , 'optional' => true , 'price' => 110 ,  'name' => 'Local Search' ),
+			(object)  array( 'code' => 'PURCHASE_LS'              , 'optional' => true , 'price' => 120 ,  'name' => 'Local Search' ),
 			(object)  array( 'code' => 'PURCHASE_ES'              , 'optional' => true , 'price' => 58  ,   'name' => 'Environmental Search' ),
 			(object)  array( 'code' => 'PURCHASE_WS'              , 'optional' => true , 'price' => 47 ,   'name' => 'Water Search' ),
 			(object)  array( 'code' => 'PURCHASE_CS'              , 'optional' => true , 'price' => 49 ,   'name' => 'Coal Search' ),
@@ -235,28 +235,34 @@ class CQN_Calculator_Config {
 		$buyToLetRate = 0;
 
 		if ($buyToLet == true) {
-			$buyToLetRate = 0.03;
+			$buyToLetRate = 0.05;
 		}
 
-		if ( !$firstTimeBuyer || ($propertyPrice > 625000) ) {
+		if ( !$firstTimeBuyer || ($propertyPrice > 500000) ) {
 			if ($propertyPrice > 1500000) {
 				$total = ($propertyPrice - 1500000) * (0.12 + $buyToLetRate);
 				$total += (1500000 - 925000) * (0.10 + $buyToLetRate);
 				$total += (925000 - 250000) * (0.05 + $buyToLetRate);
-				$total += (250000) * (0.0 + $buyToLetRate);
+                $total += (125000) * (0.02 + $buyToLetRate);
+				$total += (125000) * (0.0 + $buyToLetRate);
 			} elseif ($propertyPrice > 925000) {
 				$total = ($propertyPrice - 925000) * (0.10 + $buyToLetRate);
 				$total += (925000 - 250000) * (0.05 + $buyToLetRate);
-				$total += (250000) * (0.0 + $buyToLetRate);
+                $total += (125000) * (0.02 + $buyToLetRate);
+				$total += (125000) * (0.0 + $buyToLetRate);
 			} elseif ($propertyPrice > 250000) {
 				$total = ($propertyPrice - 250000) * (0.05 + $buyToLetRate);
-				$total += (250000) * (0.0 + $buyToLetRate);
-			} else {
+                $total += (125000) * (0.02 + $buyToLetRate);
+				$total += (125000) * (0.0 + $buyToLetRate);
+			} elseif ($propertyPrice > 125000) {
+                $total = ($propertyPrice - 125000) * (0.02 + $buyToLetRate);
+                $total += (125000) * (0.0 + $buyToLetRate);
+            } else {
 				$total = $propertyPrice * (0.0  + $buyToLetRate );
 			}
 		} else {
-			if ($propertyPrice > 425000) {
-				$total = ($propertyPrice - 425000) * (0.05  + $buyToLetRate ) ;
+			if ($propertyPrice > 300000) {
+				$total = ($propertyPrice - 300000) * (0.05  + $buyToLetRate ) ;
 			} else {
 				$total = $propertyPrice * (0.0  + $buyToLetRate );
 			}

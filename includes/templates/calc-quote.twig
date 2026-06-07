@@ -32,6 +32,23 @@
 
 <h2>Here is your quote</h2>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        dataLayer.push({
+            "event":"generate_lead",
+            "user_data": {
+                "email": "{{ sub.contact_email }}", /* Change yourEmailVariable to the actual Javascript variable name where you are storing the user’s email data. Do the same for the other variables below. Make sure the values aren't hashed. */
+                "phone_number": "{{ sub.contact_telephone }}" /* Phone Number must be collected in the E.164 format, which means it must be 11 to 15 digits including a plus sign (+) prefix and country code with no dashes, parentheses, or spaces. Example: ‘+11231234567’ */
+            }
+        });
+
+    });
+
+</script>
+
+
+
 <table class="calc-quote" style="width: 100%">
 <thead><tr><th></th><th></th></tr></thead>
 <tbody>
